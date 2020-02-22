@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_achivemenet" name="Portal My Home : Core Details" inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Exam</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/student/exam/'+ student_id"/>
+                </t>
+                <t t-else="is_student">
+                    <t t-set="url" t-value="'/student/exam/'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_exam_portal_data">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Exam Information</t>
+            </t>
+            <t t-if="not exam_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="exam_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <div t-if="exam_ids.student_id" class="row col-md-12">
+                        <div class="row col-md-6" style="padding-left:0;">
+                            <div t-if="exam_ids.student_id.name" class="col-md-4">
+                                <strong>Name:</strong>
+                            </div>
+                            <div t-if="exam_ids.student_id.name" class="col-md-8">
+                                <span t-esc="exam_ids.student_id.name"/>
+                            </div>
+                            <div t-if="exam_ids.total_marks" class="col-md-4">
+                                <strong>Total Marks:</strong>
+                            </div>
+                            <div t-if="exam_ids.total_marks" class="col-md-8">
+                                <span t-esc="exam_ids.total_marks"/>
+                            </div>
+                            <div t-if="exam_ids.grade" class="col-md-4">
+                                <strong>Grade:</strong>
+                            </div>
+                            <div t-if="exam_ids.grade" class="col-md-8">
+                                <span t-esc="exam_ids.grade"/>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-6">
+                            <div t-if="exam_ids.percentage" class="col-md-4">
+                                <strong>Percentage:</strong>
+                            </div>
+                            <div t-if="exam_ids.percentage" class="col-md-8">
+                                <span t-esc="exam_ids.percentage"/>
+                            </div>
+
+                            <div t-if="exam_ids.status" class="col-md-4">
+                                <strong>Status:</strong>
+                            </div>
+                            <div t-if="exam_ids.status" class="col-md-8">
+                                <span t-esc="{'pass':'Pass', 'fail':'Fail'}[exam_ids.status]"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt32">
+                    <h4>
+                        <b>Results:</b>
+                    </h4>
+                </div>
+                <div t-if="exam_ids.result_line" style="background-color:white; padding: 20px 0 20px 0;">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Exam</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="exam_ids.result_line" t-foreach="exam_ids.result_line" t-as="result_data">
+                                <tr>
+                                    <td>
+                                        <span t-esc="result_data.exam_id.name"/>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            <span t-esc="result_data.marks"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a>
+                                            <span t-esc="result_data.grade"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'pass':'Pass', 'fail':'Fail'}[result_data.status]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="openeducat_exam_portal">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Exam List</t>
+            </t>
+            <t t-if="not exam_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="exam_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Total Marks</th>
+                                <th>Percentage</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="exam_ids" t-foreach="exam_ids" t-as="exam">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/student/exam/data/#{exam.id}">
+                                            <span t-esc="exam.student_id.name"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span t-esc="exam.total_marks"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="exam.percentage"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="exam.grade"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'pass':'Pass', 'fail':'Fail'}[exam.status]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

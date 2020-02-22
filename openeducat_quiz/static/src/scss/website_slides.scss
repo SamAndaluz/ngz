@@ -1,0 +1,36 @@
+
+.que_hide{
+    display:none !important;
+    color:black;
+}
+
+.que_show{
+    display:block !important;
+    color:black;
+}
+.que_active{
+    background-color:#ccc;
+}
+.que_answered{
+    background-color:#33cc33;
+}
+/*======================== Progress bar =======================*/
+#progressBar {
+    background-color: #f3f3f3;
+    height: 35px;
+}
+.progress-value{
+    display:none !important;
+}
+#progressBar div {
+    height: 100%;
+    color: black;
+    text-align: center;
+    line-height: 35px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 0;
+    background-color: $o-brand-primary;
+}
+
+/* =================== Main Exam Page ================ */

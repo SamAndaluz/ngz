@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="my_account_link_inherit" name="Link to frontend portal" inherit_id="portal.my_account_link">
+        <xpath expr="//a[hasclass('dropdown-item')]" position="replace">
+            <t t-if="user_id.sudo().is_parent">
+                <a href="/my/child" role="menuitem" class="dropdown-item">My Account</a>
+            </t>
+            <t t-else="1">
+                <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_home_inherit" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_my_home')]/h3" position="replace">
+            <t t-if="user_id.sudo().is_parent">
+                <h3>
+                    <span t-esc="stu_id.name"></span>
+                    <span>Documents</span>
+                </h3>
+            </t>
+            <t t-else="1">
+                <h3>
+                    <t t-esc="user_id.name"></t>
+                    <span>Documents</span>
+                </h3>
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="portal_breadcrumbs_inhetrite" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="replace">
+            <t t-if="user_id.sudo().is_parent">
+                <ol t-if="page_name != 'Child'" class="o_portal_submenu breadcrumb mb-0 py-2 flex-grow-1">
+                    <li class="breadcrumb-item">
+                        <a href="/my/child/" aria-label="child" title="child">
+                            <i class="fa fa-home"/>
+                        </a>
+                    </li>
+                    <li t-if="page_name == 'my_details'" class="breadcrumb-item">Your Details</li>
+                </ol>
+            </t>
+            <t t-else="1">
+                <ol t-if="page_name != 'Home'" class="o_portal_submenu breadcrumb mb-0 py-2 flex-grow-1">
+                    <li class="breadcrumb-item">
+                        <a href="/my/home" aria-label="home" title="home">
+                            <i class="fa fa-home"/>
+                        </a>
+                    </li>
+                    <li t-if="page_name == 'my_details'" class="breadcrumb-item">Your Details</li>
+                </ol>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_children_data" name="Portal My Parent : Core Details">
+
+        <t t-call="portal.portal_layout">
+
+            <t t-if="user_id.sudo().is_parent" t-call="portal.portal_searchbar">
+                <t t-set="title">Parents Child Information</t>
+            </t>
+            <t t-if="not child_ids">
+                <p>There are currently no information for your account !!!</p>
+            </t>
+
+            <div t-if="child_ids" style="background-color:white; padding: 5px 40px 20px 40px;">
+                <table class="mt16 table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Childs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="child_ids" t-foreach="child_ids" t-as="child">
+                            <tr>
+                                <td>
+                                    <a t-attf-href="/my/child/#{child.id}">
+                                        <span t-esc="child.name"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

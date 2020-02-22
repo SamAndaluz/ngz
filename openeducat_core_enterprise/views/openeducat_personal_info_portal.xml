@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_student_information" name="Portal My Home : Core Details" inherit_id="portal.portal_my_home"
+              priority="5">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Student Profile</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/student/profile/'+ student_id"/>
+                </t>
+                <t t-else="is_student">
+                    <t t-set="url" t-value="'/student/profile'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_enterprise_student_portal">
+
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Student Information</t>
+            </t>
+            <t t-if="not student">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="student" name="student_portal_div" style="background-color:white; padding: 5px 40px 20px 40px;">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+
+                            <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#personal">
+                                <h4 class="border panel-title">
+                                    Personal Information
+                                    <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                                </h4>
+                            </a>
+
+                            <div id="personal" class="row mt16 mb16 col-md-12 panel-collapse collapse in">
+                                <div class="col-md-3">
+                                    <img class="img img-responsive" style="width:225px; height:200px"
+                                         t-att-src="'data:image/png;base64,%s' % student_image"/>
+                                </div>
+                                <div class="mt16 col-md-9">
+                                    <t t-foreach="student" t-as="student">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row col-md-12">
+                                                    <div t-if="student.name" class="col-md-6">
+                                                        <strong>Name</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.name" class="col-md-6">
+                                                        <span t-esc="student.name"/>
+                                                    </div>
+                                                    <div t-if="student.email" class="col-md-6">
+                                                        <strong>Email</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.email" class="col-md-6">
+                                                        <span t-esc="student.email"/>
+                                                    </div>
+                                                    <div t-if="student.birth_date" class="col-md-6">
+                                                        <strong>Birth Date</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.birth_date" class="col-md-6">
+                                                        <span t-esc="student.birth_date"/>
+                                                    </div>
+                                                    <div t-if="student.visa_info" class="col-md-6">
+                                                        <strong>Visa Info</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.visa_info" class="col-md-6">
+                                                        <span t-esc="student.visa_info"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row col-md-12">
+                                                    <div t-if="student.mobile" class="col-md-6">
+                                                        <strong>Mobile</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.mobile" class="col-md-6">
+                                                        <span t-esc="student.mobile"/>
+                                                    </div>
+                                                    <div t-if="student.gender" class="col-md-6">
+                                                        <strong>Gender</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.gender" class="col-md-6">
+                                                        <span t-esc="{False:False, 'm':'Male', 'f':'Female', 'o':'Other' }[student.gender]"/>
+                                                    </div>
+                                                    <div t-if="student.nationality" class="col-md-6">
+                                                        <strong>Nationality</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.nationality" class="col-md-6">
+                                                        <span t-esc="student.nationality.name"/>
+                                                    </div>
+                                                    <div t-if="student.blood_group" class="col-md-6">
+                                                        <strong>Blood Group</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.blood_group" class="col-md-6">
+                                                        <span t-esc="{False:False, 'B+':'B+ve', 'O+':'O+ve',
+                                                                'AB+':'AB+ve','A-':'A-ve','B-':'B-ve','O-':'O-ve',
+                                                                'AB-':'AB-ve' }[student.blood_group]"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt32 row">
+                                            <div class=" col-md-6">
+                                                <div class="row col-md-12">
+                                                    <div t-if="student.street" class="col-md-6">
+                                                        <strong>Street</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.street" class="col-md-6">
+                                                        <span t-esc="student.street"/>
+                                                    </div>
+                                                    <div t-if="student.city" class="col-md-6">
+                                                        <strong>City</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.city" class="col-md-6">
+                                                        <span t-esc="student.city"/>
+                                                    </div>
+                                                    <div t-if="student.state_id" class="col-md-6">
+                                                        <strong>State</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.state_id" class="col-md-6">
+                                                        <span t-esc="student.state_id.name"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class=" col-md-6">
+                                                <div class="row col-md-12">
+                                                    <div t-if="student.street2" class="col-md-6">
+                                                        <strong>Street2</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.street2" class="col-md-6">
+                                                        <span t-esc="student.street2"/>
+                                                    </div>
+                                                    <div t-if="student.zip" class="col-md-6">
+                                                        <strong>Zip</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.zip" class="col-md-6">
+                                                        <span t-esc="student.zip"/>
+                                                    </div>
+                                                    <div t-if="student.country_id.name" class="col-md-6">
+                                                        <strong>Country</strong>
+                                                        <span style="float: right;text-align: right;">:</span>
+                                                    </div>
+                                                    <div t-if="student.country_id.name" class="col-md-6">
+                                                        <span t-esc="student.country_id.name"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

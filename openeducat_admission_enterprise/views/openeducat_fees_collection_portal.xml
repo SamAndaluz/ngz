@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="student_portal_fees_collection_details"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal" priority="40">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#fees_detail">
+                            <h4 class="border panel-title">
+                                Fees Collection Details
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="fees_detail" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Submit Date</th>
+                                        <th>Fees Amount</th>
+                                        <th>Status</th>
+                                        <th>Invoice</th>
+                                        <th t-if="user_id.sudo().is_student"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.fees_detail_ids" t-as="fees_detail">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="fees_detail.date"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="fees_detail.amount"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="{False: False, 'draft': 'Draft',
+                                                'invoice': 'Invoice Created', 'cancel': 'Cancel'}
+                                                [fees_detail.state]"
+                                                />
+                                            </td>
+                                            <td>
+                                                <span t-esc="{False: False, 'draft': 'Draft',
+                                                    'posted': 'Posted', 'cancel': 'Cancelled'}
+                                                    [fees_detail.invoice_id.state]"
+                                                />
+                                            </td>
+                                            <td t-if="user_id.sudo().is_student">
+                                                <a t-if="fees_detail.invoice_state == 'open' or fees_detail.invoice_state =='paid'"
+                                                   t-attf-href="/my/invoices/#{fees_detail.invoice_id.id}">
+                                                    <button>View invoice</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

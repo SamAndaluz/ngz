@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="student_achievement_progression_report"
+              inherit_id="openeducat_student_progress_enterprise.student_progression_report"
+              priority="50">
+        <xpath expr="//div[hasclass('progression')]" position="after">
+            <div t-if="objs.achievement_lines" class="row mt32">
+                <div class="col-md-12">
+                    <div class="row mb16 col-8">
+                        <strong>Achievement:</strong>
+                    </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Faculty</th>
+                                <th>Achievement Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="objs.achievement_lines.sorted(key=lambda record: record.achievement_date, reverse=False)"
+                               t-as="lines">
+                                <tr>
+                                    <td>
+                                        <t t-esc="lines.achievement_date"
+                                           t-options="{'widget': 'date'}"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="lines.faculty_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="lines.achievement_type_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="lines.description"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

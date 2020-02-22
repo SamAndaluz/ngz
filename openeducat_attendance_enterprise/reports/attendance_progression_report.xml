@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="student_attendance_progression_report"
+              inherit_id="openeducat_student_progress_enterprise.student_progression_report"
+              priority="30">
+        <xpath expr="//div[hasclass('progression')]" position="after">
+            <div t-if="objs.attendance_lines" class="row mt32">
+                <div class="col-md-12">
+                    <div class="row mb16 col-md-6">
+                        <strong>Attendance:</strong>
+                    </div>
+                    <table class="table table-sm ">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th class="student">Attendance Sheet</th>
+                                <th>Present</th>
+                                <th>Remark</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="objs.attendance_lines.sorted(key=lambda record: record.attendance_date, reverse=False)"
+                               t-as="lines">
+                                <tr>
+                                    <td>
+                                        <t t-esc="lines.attendance_date"
+                                           t-options="{'widget': 'date'}"/>
+                                    </td>
+                                    <td class="student">
+                                        <t t-foreach="lines.attendance_id" t-as="attendance">
+                                            <t t-esc="attendance.name"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="lines.present"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="lines.remark"/>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="lines.course_id" t-as="course">
+                                            <t t-esc="course.name"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="lines.batch_id" t-as="batch">
+                                            <t t-esc="batch.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

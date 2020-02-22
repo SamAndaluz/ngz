@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_progression_assignment_portal_inherit"
+              inherit_id="openeducat_student_progress_enterprise.openeducat_student_progression_portal_data"
+              priority="40">
+        <xpath expr="//div[hasclass('progression_list')]" position="after">
+            <div t-if="progression.assignment_lines" class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#assignment">
+                            <h5 class="border panel-title">
+                                Assignment
+                                <strong style="float:left;padding: 0 20px 0 20px;">+</strong>
+                            </h5>
+                        </a>
+                    </div>
+                    <div id="assignment" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div t-if="progression.assignment_lines">
+
+                                <table t-if="progression.assignment_lines" class="mt8 table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Submission date</th>
+                                            <th>Assignment</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="progression.assignment_lines.sorted(key=lambda record: record.submission_date, reverse=False)"
+                                           t-as="assignment_list">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="assignment_list.submission_date"
+                                                          t-options="{'widget':'datetime'}"/>
+                                                </td>
+                                                <td>
+                                                    <a t-attf-href="/assignment/data/#{assignment_list.id}">
+                                                        <span t-esc="assignment_list.assignment_id.name"/>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="{'draft':'Draft', 'submit':'Submitted',
+                                        'reject':'Rejected', 'change':'Change Required', 'accept':'Accepted'}
+                                        [assignment_list.state]"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_portal_library"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal" priority="25">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+            <div t-if="user_id.sudo().is_student" class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#parent">
+                            <h4 class="border panel-title">
+                                Parent
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="parent" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.parent_ids" t-as="parent_data">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="parent_data.user_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="parent_data.user_id.email"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="parent_data.mobile"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_tree_onboarding" model="ir.ui.view">
+            <field name="name">op.admission.register.tree.inherit</field>
+            <field name="model">op.admission.register</field>
+            <field name="inherit_id" ref="openeducat_admission.view_op_admission_register_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="banner_route">/openeducat_admission_enterprise/openeducat_admission_onboarding</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

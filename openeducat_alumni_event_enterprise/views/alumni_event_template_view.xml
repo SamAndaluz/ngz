@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="event_detail" name="Event Detail" inherit_id="openeducat_alumni_enterprise.alumni_group"
+              priority="20">
+        <xpath expr="//div[@id='student_data']" position='after'>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-12 pt16 pb32" style="padding-right: 28px;">
+                <div class="container">
+                    <div class="row">
+                        <ol class="breadcrumb mb0 col-md-12">
+                            <li class="breadcrumb-item">
+                                <a>Our Events</a>
+                            </li>
+                        </ol>
+                        <div class="col-lg-6" id="middle_column">
+                            <ul class="list-unstyled">
+                                <li t-foreach="alumnievents" t-as="event"
+                                    t-attf-class="media#{' mt-3' if event else ''}">
+                                    <div itemscope="itemscope" class="media-body">
+                                        <h4>
+                                            <a itemprop="url"
+                                               t-att-class="event.state == 'done' and 'text-success'"
+                                               t-attf-href="/event/#{ slug(event) }/#{(not event.menu_id) and 'register' or ''}">
+                                                <span itemprop="name" t-field="event.name"></span>
+                                            </a>
+                                            <small t-if="event.is_participating" class="badge badge-info">
+                                                Participating
+                                            </small>
+                                            <small t-if="event.is_online" class="badge badge-info">Online
+                                            </small>
+                                            <small t-if="not event.website_published"
+                                                   class="badge badge-danger">unpublished
+                                            </small>
+                                        </h4>
+                                        <div>
+                                            <t t-if="event.organizer_id">
+                                                Organized by:
+                                                <span t-field="event.organizer_id"></span>
+                                            </t>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o" role="img" aria-label="Start date"
+                                               title="Start date"></i>
+                                            <span itemprop="startDate"
+                                                  t-field="event.with_context(tz=event.date_tz).date_begin"
+                                                  t-options='{"hide_seconds":"True"}'></span>
+                                            <i>to</i>
+                                            <span itemprop="endDate"
+                                                  t-field="event.with_context(tz=event.date_tz).date_end"
+                                                  t-options='{"hide_seconds":"True"}'></span>
+                                        </div>
+                                        <t t-if="not event.is_online">
+                                            <div itemprop="location" t-field="event.address_id" t-options='{
+                                        "widget": "contact",
+                                        "fields": ["city"]
+                                        }'/>
+                                        </t>
+                                        <div class="text-muted" t-if="event.event_type_id">
+                                            <i class="fa fa-tag" role="img" aria-label="Event type"
+                                               title="Event type"></i>
+                                            <span t-field="event.event_type_id"/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

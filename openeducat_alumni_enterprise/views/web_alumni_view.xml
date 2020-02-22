@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="alumni_page" name="Alumni">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty"/>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container mt-3">
+                    <div class="row oe_grid">
+                        <div t-foreach="alumni_id" t-as="alumnis"
+                             class="col-12 col-sm-12 col-md-3 col-lg-3 border p-3 m-3">
+                            <a t-attf-href="/alumni/detail/#{ slug(alumnis) }">
+                                <div t-field="alumnis.image" class="img img-fluid" style="margin: auto;"
+                                     t-options="{'widget': 'image'}"/>
+                                <div t-field="alumnis.name" class="text-center font-weight-bold" style="padding:10px;"/>
+                            </a>
+                            <div t-field="alumnis.description" class="text-center" style="overflow: hidden !important; width: 250px;
+  height: 40px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="alumni_group" name="Alumni Details">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty"/>
+            <div class="pb64 pt64">
+                <div class="container">
+                    <div t-foreach="alumni" t-as="alumnis">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 pb48 text-center">
+                                <h1 class="col-lg-12 col-md-12 col-sm-12 col-12" t-field="alumnis.name"/>
+                            </div>
+
+                            <div class="col-12 col-lg-8 col-md-12 col-sm-12 offset-lg-2 pb48 text-center">
+                                <t style="float:right;d-flex;" t-raw="alumnis.description"/>
+                            </div>
+
+                            <div id="student_data" class="col-lg-12 col-md-12 col-sm-12 col-12 pt48"
+                                 style="border-top: 1px solid #ccc;">
+                                 <div><h4>MEMBERS</h4></div>
+                                <div class="row pt48">
+                                    <div t-foreach="alumni_id" t-as="o"
+                                         class="col-lg-3 col-md-6 col-sm-12 col-12 media"
+                                         style="padding-bottom: 34px;">
+                                        <img class="float-left img rounded-circle o_forum_avatar align-self-start mr-3"
+                                             t-attf-src="/alumni/user/#{o.id}/avatar"
+                                             />
+                                        <div class="media-body">
+                                            <a t-attf-href="/alumni/detail/#{slug(alumni)}/#{o.id}">
+                                                <span t-field="o.name"/>
+                                            </a>
+                                            <t t-if="o.country_id">
+                                                <span t-field="o.country_id.image"
+                                                      t-options='{"widget": "image", "class": "country_flag"}'/>
+                                            </t>
+                                            <t t-raw="0"/>
+                                            <t t-raw="separator"/>
+                                            <div>
+                                                <div t-field="o.passing_year_id" class="ml4"/>
+                                                <div t-field="o.current_job" class="ml4"/>
+                                                <div t-field="o.current_position" class="ml4"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

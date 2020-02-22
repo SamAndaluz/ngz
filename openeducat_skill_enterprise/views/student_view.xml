@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_student_inherit_skill" model="ir.ui.view">
+            <field name="name">op.student.form.skill</field>
+            <field name="model">op.student</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="skill" string="Skills">
+                        <field name="skill_line">
+                            <tree string="Skills Details" editable="Top">
+                                <field name="skill_type_id"/>
+                                <field name="rating"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

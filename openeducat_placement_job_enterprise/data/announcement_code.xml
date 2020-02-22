@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_announcement_code" model="ir.sequence">
+            <field name="name">Announcement code</field>
+            <field name="code">op.activity.announcement</field>
+            <field name="prefix">AA</field>
+            <field name="padding">1</field>
+        </record>
+    </data>
+</odoo>

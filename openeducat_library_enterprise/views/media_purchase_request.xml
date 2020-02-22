@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_library_purhase_list" name="Portal media purchase list  Core Details"
+              inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Media Purchase List</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/requested/purchase/list/'+ student_id"/>
+                </t>
+                <t t-else="1">
+                    <t t-set="url" t-value="'/requested/purchase/list/'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_library_media_purchase">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Purchase Request</t>
+            </t>
+            <t t-if="not student_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="student_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt16">
+                    <form action="/purchase/request/submit/" method="post" role="form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div t-if="user_id.sudo().is_student" class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-3 mt16">
+                                    <lanle>Title:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="text" name="title" t-attf-class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-3 mt8">
+                                    <lanle>Media type:</lanle>
+                                </div>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="media_type_ids">
+                                        <option value="" class="disabled selected">
+                                            <lable>Select your option</lable>
+                                        </option>
+                                        <t t-foreach="media_type_ids or []" t-as="media_type">
+                                            <option t-att-value="media_type.id">
+                                                <t t-esc="media_type.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt8">
+                                    <lanle>Course:</lanle>
+                                </div>
+                                <div class="col-md-8 ">
+                                    <select class="form-control" name="media_ids" required="1" >
+                                        <option value="" class="disabled selected">
+                                            <lable>Select your option</lable>
+                                        </option>
+                                        <t t-foreach="course_ids or []" t-as="media_course">
+                                            <option t-att-value="media_course.id">
+                                                <t t-esc="media_course.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt8">
+                                    <lanle>Subject:</lanle>
+                                </div>
+                                <div class="col-md-8 ">
+                                    <select class="form-control" name="subject_ids" required="1" >
+                                          <option value="" class="disabled selected">
+                                            <lable>Select your option</lable>
+                                        </option>
+                                        <t t-foreach="subject_ids or []" t-as="media_subject">
+                                            <option t-att-value="media_subject.id">
+                                                <t t-esc="media_subject.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="col-md-3 mt16">
+                                    <lanle>Author:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="text" name="authore" t-attf-class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-3 mt16">
+                                    <lanle>Publisher:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="text" name="publisher" t-attf-class="form-control"/>
+                                </div>
+                                <div class="col-md-3 mt16">
+                                    <lanle>Request by:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="hidden" name="stud_id" t-att-value="student_ids.id"/>
+                                    <input type="text" name="requested_id" t-attf-class="form-control"
+                                           t-att-value="student_ids.name"/>
+                                </div>
+                                <div class="col-md-3 mt16">
+                                    <lanle>Edition:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="text" name="edition" t-attf-class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div t-if="user_id.sudo().is_student" class="clearfix mt16 mb16 row col-md-12">
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">
+                                    SUBMIT
+                                    <span class="fa fa-long-arrow-right"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_submited_purchases_request">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Purchase Request Submit</t>
+            </t>
+            <t t-if="not media_purchase_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="media_purchase_ids" style="background-color:white; padding: 5px 40px 20px 40px;">
+                <div class="mt32">
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Edition</th>
+                                <th>Media Type</th>
+                                <th>Publisher</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Requested by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span t-esc="media_purchase_ids.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.author"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.edition"/>
+                                </td>
+                                <td>
+                                    <t t-esc="media_purchase_ids.media_type_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.publisher"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.course_ids.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.subject_ids.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="media_purchase_ids.requested_id.name"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_submited_purchase_request_list">
+
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Purchase Request List</t>
+            </t>
+            <t t-if="not purchase_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="purchase_ids" style="background-color:white; padding: 5px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Edition</th>
+                                <th style="width:130px;">Media Type</th>
+                                <th>Publisher</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Requested by</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="purchase_ids" t-foreach="purchase_ids" t-as="media_req_list">
+                                <tr>
+                                    <td>
+                                        <span t-esc="media_req_list.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.author"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.edition"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.media_type_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.publisher"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.course_ids.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.subject_ids.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.requested_id.name"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="{'request':'Request','accept':'Accepted',
+                                        'reject':'Rejected'}[media_req_list.state]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

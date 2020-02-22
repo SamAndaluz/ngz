@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_achivemenet" name="Portal My Home : Core Details" inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Attendance</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/student/attendance/'+ student_id"/>
+                </t>
+                <t t-else="is_student">
+                    <t t-set="url" t-value="'/student/attendance/'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_attendance_portal">
+        <t t-call="portal.portal_layout">
+
+            <t t-if="not attendance_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Attendance List</t>
+            </t>
+
+            <div t-if="attendance_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Attendance Sheet</th>
+                                <th class="timesheet">Present?</th>
+                                <th>Remark</th>
+                                <th>Date</th>
+                                <th>Course</th>
+                                <th>Batch</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="attendance_ids" t-foreach="attendance_ids" t-as="attendance">
+                                <tr>
+                                    <td>
+
+                                        <span t-esc="attendance.attendance_id.name"/>
+                                    </td>
+                                    <td class="timesheet">
+                                        <span t-esc="attendance.present"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="attendance.remark"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="attendance.attendance_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="attendance.course_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="attendance.batch_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

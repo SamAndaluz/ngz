@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_progression_achievement_portal_inherit"
+              inherit_id="openeducat_student_progress_enterprise.openeducat_student_progression_portal_data"
+              priority="50">
+        <xpath expr="//div[hasclass('progression_list')]" position="after">
+            <div t-if="progression.achievement_lines" class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#achievement">
+                            <h5 class="border panel-title">
+                                Achievement
+                                <strong style="float:left;padding: 0 20px 0 20px;">+</strong>
+                            </h5>
+                        </a>
+                    </div>
+                    <div id="achievement" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div t-if="progression.achievement_lines">
+                                <table t-if="progression.achievement_lines" class="mt8 table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Achievement Type</th>
+                                            <th>Faculty</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="progression.achievement_lines.sorted(key=lambda record: record.achievement_date, reverse=False)"
+                                           t-as="student_achievement">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="student_achievement.achievement_date"
+                                                          t-options="{'widget':'date'}"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="student_achievement.achievement_type_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="student_achievement.faculty_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="student_achievement.description"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

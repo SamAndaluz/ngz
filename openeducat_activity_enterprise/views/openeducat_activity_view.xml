@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_op_student_activity_progress_form" model="ir.ui.view">
+            <field name="name">op.activity.form</field>
+            <field name="model">op.activity</field>
+            <field name="inherit_id" ref="openeducat_activity.view_op_activity_form"/>
+            <field name="priority" eval="10"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='student_id']" position="after">
+                    <field name="progression_id" readonly="1" force_save="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

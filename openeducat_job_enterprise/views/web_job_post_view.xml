@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="job_post_list" name="Job Post">
+        <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="row mb32">
+                        <div class="col-md-12 text-center mt32 mb16">
+                            <h2>Our Job Offers</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div t-foreach="job_post_id" t-as="jobs" class="col-md-4  mb32">
+                            <div id="job_detail" role="img" aria-label="Job Post"
+                                 title="Job Post">
+                                <ul class="list-unstyled">
+                                    <li t-if='not activity'>
+                                        <div style="padding: 20px;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15);
+-moz-box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15);
+box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15); margin-bottom: 30px;">
+                                            <a t-attf-href="/job_post/detail/#{ slug(jobs)}">
+                                                <div class="text-center">
+                                                    <h4 t-field="jobs.job_post"/>
+                                                    <span t-field="jobs.expected_employees"/>
+                                                    <span>Open Positions</span>
+                                                </div>
+                                                <div style="padding-top:15px;">
+                                                    <i class="fa fa-map-marker"></i>
+                                                    <span t-field="jobs.street"/>
+                                                    <span>,</span>
+                                                    <span t-field="jobs.street2"/>
+                                                    <span>,</span>
+                                                    <span t-field="jobs.city"/>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="jobpost_detail" name="Job Detail">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Job Detail</t>
+            <div id="wrap">
+                <div class="oe_structure" id="oe_structure_job_post_detail_1"/>
+
+                <!-- Breadcrumb -->
+
+                <section class="pt64 pb24 bg-white">
+                    <div class="container">
+                        <div class="pb64 text-center">
+                            <h1 class="mb0 mt0 text-uppercase" t-field="job_post_id.name"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-5 offset-lg-1">
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Job Post :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_post_id.job_post"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Employment Type :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_post_id.employment_type"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Salary :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_post_id.salary_from"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-5 offset-lg-1">
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-3">
+                                        <p>
+                                            <b>Address :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-9">
+                                        <p class="mt0" t-field="job_post_id.street"/>
+                                        <p class="mt0" t-field="job_post_id.street2"/>
+                                        <p class="mt0" t-field="job_post_id.city"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-3">
+                                        <p>
+                                            <b>Description :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-9">
+                                        <p class="mt0" t-field="job_post_id.description"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="oe_structure">
+                    <section class="o_job_bottom_bar mt32 mb32">
+                        <div id="job_apply" class="text-center">
+                            <ul class="list-unstyled">
+                                <li t-if='not activity'>
+                                    <a role="button"
+                                       t-attf-href="/job/post/apply/#{slug(job_post_id)}"
+                                       class="btn btn-primary btn-lg">Yes I
+                                        Am Interested!
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="jobpost_description" name="Job Description">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Job Description</t>
+            <div id="wrap">
+                <div class="oe_structure" id="oe_structure_job_post_Description_1"/>
+
+                <!-- Breadcrumb -->
+
+                <section class="pt64 pb24 bg-white">
+                    <div class="container">
+                        <div class="pb64 text-center">
+                            <h1 class="mb0 mt0 text-uppercase" t-field="job_description_id.name"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-5 offset-lg-1">
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Job Post :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_description_id.job_post"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Employment Type :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_description_id.employment_type"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+                                        <p>
+                                            <b>Salary :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-8">
+                                        <p class="mt0" t-field="job_description_id.salary_from"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-5 offset-lg-1">
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-3">
+                                        <p>
+                                            <b>Address :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-9">
+                                        <p class="mt0" t-field="job_description_id.street"/>
+                                        <p class="mt0" t-field="job_description_id.street2"/>
+                                        <p class="mt0" t-field="job_description_id.city"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 col-sm-5 col-md-6 col-lg-3">
+                                        <p>
+                                            <b>Description :</b>
+                                        </p>
+                                    </div>
+                                    <div class="col-7 col-sm-7 col-md-6 col-lg-9">
+                                        <p class="mt0" t-field="job_description_id.description"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="oe_structure">
+                    <section class="o_job_bottom_bar mt32 mb32">
+                        <div id="job_description" class="text-center">
+                            <ul class="list-unstyled">
+                                <li t-if='not activity'>
+                                    <a role="button"
+                                       t-attf-href="/job_post/detail/#{slug(job_description_id)}"
+                                       class="btn btn-primary btn-lg">Yes I
+                                        Am Interested!
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

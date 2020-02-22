@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_submit_assignment" name="Portal My Home : assign Details"
+              inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Assignment Submissions</t>
+                <t t-set="url" t-value="'/assignment/submit'"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Submitted Assignment List</t>
+                <t t-if="user_id.sudo().is_parent">
+                    <t t-set="url" t-value="'/submited/assignment/list/'+ student_id"/>
+                </t>
+                <t t-if="user_id.sudo().is_student">
+                    <t t-set="url" t-value="'/submited/assignment/list'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_student_submit_assignment_data">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Submit Assignment</t>
+            </t>
+            <t t-if="not student_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <t t-if="student_ids">
+                <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                    <div class="mt16">
+                        <form action="/assignment/submited" method="post" role="form" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row col-md-12">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label" for="Name">
+                                                <strong>Name:</strong>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="hidden" name="stud_id" t-att-value="student_ids.id"/>
+                                            <input type="Text" name="name" t-attf-class="form-control"
+                                                   t-att-value="student_ids.name"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt8 col-md-12">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label" for="Date">
+                                                <strong>Submit Date:</strong>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" name="Date" t-attf-class="form-control "
+                                                   t-att-value="submit_date" t-options="{'widget': 'datetime'}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row  col-md-12">
+                                        <div class="col-md-4 mt8">
+                                            <label for="assignment_id">Assignment:</label>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <select class="form-control" name="assignment_id" required="1">
+                                                <option value="" class="disabled selected">
+                                                    <lable>Select your option</lable>
+                                                </option>
+                                                <t t-foreach="assignment_ids or []" t-as="assignment">
+                                                    <option t-att-value="assignment.id">
+                                                        <t t-esc="assignment.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt8 row col-md-12">
+                                        <div class="col-md-4 mt8">
+                                            <label>Attachments:</label>
+                                        </div>
+                                        <div class="col-md-8 mt8">
+                                            <input type="file" multiple="true" name="attachments"
+                                                   class="inputfile"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label" for="Description">
+                                            <strong>Description:</strong>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <textarea class="form-control o_website_form_input" name="Description">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="mt8 col-md-12">
+                                    <div class="col-md-4">
+                                        <label class="col-form-label" for="Note">
+                                            <strong>Note:</strong>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <textarea class="form-control o_website_form_input" name="Note">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix mt16 mb16 row col-md-12">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        SUBMIT
+                                        <span class="fa fa-long-arrow-right"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- List of Assignment After submit   -->
+    <template id="portal_submited_assignment_list">
+        <t t-call="portal.portal_layout">
+
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Submitted Assignment List</t>
+            </t>
+
+            <t t-if="not assignment_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Assignment</th>
+                                <th>Submission date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="assignment_ids" t-foreach="assignment_ids" t-as="assignment_list">
+                                <tr>
+                                    <td>
+                                        <a t-attf-href="/assignment/data/#{assignment_list.id}">
+                                            <span t-esc="assignment_list.assignment_id.name"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span t-esc="assignment_list.submission_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'draft':'Draft', 'submit':'Submitted',
+                                        'reject':'Rejected', 'change':'Change Required', 'accept':'Accepted'}
+                                        [assignment_list.state]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <!--   Action on Submit Button -->
+    <template id="portal_submited_assignment_of_student">
+        <t t-call="portal.portal_layout">
+            <t t-if="not assignment_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Assingment Submitted</t>
+            </t>
+
+            <div t-if="assignment_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Assignment</th>
+                                <th>Submission date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="assignment_ids" t-foreach="assignment_ids" t-as="assignment_data">
+                                <tr>
+                                    <td>
+                                        <span t-esc="assignment_data.student_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="assignment_data.assignment_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="assignment_data.submission_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="assignment_data.state"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="assignment_data">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Submitted Assignment List</t>
+            </t>
+            <t t-if="not assignment_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="assignment_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt16">
+                    <div t-if="assignment_ids.student_id" class="row col-md-12">
+                        <div class=" col-md-6">
+                            <div class="row col-md-12">
+                                <div class="col-md-5">
+                                    <strong>Name:</strong>
+                                </div>
+                                <div class="col-md-7">
+                                    <span t-esc="assignment_ids.student_id.name"/>
+                                </div>
+                            </div>
+                            <div class="row mt8 col-md-12">
+                                <div t-if="assignment_ids.submission_date" class="col-md-5">
+                                    <strong>Submission Date:</strong>
+                                </div>
+                                <div class="col-md-7">
+                                    <span t-esc="assignment_ids.submission_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div t-if="assignment_ids.assignment_id.name" class="row col-md-12">
+                                <div class="col-md-5">
+                                    <strong>Assignments:</strong>
+                                </div>
+                                <div class="col-md-7">
+                                    <span t-esc="assignment_ids.assignment_id.name"/>
+                                </div>
+                            </div>
+                            <div t-if="attachment_ids" class="row mt8 col-md-12">
+                                <div class="col-md-5">
+                                    <strong>Attachments:</strong>
+                                </div>
+                                <div class="col-md-7">
+                                    <t t-if="attachment_ids" t-foreach="attachment_ids" t-as="attachment">
+                                        <t t-if="attachment.name" t-esc="attachment.name"/>
+                                        <a t-attf-href="/assignment/download/#{attachment.id}">
+                                            <i t-if="attachment.name" class="fa fa-download"/>
+                                        </a>
+                                        <br/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div t-if="assignment_ids.marks" class="row mt8 col-md-12">
+                                <div class="col-md-5">
+                                    <strong>Marks:</strong>
+                                </div>
+                                <div class="col-md-7">
+                                    <span t-esc="assignment_ids.marks"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt32 mb16">
+                        <div t-if="assignment_ids.description" class="mt8 col-md-12">
+                            <div class="col-md-4">
+                                <strong>Description:</strong>
+                            </div>
+                            <div class="col-md-12">
+                                <span t-esc="assignment_ids.description"/>
+                            </div>
+                        </div>
+                        <div t-if="assignment_ids.note" class="mt8 col-md-12">
+                            <div class="col-md-4">
+                                <strong>Note:</strong>
+                            </div>
+                            <div class="col-md-12">
+                                <span t-esc="assignment_ids.note"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="assignment_line_communication" class="mt8">
+                <h2>Communication</h2>
+                <t t-call="portal.message_thread">
+                    <xpath expr="//div[@id='discussion']" position="attributes">
+                        <attribute name="t-att-data-display_rating">display_rating or False</attribute>
+                        <t t-set="object" t-value="assignment_ids"/>
+                    </xpath>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

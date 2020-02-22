@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_achivemenet" name="Portal My Home : Core Details" inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Timetable</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/student/timetable/'+ student_id"/>
+                </t>
+                <t t-else="is_student">
+                    <t t-set="url" t-value="'/student/timetable/'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_timetable_portal">
+        <t t-call="portal.portal_layout">
+
+            <t t-if="not timetable_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Timetable List</t>
+            </t>
+
+            <div t-if="timetable_ids" style="background-color:white; padding: 5px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Faculty</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Batch</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Timing</th>
+                                <th>Day</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="timetable_ids" t-foreach="timetable_ids" t-as="timetable">
+                                <tr>
+                                    <td>
+                                        <span t-esc="timetable.faculty_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.course_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.subject_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.batch_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.start_datetime" t-options="{'widget': 'datetime'}"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.end_datetime" t-options="{'widget': 'datetime'}"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.timing_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="timetable.type"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'draft':'Draft', 'confirm':'Confirmed',
+                                         'done':'Done', 'cancel':'Canceled'}[timetable.state]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

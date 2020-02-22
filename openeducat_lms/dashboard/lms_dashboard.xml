@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="lms_dashboard" model="ir.ui.view">
+            <field name="name">lms.dashboard.view.kanban</field>
+            <field name="model">op.course</field>
+            <field name="arch" type="xml">
+                <kanban create="false" string="LMS Overview"
+                        class="o_emphasize_colors o_kanban_dashboard o_slide_kanban breadcrumb_item active" edit="true">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(0)}">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title mb16">
+                                        <div class="o_primary">
+                                                <span>
+                                                    <field name="name" class="o_primary"/>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container o_kanban_card_content mt0">
+                                    <div class="row mb16">
+                                        <div class="col-12 o_kanban_primary_right">
+                                            <div class="d-flex">
+                                                <span class="mr-auto">
+                                                    <label for="course to begin" class="mb0">Course To Begin</label>
+                                                </span>
+                                                <field name="course_to_begin"/>
+                                            </div>
+                                            <div class="d-flex">
+                                                <span class="mr-auto">
+                                                    <label for="display time" class="mb0">Duration</label>
+                                                </span>
+                                                <field name="display_time"/>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <span class="mr-auto">
+                                                    <label for="days since launch" class="mb0">Days Since Launch</label>
+                                                </span>
+                                                <field name="days_since_launch"/>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <span class="mr-auto">
+                                                    <label for="course in progress" class="mb0">Course In Progress
+                                                    </label>
+                                                </span>
+                                                <field name="course_in_progress"/>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row mt3">
+                                        <div class="col-4 border-right">
+                                            <a class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold">
+                                                    <field name="training_material"/>
+                                                </span>
+                                                <span class="text-muted">Material</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-4 border-right">
+                                            <a class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold">
+                                                    <field name="enrolled_users"/>
+                                                </span>
+                                                <span class="text-muted">Users</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <a class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-bold">
+                                                    <field name="course_completed"/>
+                                                </span>
+                                                <span class="text-muted">completed</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="lms_dashboard_act" model="ir.actions.act_window">
+            <field name="name">LMS Overview</field>
+            <field name="res_model">op.course</field>
+            <field name="binding_view_types">kanban</field>
+            <field name="view_mode">kanban</field>
+            <field name="domain">[('online_course','=',True),('user_id','=',uid)]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="lms_dashboard_action_overview" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="lms_dashboard"/>
+            <field name="act_window_id" ref="lms_dashboard_act"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_portal_library"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal" priority="45">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading ">
+
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#library">
+                            <h4  class="border panel-title " style="inline-block">
+                                Library
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="library" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div t-if="student.library_card_id" class="row col-md-12" style="padding-top: 25px;">
+                                <div>
+                                    <strong>Library Card:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-esc="student.library_card_id.number"/>
+                                </div>
+                            </div>
+
+                            <div class="mt32">
+                                <h4>Media Movements</h4>
+                            </div>
+
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Library Card</th>
+                                        <th>Media</th>
+                                        <th>Media Unit</th>
+                                        <th>Issued Date</th>
+                                        <th>Due Date</th>
+                                        <th>Actual Return Date</th>
+                                        <th>Penalty</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.media_movement_lines" t-as="library_data">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="library_data.library_card_id.number"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="library_data.media_id.name"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="library_data.media_unit_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="library_data.issued_date"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="library_data.return_date"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="library_data.actual_return_date"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="library_data.penalty"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="{'false':False, 'return':'Return', 'return_done':'Returned Done',
+                                                'available':'Available','issue':'Issued'}[library_data.state]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

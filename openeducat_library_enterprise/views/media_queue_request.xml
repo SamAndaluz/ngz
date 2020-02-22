@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Calendar Template">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/openeducat_library_enterprise/static/src/js/datepicker.js"></script>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_library_queue_list" name="Portal media queue list  Core Details"
+              inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Media Queue List</t>
+
+                <t t-if="is_parent">
+                    <t t-set="url" t-value="'/requested/queue/list/'+ student_id"/>
+                </t>
+                <t t-else="1">
+                    <t t-set="url" t-value="'/requested/queue/list/'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="openeducat_library_media_queue">
+
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Queue Request</t>
+            </t>
+            <t t-if="not media_queue_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="media_queue_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt16">
+                    <form action="/queue/request/submit/" method="post" role="form" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div t-if="user_id.sudo().is_student" class="row col-md-12">
+                            <div class="row col-md-6">
+                                <div class="col-md-4 mt8">
+                                    <lanle>User:</lanle>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="hidden" name="student_id" t-att-value="student_ids.id"/>
+                                    <input type="text" name="name" t-attf-class="form-control"
+                                           t-att-value="student_ids.name"/>
+                                </div>
+                                <div class="col-md-4 mt16">
+                                    <lanle>Media:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <select class="form-control" name="media_ids" required="1">
+                                        <option value="" class="disabled selected">
+                                            <lable>Select your option</lable>
+                                        </option>
+                                        <t t-foreach="media_queue_ids or []" t-as="media">
+                                            <option t-att-value="media.id">
+                                                <t t-esc="media.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row col-md-6">
+                                <div class="mt8 col-md-4">
+                                    <lanle>From Date:</lanle>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="date_from" t-attf-class="form-control"
+                                           t-att-value="date_from" t-options="{'widget': 'date'}"
+                                           required="1"/>
+                                </div>
+                                <div class="mt8 col-md-4 mt16">
+                                    <lanle>To Date:</lanle>
+                                </div>
+                                <div class="col-md-8 mt8">
+                                    <input type="text" name="date_to"
+                                           placeholder="To Date must be grater then From Date"
+                                           t-attf-class="form-control a fa-calendar"
+                                           id="calendar" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-if="user_id.sudo().is_student" class="clearfix mt16 row col-md-12 mb16">
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary">
+                                    SUBMIT
+                                    <span class="fa fa-long-arrow-right"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_submited_queue_request">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Queue Request Submit</t>
+            </t>
+            <t t-if="not media_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="media_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Sequence No.</th>
+                                <th>Media</th>
+                                <th>User</th>
+                                <th>From Date</th>
+                                <th>To date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="media_ids" t-foreach="media_ids" t-as="media_req">
+                                <tr>
+                                    <td>
+                                        <span t-esc="media_req.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req.media_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req.user_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req.date_from"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req.date_to"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'request':'Request','accept':'Accepted',
+                                        'reject':'Rejected'}[media_req.state]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_submited_queue_request_list">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Media Queue Request List</t>
+            </t>
+            <t t-if="not media_ids">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="media_ids" style="background-color:white; padding: 20px 40px 20px 40px;">
+                <div class="mt32">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Sequence No.</th>
+                                <th>Media</th>
+                                <th>User</th>
+                                <th>From Date</th>
+                                <th>To date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="media_ids" t-foreach="media_ids" t-as="media_req_list">
+                                <tr>
+                                    <td>
+                                        <span t-esc="media_req_list.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.media_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.user_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.date_from"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="media_req_list.date_to"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="{'request':'Request','accept':'Accepted',
+                                        'reject':'Rejected'}[media_req_list.state]"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

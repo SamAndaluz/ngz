@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_tree_onboarding_attendance" model="ir.ui.view">
+            <field name="name">op.attendance.onboard</field>
+            <field name="model">op.attendance.register</field>
+            <field name="inherit_id" ref="openeducat_attendance.view_op_attendance_register_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="banner_route">/openeducat_attendance_enterprise/openeducat_attendance_onboarding_panel</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

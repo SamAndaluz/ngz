@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="job_post_detail" name="Job Post detail" inherit_id="openeducat_job_enterprise.jobpost_detail">
+        <xpath expr="//div[@id='job_apply']" position='inside'>
+            <ul class="list-unstyled">
+                <li t-if="activity">
+                    <a role="button"
+                       t-attf-href="/job/post/apply/#{slug(activity)}/#{slug(job_post_id)}"
+                       class="btn btn-primary btn-lg">Yes I
+                        Am Interested!
+                    </a>
+                </li>
+            </ul>
+        </xpath>
+    </template>
+</odoo>

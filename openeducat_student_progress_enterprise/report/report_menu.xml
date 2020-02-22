@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="report_student_progression"
+                string="Progression Report"
+                model="op.student.progression"
+                report_type="qweb-pdf"
+                file="openeducat_student_progress_enterprise.student_progression_report"
+                name="openeducat_student_progress_enterprise.student_progression_report"/>
+    </data>
+</odoo>

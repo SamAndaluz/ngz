@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_portal_assignment"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal"
+              priority="35">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#assignment">
+                            <h4 class="border panel-title">
+                                Assignment
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="assignment" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th style="width:150px;">Name</th>
+                                        <th style="width:100px;">Course</th>
+                                        <th>Batch</th>
+                                        <th>Subject</th>
+                                        <th>Faculty</th>
+                                        <th>Reviewer</th>
+                                        <th>Marks</th>
+                                        <th style="width:200px;">Assignment Type</th>
+                                        <th>State</th>
+                                        <th style="width:120px;">Issued Date</th>
+                                        <th style="width:200px;">Submission Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.allocation_ids" t-as="assignment">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="assignment.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.course_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.batch_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.subject_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.faculty_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.reviewer.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.marks"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="assignment.assignment_type_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="{False:False, 'draft':'Draft',
+                                                'publish':'Published', 'finish':'Finished',
+                                                'cancel':'Cancel'}[assignment.state]"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.issued_date"
+                                                      t-options="{'widget': 'datetime'}"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.submission_date"
+                                                      t-options="{'widget': 'datetime'}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

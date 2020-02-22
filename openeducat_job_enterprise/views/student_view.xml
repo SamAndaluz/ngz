@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_student_inherit_jobpost" model="ir.ui.view">
+            <field name="name">op.student.form.jobpost</field>
+            <field name="model">op.student</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="Jobpost" string="Job Post Detail">
+                        <field name="job_post_ids" readonly="1">
+                            <tree string="Job Post Details">
+                                <field name="name"/>
+                                <field name="post_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

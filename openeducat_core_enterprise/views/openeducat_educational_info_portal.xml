@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="student_portal_educational_information"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal"
+              priority="10">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#educational">
+                            <h4 class="border panel-title">
+                                Educational
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="educational" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div t-if="student.gr_no" class="row col-md-12" style="padding-top: 25px;">
+                                <div>
+                                    <strong>Gr Number:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span t-esc="student.gr_no"/>
+                                </div>
+                            </div>
+
+                            <div class="mt32">
+                                <h4>Admission Detail</h4>
+                            </div>
+
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Batch</th>
+                                        <th>Roll Number</th>
+                                        <th>Subjects</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.course_detail_ids" t-as="course_detail">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="course_detail.course_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="course_detail.batch_id.name"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="course_detail.roll_number"/>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="course_detail.subject_ids" t-as="subject">
+                                                    <li style=" list-style-type: none;" t-esc="subject.name"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

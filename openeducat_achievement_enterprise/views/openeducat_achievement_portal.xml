@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="student_portal_achivemenet"
+              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal"
+              priority="50">
+        <xpath expr="//div[@name='student_portal_div']" position="inside">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#achievement">
+                            <h4 class="border panel-title">
+                                Achievement
+                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="achievement" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Achievement Type</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.achievement_line_ids" t-as="student_achievement">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="student_achievement.achievement_type_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="student_achievement.achievement_date"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-esc="student_achievement.description"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="student_progress_attendance_wizad_form">
+            <field name="name">Attendance Progress Wizard </field>
+            <field name="model">attendance.progress.wizard</field>
+            <field name="arch" type="xml">
+                <form string="student Attendance progress wizard ">
+                    <group col="2" colspan="2">
+                        <field name="student_id" invisible="True"/>
+                        <field name="attendance_ids" widget="many2many_lines" domain="[('student_id', '=', student_id)]"/>
+                    </group>
+                    <footer>
+                        <span groups="base.group_user">
+                            <button string="Add"
+                                    type="object" name="Add_attendance" class="oe_highlight"/>
+                            <button special="cancel" string="Close"
+                                    type="object"/>
+                        </span>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <act_window id="act_win_progress_attendance_wizard_action"
+                    name="Add Attendance"
+                    binding_model="op.student.progression"
+                    res_model="attendance.progress.wizard"
+                    view_mode="form" target="new"/>
+    </data>
+</odoo>
