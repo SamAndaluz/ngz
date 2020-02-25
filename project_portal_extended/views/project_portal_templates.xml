@@ -7,7 +7,7 @@
         </xpath>
         <xpath expr="//tbody/t/tr/td[2]" position="before">
           <td class="text-center">
-            <span t-esc="task.user_id.name"/>
+            <span t-esc="task.sudo().user_id.name"/>
           </td>
         </xpath>
     </template>
@@ -26,11 +26,11 @@
           </select>
         </div>
         <br/>-->
-        <div class="mb-1">
+        <div class="mb-1" t-if="pm_id != task.sudo().user_id">
           <span>
             <a role="button" t-attf-href="/my/task/finish/#{task.id}?{{ keep_query() }}" class="btn btn-sm btn-primary">
               <span role="img" aria-label="Terminar y asignar a Project Manager" title="Terminar y asignar a Project Manager">
-                Terminar y asignar a <span t-esc="task.project_id.user_id.name" />
+                Terminar y asignar a <span t-esc="task.project_id.user_id.name" /> (PM)
               </span>
             </a>
           </span>
