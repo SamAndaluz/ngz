@@ -27,9 +27,9 @@
         </div>
         <br/>
         <div>
-          <span><t t-esc="user.name"/></span>
+          <span><t t-esc="user_id"/></span><span><t t-esc="task.sudo().user_id"/></span>
         </div>-->
-        <div class="mb-1" t-if="pm_id != task.sudo().user_id">
+        <div class="mb-1" t-if="user_id.id == task.sudo().user_id.id and pm_id.id != task.sudo().user_id.id">
           <span>
             <a role="button" t-attf-href="/my/task/finish/#{task.id}?{{ keep_query() }}" class="btn btn-sm btn-primary">
               <span role="img" aria-label="Terminar y asignar a Project Manager" title="Terminar y asignar a Project Manager">
