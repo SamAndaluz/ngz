@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_op_course_sub_1"
+                  name="Courses"
+                  sequence="10"
+                  action="open_course_dashboard_kanban"
+                  web_icon="openeducat_core_enterprise,static/description/icon_1.png"
+                  groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_core.group_op_faculty"/>
+    </data>
+</odoo>
