@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="op_student_form_inherit" model="ir.ui.view">
+            <field name="name">op.student.form.inherit</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form" />
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="crm leads" string="CRM Leads">
+                        <field name="crm_lead_ids" colspan="4" nolabel="1">
+                            <tree string="CRM Leads">
+                                <field name="name"/>
+                                <field name="planned_revenue"/>
+                                <field name="probability"/>
+                                <field name="user_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

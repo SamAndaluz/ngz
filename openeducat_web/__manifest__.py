@@ -15,9 +15,6 @@
     "sequence": 1,
     'summary': 'Manage Students, Faculties and Education Institute',
     'complexity': "easy",
-    'description': """
-        This module provide web services
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

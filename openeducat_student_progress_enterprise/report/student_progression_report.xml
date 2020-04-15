@@ -13,9 +13,11 @@
                 }
             </style>
             <t t-call="web.html_container">
-                <t t-call="web.internal_layout">
+                <t t-call="web.external_layout">
                     <div class="font">
                         <div class="page">
+                            <br></br>
+                            <br></br>
                             <t t-foreach="docs" t-as="objs">
                                 <div class="row text-center">
                                     <div class="col-md-12">
@@ -27,49 +29,38 @@
                                     </div>
                                 </div>
                                 <div class="row mt32 progression">
-                                    <div class="col-md-12 ">
-                                        <div class="row col-6" style="float:left;">
-                                            <div class="col-7">
-                                                <strong>Progression No:</strong>
-                                            </div>
-                                            <div class="col-5">
-                                                <span t-esc="objs.name"/>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6" style="float:right;">
-                                            <div class="col-6">
-                                                <strong>Student:</strong>
-
-                                            </div>
-                                            <div class="col-6">
-                                                <span t-esc="objs.student_id.name"/>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6" style="float:left;">
-                                            <div class="col-7">
-                                                <strong>Date:</strong>
-                                            </div>
-                                            <div class="col-7">
-                                                <span t-esc="objs.date" t-options="{'widget':'date'}"/>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6" style="float:right;">
-                                            <div class="col-6">
-                                                 <strong>Created By:</strong>
-                                            </div>
-                                            <div class="col-6">
-                                                 <span t-esc="objs.created_by.name"/>
-                                            </div>
-                                        </div>
-                                        <div class="row col-6" style="float:left;">
-                                            <div class="col-7">
-                                                <strong>Status:</strong>
-                                            </div>
-                                            <div class="col-5">
-                                                <span t-esc="{false:false, 'draft':'Draft',
+                                    <div class="col-12">
+                                        <table width="100%" style="font-size:14px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <b>Progression No :</b>
+                                                        <span t-esc="objs.name"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <b>Student :</b>
+                                                        <span t-esc="objs.student_id.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Date :</b>
+                                                        <span t-esc="objs.date" t-options="{'widget':'date'}"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <b>Created By:</b>
+                                                        <span t-esc="objs.created_by.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Status:</b>
+                                                        <span t-esc="{false:false, 'draft':'Draft',
                                                                         'open':'In Progress', 'done':'Done', 'cancel':'Cancel'}[objs.state]"/>
-                                            </div>
-                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <p style="page-break-after: always;"></p>

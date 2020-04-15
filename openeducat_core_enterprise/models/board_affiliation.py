@@ -11,13 +11,6 @@
 from odoo import models, fields
 
 
-class OpResCompany(models.Model):
-    _inherit = "res.company"
-
-    affiliation_ids = fields.One2many('op.board.affiliation', 'company_id',
-                                      'Affiliation Board')
-
-
 class OpBoardAffiliation(models.Model):
     _name = "op.board.affiliation"
     _description = "Board Affiliation"

@@ -12,7 +12,6 @@ from odoo import models, fields
 
 
 class OpPlacementOffer(models.Model):
-
     _name = "op.placement.cell"
     _inherit = ["mail.thread",
                 'website.seo.metadata',
@@ -28,4 +27,10 @@ class OpPlacementOffer(models.Model):
                                  string='Channel Members',
                                  track_visibility='always')
     color = fields.Integer("Color Index", default=0)
-
+    department_id = fields.Many2one('op.department', 'Department',
+                                    default=lambda self:
+                                    self.env.user.dept_id.id)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)

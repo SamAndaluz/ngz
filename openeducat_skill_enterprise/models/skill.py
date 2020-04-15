@@ -19,6 +19,10 @@ class Opskill(models.Model):
     code = fields.Char('Code', size=64, required=True)
     skill_category_type_id = fields.Many2one(
         'op.skill.category', string='Skill Type', required=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
 
 class Opskillline(models.Model):
@@ -33,6 +37,9 @@ class Opskillline(models.Model):
         ('3', '3'),
         ('4', '4'),
         ('5', '5')], 'Rating', default='1', required=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
 
 class OpStudent(models.Model):
@@ -40,3 +47,15 @@ class OpStudent(models.Model):
 
     skill_line = fields.One2many(
         'op.skill.line', 'student_id', 'Skills Details')
+    skill_count = fields.Integer(compute='_compute_count_skill')
+
+    def get_skill(self):
+        action = self.env.ref('openeducat_skill_enterprise.'
+                              'act_open_op_skill_line_view').read()[0]
+        action['domain'] = [('student_id', 'in', self.ids)]
+        return action
+
+    def _compute_count_skill(self):
+        for record in self:
+            record.skill_count = self.env['op.skill.line'].search_count(
+                [('student_id', 'in', self.ids)])

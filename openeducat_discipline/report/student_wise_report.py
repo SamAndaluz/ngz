@@ -33,8 +33,8 @@ class StudentWiseReport(models.AbstractModel):
             dic = {
                 'date': record.date,
                 'misbehaviour_type': record.misbehaviour_type,
-                'misbehaviour_category_id': record
-                .misbehaviour_category_id.display_name,
+                'misbehaviour_category_id':
+                    record.misbehaviour_category_id.display_name,
                 'misbehaviour_action': record.misbehaviour_action,
                 'state': record.state
             }

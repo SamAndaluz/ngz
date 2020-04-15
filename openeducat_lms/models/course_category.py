@@ -20,7 +20,11 @@ class OpCourseCategory(models.Model):
     desc = fields.Text('Description')
     icon = fields.Char('Icon')
     parent_id = fields.Many2one('op.course.category', 'Parent Category')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def action_onboarding_course_category_layout(self):
-        self.env.user.company_id.onboarding_course_category_layout_state =\
+        self.env.user.company_id.onboarding_course_category_layout_state = \
             'done'

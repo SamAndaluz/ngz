@@ -15,12 +15,12 @@ class StudentProgression(models.Model):
     _inherit = ["op.student.progression"]
 
     @api.depends("assignment_lines")
-    def _calculate_total_assignment(self):
+    def _compute_total_assignment(self):
         self.total_assignment = len(self.assignment_lines)
 
     assignment_lines = fields.One2many('op.assignment.sub.line',
                                        'progression_id',
                                        string='Progression Assignment')
     total_assignment = fields.Integer('Total Assignment',
-                                      compute="_calculate_total_assignment",
+                                      compute="_compute_total_assignment",
                                       store=True)

@@ -132,7 +132,7 @@ msgstr "健康细节"
 msgid "Health Detail\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "健康细节\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_health_enterprise
 #: model:ir.model,name:openeducat_health_enterprise.model_op_health

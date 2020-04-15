@@ -32,10 +32,12 @@
                     <div t-if="exam_ids.student_id" class="row col-md-12">
                         <div class="row col-md-6" style="padding-left:0;">
                             <div t-if="exam_ids.student_id.name" class="col-md-4">
-                                <strong>Name:</strong>
+                                <strong>Exam Name:</strong>
                             </div>
                             <div t-if="exam_ids.student_id.name" class="col-md-8">
-                                <span t-esc="exam_ids.student_id.name"/>
+                                <t t-foreach="exam_ids.result_line[1]" t-as="exam_data">
+                                    <span t-esc="exam_data.exam_id.session_id.name"/>
+                                </t>
                             </div>
                             <div t-if="exam_ids.total_marks" class="col-md-4">
                                 <strong>Total Marks:</strong>
@@ -78,6 +80,7 @@
                         <thead>
                             <tr>
                                 <th>Exam</th>
+                                <th>Subject</th>
                                 <th>Marks</th>
                                 <th>Grade</th>
                                 <th>Status</th>
@@ -90,14 +93,13 @@
                                         <span t-esc="result_data.exam_id.name"/>
                                     </td>
                                     <td>
-                                        <a>
-                                            <span t-esc="result_data.marks"/>
-                                        </a>
+                                        <span t-esc="result_data.exam_id.subject_id.name"/>
                                     </td>
                                     <td>
-                                        <a>
-                                            <span t-esc="result_data.grade"/>
-                                        </a>
+                                        <span t-esc="result_data.marks"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="result_data.grade"/>
                                     </td>
                                     <td>
                                         <span t-esc="{'pass':'Pass', 'fail':'Fail'}[result_data.status]"/>
@@ -126,7 +128,7 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <th>Student</th>
+                                <th>Exam</th>
                                 <th>Total Marks</th>
                                 <th>Percentage</th>
                                 <th>Grade</th>
@@ -138,7 +140,9 @@
                                 <tr>
                                     <td>
                                         <a t-attf-href="/student/exam/data/#{exam.id}">
-                                            <span t-esc="exam.student_id.name"/>
+                                            <t t-foreach="exam.result_line[1]" t-as="result_data">
+                                                <span t-esc="result_data.exam_id.session_id.name"/>
+                                            </t>
                                         </a>
                                     </td>
                                     <td>
@@ -161,5 +165,4 @@
             </div>
         </t>
     </template>
-
 </odoo>

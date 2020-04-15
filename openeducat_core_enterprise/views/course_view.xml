@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="view_op_course_inherited_form_view" model="ir.ui.view">
+            <field name="name">op.course.form</field>
+            <field name="model">op.course</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_course_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='max_unit_load']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_course_inherited_tree_view" model="ir.ui.view">
+            <field name="name">op.course.tree</field>
+            <field name="model">op.course</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_course_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subject_ids']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_course_inherited_search_view" model="ir.ui.view">
+            <field name="name">op.course.search</field>
+            <field name="model">op.course</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_course_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="parent_id" icon="fa fa-book"/>
+                    </searchpanel>
+                </xpath>
+            </field>
+        </record>
+
         <!-- Dashboard Action -->
         <record model="ir.actions.act_window" id="act_dashboard_op_course_view">
             <field name="name">Courses</field>
@@ -8,7 +46,7 @@
             <field name="res_model">op.course</field>
             <field name="binding_view_types">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="openeducat_core.view_op_course_search" />
+            <field name="search_view_id" ref="openeducat_core.view_op_course_search"/>
             <field name="domain">[('id','in',[active_id])]</field>
         </record>
     </data>

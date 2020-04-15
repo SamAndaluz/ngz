@@ -38,6 +38,10 @@ class StudentProgression(models.Model):
                               ('cancel', 'Cancel')],
                              string="Status", default='draft',
                              track_visibility="onchange")
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def state_draft(self):
         self.state = "draft"
@@ -54,4 +58,3 @@ class StudentProgression(models.Model):
     _sql_constraints = [('student_id',
                          'unique(student_id)',
                          'Student already  exist!!!')]
-

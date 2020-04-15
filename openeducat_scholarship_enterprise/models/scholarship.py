@@ -26,6 +26,7 @@ class OpScholarship(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def act_confirm(self):
         self.state = 'confirm'

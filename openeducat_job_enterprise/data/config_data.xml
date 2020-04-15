@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="openeducat_job_enterprise.model_op_job_applicant" model="ir.model">
+        <record id="model_op_job_applicant" model="ir.model">
             <field name="website_form_access">True</field>
             <field name="website_form_label">Apply for a Job</field>
         </record>

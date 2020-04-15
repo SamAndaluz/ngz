@@ -24,6 +24,7 @@
         'openeducat_student_progress_enterprise',
     ],
     'data': [
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'data/fine_product_demo.xml',
         'data/discipline_mail_template_data.xml',

@@ -6,11 +6,13 @@
             <field name="model">op.route</field>
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
-                <tree string="Routes" banner_route="/openeducat_transportation_enterprise/openeducat_route_onboarding_panel">
+                <tree string="Routes"
+                      banner_route="/openeducat_transportation_enterprise/openeducat_route_onboarding_panel">
                     <field name="name"/>
                     <field name="vehicle_id"/>
                     <field name="cost"/>
                     <field name="stop_ids"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -22,10 +24,14 @@
             <field name="arch" type="xml">
                 <form string="Routes">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group col="4">
                             <field name="name"/>
                             <field name="vehicle_id"/>
                             <field name="cost"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <group string="Stop(s)">
                             <field name="stop_ids" nolabel="1">
@@ -50,6 +56,8 @@
                     <field name="stop_ids"/>
                     <field name="vehicle_id"/>
                     <field name="cost"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Vehicle" name="group_by_route_vehicle_id"

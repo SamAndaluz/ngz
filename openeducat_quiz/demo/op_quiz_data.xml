@@ -21,12 +21,13 @@
         <record id="op_qz_2" model="op.quiz">
             <field name="name">Quiz Round 2</field>
             <field name="categ_id" ref="op_qz_ctg_2"/>
-            <field name="quiz_config">quiz_bank_random</field>
+            <field name="quiz_config">quiz_bank_selected</field>
             <field name="time_config">True</field>
             <field name="time_limit_hr">1</field>
             <field name="time_limit_minute">30</field>
-            <field name="description">This quiz is based on random question based on c and c++
+            <field name="description">This quiz is based on General Knowledge.
             </field>
+            <field name="state">open</field>
             <field name="quiz_html">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                 Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
                 galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
@@ -35,5 +36,26 @@
                 desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </field>
         </record>
+
+        <record id="op_qz_3" model="op.quiz">
+            <field name="name">Quiz Round 3</field>
+            <field name="categ_id" ref="op_qz_ctg_3"/>
+            <field name="quiz_config">quiz_bank_selected</field>
+            <field name="time_config">True</field>
+            <field name="time_limit_hr">1</field>
+            <field name="time_limit_minute">30</field>
+            <field name="description">This quiz is based on General Knowledge.
+            </field>
+            <field name="state">draft</field>
+            <field name="exit_allow">True</field>
+            <field name="quiz_html">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in
+                the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+                desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </field>
+        </record>
+
     </data>
 </odoo>

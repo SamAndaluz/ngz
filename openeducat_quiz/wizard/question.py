@@ -43,5 +43,10 @@ class OpQuestionWizard(models.TransientModel):
                 'answer': line.answer,
                 'grade_true_id': line.grade_true_id,
                 'grade_false_id': line.grade_false_id,
+                'material_type': line.material_type,
+                'video_type': line.video_type,
+                'url': line.url,
+                'datas': line.datas,
+                'document_id': line.document_id
             }])
         quiz.line_ids = line_data

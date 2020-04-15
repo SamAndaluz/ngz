@@ -15,14 +15,13 @@
     "sequence": 3,
     'summary': 'Manage Alumni Blog',
     'complexity': "easy",
-    'description': """
-        This module provide alumni Blog.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base', 'website_blog', 'openeducat_alumni_enterprise'],
     'data': ['views/alumni_view.xml',
-             'views/alumni_blog_template_view.xml'
+             'views/alumni_blog_template_view.xml',
+             'views/templates.xml',
+             'menus/op_menu.xml'
              ],
     'demo': ['demo/blog_post_demo.xml',
              'demo/alumni_blog_demo.xml'],

@@ -26,6 +26,10 @@ class OpMeeting(models.Model):
         inverse='_inverse_dates', store=True,
         states={'done': [('readonly', True)]},
         track_visibility='onchange')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def _get_duration(self, start, stop):
         """ Get the duration value between the 2 given dates. """
@@ -90,7 +94,7 @@ class OpMeeting(models.Model):
             records_to_unlink |= self.browse(int(meeting.id))
         if records_to_unlink:
             result = super(OpMeeting, records_to_unlink).unlink()
-        self.env['calendar.alarm_manager'].notify_next_alarm(partner_ids)
+        self.env['calendar.alarm_manager']._notify_next_alarm(partner_ids)
         return result
 
     def action_sendmail(self):

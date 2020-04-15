@@ -15,7 +15,8 @@
                                     Category:
                                     <br/>
                                     <t t-foreach="course.category_ids" t-as='cat'>
-                                        <p t-esc="cat.name" class="text-white" style="display: inline-block;"/>
+                                        <p id="course_na" t-esc="cat.name" class="text-white"
+                                           style="display: inline-block;"/>
                                     </t>
                                 </div>
                                 <div class="row pt-2">
@@ -37,7 +38,8 @@
                                     <div class="col-md-3 learndash_course_review">
                                         Review :
                                         <t t-name="website_rating.rating_stars_static">
-                                            <t t-set="val_integer" t-value="round(rating_course['avg'])"/>
+                                            <t t-set="val_integer" t-value="round(rating_course['avg']/ rating_course['total']) if rating_course['total'] >= 1 else 0"/>
+                                            <t t-esc="val_integer"/>
                                             <t t-set="val_decimal" t-value="0"/>
                                             <t t-set="empty_star" t-value="5 - val_integer"/>
                                             <div class="o_website_rating_static">
@@ -164,7 +166,7 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content m-2 m-md-4">
-                                    <div class="collapse active show" id="course-curriculum">
+                                    <div class="collapse active" id="course-curriculum">
                                         <div id="accordion" role="tablist" aria-multiselectable="true">
                                             <t t-foreach="sections" t-as="section">
                                                 <div class="card card-default">
@@ -177,7 +179,7 @@
                                                            t-attf-data-target="#session-#{section.id}"
                                                            t-attf-aria-controls="#session-#{section.id}">
                                                             <t t-raw="section.name"/>
-                                                            <span class="hidden-xs hidden-sm pull-right"
+                                                            <span id="sectionpoint" class="hidden-xs hidden-sm pull-right"
                                                                   t-raw="section.display_time"/>
                                                         </a>
                                                     </div>

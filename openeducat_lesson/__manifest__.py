@@ -15,9 +15,6 @@
     "sequence": 1,
     'summary': 'Manage Lesson Planning',
     'complexity': "easy",
-    'description': """
-       This module provide the feature of lesson learning
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="portal_my_result_account_quiz" name="Portal My Result" inherit_id="portal.portal_my_home" priority="30">
+    <template id="portal_my_home_quiz" name="Portal My Home : Quiz Details" inherit_id="portal.portal_my_home"
+              priority="20">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-if="exam_count" t-call="portal.portal_docs_entry">
-                <t t-set="title">Result</t>
-                <t t-set="url" t-value="'/users/result-overview'"/>
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Quiz</t>
+
+                <t>
+                    <t t-set="url" t-value="'/users/result-overview'"/>
+                </t>
                 <t t-set="count" t-value="exam_count"/>
             </t>
         </xpath>
@@ -20,6 +24,7 @@
                 <table class="table table-stripped mt-4">
                     <thead>
                         <tr>
+                            <th>Index</th>
                             <th>Exam Name</th>
                             <th>Total Question</th>
                             <th>Total Correct</th>
@@ -33,14 +38,41 @@
                     <tbody>
                         <t t-foreach="result_data" t-as="line">
                             <tr>
-                                <td><t t-esc="line['name']"/></td>
-                                <td><t t-esc="line['ttl_que']"/></td>
-                                <td><t t-esc="line['ttl_crct']"/></td>
-                                <td><t t-esc="line['ttl_incrct']"/></td>
-                                <td><t t-esc="line['ttl_marks']"/></td>
-                                <td><t t-esc="line['rec_marks']"/></td>
-                                <td><t t-esc="line['score']"/></td>
-                                <td><t t-esc="line['finish_date']"/></td>
+                                <td>
+                                    <t t-esc="line['index']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['name']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['ttl_que']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['ttl_crct']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['ttl_incrct']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['ttl_marks']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['rec_marks']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['score']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['finish_date']"/>
+                                </td>
+                                <t t-if="line['display_result'] == True">
+                                    <td>
+                                        <a t-attf-href="/exam/result/#{line['id']}">
+                                            <button>Result</button>
+                                        </a>
+                                    </td>
+                                </t>
+
                             </tr>
                         </t>
                     </tbody>
@@ -49,3 +81,4 @@
         </t>
     </template>
 </odoo>
+

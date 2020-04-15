@@ -35,6 +35,7 @@ class OpAchievement(models.Model):
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id,
         track_visibility='onchange')
+    active = fields.Boolean(default=True)
 
     @api.onchange('student_id')
     def onchange_student_achievement_progrssion(self):

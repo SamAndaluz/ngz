@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import http, modules, tools
+from odoo import http, modules
 from odoo.http import request
 import werkzeug.wrappers
 import base64
@@ -46,9 +46,10 @@ class AlumniWeb(http.Controller):
     @http.route(['/alumni/user/<int:user_id>/avatar'],
                 type='http', auth="public", website=True, sitemap=False)
     def user_avatar(self, user_id=0, **post):
-        status, headers, content = request.env['ir.http'].sudo().binary_content(model='op.student',
-                           id=user_id, field='image_1920',
-                           default_mimetype='image/png')
+        status, headers, content = request.env['ir.http'].\
+            sudo().binary_content(model='op.student',
+                                  id=user_id, field='image_1920',
+                                  default_mimetype='image/png')
         if not content:
             img_path = modules.get_module_resource('web', 'static/src/img',
                                                    'placeholder.png')
@@ -62,4 +63,3 @@ class AlumniWeb(http.Controller):
         response = request.make_response(image_base64, headers)
         response.status = str(status)
         return response
-

@@ -2,8 +2,15 @@
 <odoo>
     <template id="assets_backend" name="openeducat_lms_assets" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-            <link rel="stylesheet" href="/openeducat_lms/static/src/scss/account_contract_dashboard.scss" />
-            <script type="text/javascript" src="/openeducat_lms/static/src/js/openeducat_lms_dashboard.js" />
+            <link rel="stylesheet" href="/openeducat_lms/static/src/scss/account_contract_dashboard.scss"/>
+            <script type="text/javascript" src="/openeducat_lms/static/src/js/openeducat_lms_dashboard.js"/>
+        </xpath>
+    </template>
+
+    <template id="assets_tests" name="Website lms Tests" inherit_id="web.assets_tests">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="/openeducat_lms/static/tests/tours/lmscontest.js"></script>
         </xpath>
     </template>
 

@@ -58,3 +58,17 @@ class TestQuiz(TestQuizCommon):
         info('Category : %s' % quiz.categ_id.name)
         self.check_config(quiz.quiz_config)
         info('Confguration: %s' % quiz.quiz_config)
+
+
+class TestQuizOnboard(TestQuizCommon):
+
+    def setUp(self):
+        super(TestQuizOnboard, self).setUp()
+
+    def test_quiz_onboard(self):
+        quiz = self.quiz_onboard.search([])
+
+        quiz.action_close_quiz_panel_onboarding()
+        quiz.action_onboarding_quiz_layout()
+        quiz.action_onboarding_question_bank_layout()
+        quiz.update_quiz_onboarding_state()

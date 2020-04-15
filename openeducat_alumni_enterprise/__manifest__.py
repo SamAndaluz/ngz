@@ -15,19 +15,19 @@
     "sequence": 3,
     'summary': 'Manage Alumni',
     'complexity': "easy",
-    'description': """
-        This module provide alumni management system.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base', 'openeducat_core_enterprise', 'website_profile',
                 'website_forum', 'product', 'account'],
-    'data': ['security/ir.model.access.csv',
-             'views/alumni_view.xml',
-             'views/alumni_group_view.xml',
-             'views/web_alumni_view.xml',
-             'views/student_template_view.xml',
-             'menus/op_menu.xml'],
+    'data': [
+        'security/op_security.xml',
+        'security/ir.model.access.csv',
+        'views/alumni_view.xml',
+        'views/alumni_group_view.xml',
+        'views/web_alumni_view.xml',
+        'views/student_template_view.xml',
+        'views/templates.xml',
+        'menus/op_menu.xml'],
     'demo': [
         'demo/product_demo.xml',
         'demo/student_demo.xml',

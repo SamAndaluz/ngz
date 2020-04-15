@@ -34,7 +34,6 @@ class AlumaniJobPost(CustomerPortal):
              'country_obj': country_id,
              'state_obj': state_id})
 
-
     @http.route(['/alumni/job/submit',
                  '/alumni/job/submit/page/<int:page>'],
                 type='http', auth="user", website=True)
@@ -55,7 +54,7 @@ class AlumaniJobPost(CustomerPortal):
             'employment_type': kw['employment_type'],
             'zip': kw['zip'],
             'country_id': kw['country_id'],
-            #'state_id': kw['state_id'],
+            # 'state_id': kw['state_id'],
             'skill_ids': [
                 [6, 0, request.httprequest.form.getlist('skill_ids')]
             ]
@@ -84,11 +83,12 @@ class AlumaniJobPost(CustomerPortal):
             "openeducat_alumni_job_enterprise.porta_alumni_list_details",
             {'alumni_data': alumni_obj})
 
-    @http.route(['/alumni/job/delete/<int:id>',
+    @http.route(['/alumni/job/delete/<int:alumni>',
                  '/alumni/job/delete/page/<int:page>'],
                 type='http', auth="user", website=True)
-    def delete_alumni(self, id):
-        delete_id = request.env['op.job.post'].sudo().search([('id', '=', id)])
+    def delete_alumni(self, alumni):
+        delete_id = request.env['op.job.post']\
+            .sudo().search([('id', '=', alumni)])
         delete_id.unlink()
         return request.redirect('/alumni/job/list')
 

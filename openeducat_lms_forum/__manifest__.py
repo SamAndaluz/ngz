@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'LMS',
     'complexity': "easy",
-    'description': """
-        This module provide feature of LMS Forum.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

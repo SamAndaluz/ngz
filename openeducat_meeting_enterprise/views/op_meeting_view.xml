@@ -5,7 +5,8 @@
         <field name="name">op.meeting.tree</field>
         <field name="model">op.meeting</field>
         <field name="arch" type="xml">
-            <tree string="Meetings" decoration-bf="message_needaction==True" banner_route="/openeducat_meeting_enterprise/openeducat_meeting_onboarding_panel">
+            <tree string="Meetings" decoration-bf="message_needaction==True"
+                  banner_route="/openeducat_meeting_enterprise/openeducat_meeting_onboarding_panel">
                 <field name="name" string="Subject"/>
                 <field name="allday" invisible="True"/>
                 <field name="start" string="Start Date"/>
@@ -14,6 +15,7 @@
                 <field name="location"/>
                 <field name="state" invisible="True"/>
                 <field name="duration"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 <field name="message_needaction" invisible="1"/>
             </tree>
         </field>
@@ -26,12 +28,19 @@
         <field name="arch" type="xml">
             <form string="Meetings">
                 <sheet>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
                     <field name="state" invisible="1"/>
                     <field name="is_attendee" invisible="1"/>
                     <field name="attendee_status" invisible="1"/>
                     <div class="oe_title">
-                        <div class="oe_edit_only"><label for="name"/></div>
-                        <h1><field name="name" placeholder="e.g. Business Lunch"/></h1>
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" placeholder="e.g. Business Lunch"/>
+                        </h1>
                         <label for="partner_ids" string="Attendees" class="oe_edit_only"/>
                         <h2>
                             <field name="partner_ids" widget="many2manyattendee"
@@ -59,6 +68,7 @@
                                         <span>hours</span>
                                     </div>
                                     <field name="allday"/>
+                                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                                 </group>
                                 <group>
                                     <field name="categ_ids" widget="many2many_tags" options="{'no_create_edit': True}"/>
@@ -78,7 +88,8 @@
                             </group>
                         </page>
                         <page name="meeting_invitations" string="Invitations" groups="base.group_no_one">
-                            <button name="action_sendmail" type="object" string="Send mail" icon="fa-envelope" class="oe_link"/>
+                            <button name="action_sendmail" type="object" string="Send mail" icon="fa-envelope"
+                                    class="oe_link"/>
                             <field name="attendee_ids" widget="one2many">
                                 <tree string="Invitation details" editable="top" create="false" delete="false">
                                     <field name="partner_id"/>
@@ -174,6 +185,8 @@
                         help="My Meetings" context='{"mymeetings": 1}'/>
                 <filter string="Unread Messages" name="message_needaction"
                         domain="[('message_needaction','=',True)]"/>
+                <filter string="Archived" name="inactive"
+                        domain="[('active', '=', False)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Responsible" name="group_by_meeting_user_id"

@@ -20,7 +20,7 @@
                                             <a itemprop="url"
                                                t-att-class="event.state == 'done' and 'text-success'"
                                                t-attf-href="/event/#{ slug(event) }/#{(not event.menu_id) and 'register' or ''}">
-                                                <span itemprop="name" t-field="event.name"></span>
+                                                <span id="event" itemprop="name" t-field="event.name"></span>
                                             </a>
                                             <small t-if="event.is_participating" class="badge badge-info">
                                                 Participating

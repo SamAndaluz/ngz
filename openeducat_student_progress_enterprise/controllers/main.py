@@ -33,5 +33,6 @@ class StudentProgression(CustomerPortal):
                 sudo().search([('student_id', '=', student_id)])
 
         return request.render(
-            "openeducat_student_progress_enterprise.openeducat_student_progression_portal_data",
+            "openeducat_student_progress_enterprise."
+            "openeducat_student_progression_portal_data",
             {'progression': progression_id})

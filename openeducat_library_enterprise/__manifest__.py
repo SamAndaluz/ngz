@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Library',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Library Management.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -28,9 +25,14 @@
         'security/op_security.xml',
         'security/ir.model.access.csv',
         'wizards/barcode_issue_media_view.xml',
+        'views/templates.xml',
         'views/media_view.xml',
         'views/media_unit_view.xml',
         'views/media_movement_view.xml',
+        'views/library_view.xml',
+        'views/publisher_view.xml',
+        'views/author_view.xml',
+        'views/media_type_view.xml',
         'views/library_dashboard_view.xml',
         'views/openeducat_library_portal.xml',
         'views/library_onboard.xml',

@@ -20,7 +20,35 @@
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="course_id" required="1"/>
                 </xpath>
+                <xpath expr="//field[@name='grade_weightage']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
             </field>
         </record>
+
+        <record id="op_subject_search_view_inherited" model="ir.ui.view">
+            <field name="name">op.subject.search.inherited</field>
+            <field name="model">op.subject</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_subject_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="course_id" icon="fa fa-book"/>
+                    </searchpanel>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="op_subject_tree_view_inherited" model="ir.ui.view">
+            <field name="name">op.subject.tree.inherited</field>
+            <field name="model">op.subject</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_subject_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='grade_weightage']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

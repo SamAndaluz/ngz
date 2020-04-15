@@ -47,7 +47,7 @@
                                                 />
                                             </td>
                                             <td t-if="user_id.sudo().is_student">
-                                                <a t-if="fees_detail.invoice_state == 'open' or fees_detail.invoice_state =='paid'"
+                                                <a t-if="fees_detail.invoice_state == 'posted'"
                                                    t-attf-href="/my/invoices/#{fees_detail.invoice_id.id}">
                                                     <button>View invoice</button>
                                                 </a>

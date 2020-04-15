@@ -11,7 +11,7 @@
 from odoo import fields, models
 
 
-class op_grant_badge_wizard(models.TransientModel):
+class OpGrantBadgeWizard(models.TransientModel):
     _name = "op.badge.student.wizard"
     _description = "Badge Student Wizard"
 

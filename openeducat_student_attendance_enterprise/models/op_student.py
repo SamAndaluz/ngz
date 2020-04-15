@@ -21,16 +21,13 @@ class OpStudent(models.Model):
     def _default_random_pin(self):
         return ("0000")
 
-    def _default_random_barcode(self):
-        barcode = None
-        while not barcode or self.env['op.student'].search(
-                [('barcode', '=', barcode)]):
-            barcode = "".join(choice(digits) for i in range(8))
-        return barcode
+    def generate_random_barcode(self):
+        for employee in self:
+            employee.barcode = "".join(choice(digits) for i in range(8))
 
     barcode = fields.Char(string="Badge ID",
                           help="ID used for student identification",
-                          default=_default_random_barcode, copy=False)
+                          default=generate_random_barcode, copy=False)
     pin = fields.Char(string="PIN", default=_default_random_pin,
                       help="PIN used to Sign In in Kiosk Mode", copy=False)
     attendance_ids = fields.One2many('op.attendance.line', 'student_id',
@@ -145,30 +142,8 @@ class OpStudent(models.Model):
                 _('Cannot perform sign in on multiple students.'))
         action_date = fields.Datetime.now()
         vals = {
-                'student_id': self.id,
-                'check_in': action_date,
-                'attendance_id': int(att_id) if att_id else False,
-            }
+            'student_id': self.id,
+            'check_in': action_date,
+            'attendance_id': int(att_id) if att_id else False,
+        }
         return self.env['op.attendance.line'].sudo().create(vals)
-
-    def _init_column(self, column_name):
-        """ Initialize the value of the given column for existing rows.
-            Overridden here because we need to have different default values
-            for barcode and pin for every student.
-        """
-        if column_name not in ["barcode", "pin"]:
-            super(OpStudent, self)._init_column(column_name)
-        else:
-            default_compute = self._fields[column_name].default
-
-            query = 'SELECT id FROM "%s" WHERE "%s" is NULL' % (
-                self._table, column_name)
-            self.env.cr.execute(query)
-            student_ids = self.env.cr.fetchall()
-
-            for student_id in student_ids:
-                default_value = default_compute(self)
-
-                query = 'UPDATE "%s" SET "%s"=%%s WHERE id = %s' % (
-                    self._table, column_name, student_id[0])
-                self.env.cr.execute(query, (default_value,))

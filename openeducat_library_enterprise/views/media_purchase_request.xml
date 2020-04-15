@@ -58,7 +58,7 @@
                                     <lanle>Course:</lanle>
                                 </div>
                                 <div class="col-md-8 ">
-                                    <select class="form-control" name="media_ids" required="1" >
+                                    <select class="form-control" name="media_ids" required="1">
                                         <option value="" class="disabled selected">
                                             <lable>Select your option</lable>
                                         </option>
@@ -73,8 +73,8 @@
                                     <lanle>Subject:</lanle>
                                 </div>
                                 <div class="col-md-8 ">
-                                    <select class="form-control" name="subject_ids" required="1" >
-                                          <option value="" class="disabled selected">
+                                    <select class="form-control" name="subject_ids" required="1">
+                                        <option value="" class="disabled selected">
                                             <lable>Select your option</lable>
                                         </option>
                                         <t t-foreach="subject_ids or []" t-as="media_subject">
@@ -256,5 +256,29 @@
             </div>
         </t>
     </template>
+
+    <record id="view_op_media_purchase_inherited_form_view" model="ir.ui.view">
+        <field name="name">op.media.purchase.inherited.form.view</field>
+        <field name="model">op.media.purchase</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="openeducat_library.view_op_purchase_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='edition']" position="after">
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_op_media_purchase_inherited_tree_view" model="ir.ui.view">
+        <field name="name">op.media.purchase.inherited.tree.view</field>
+        <field name="model">op.media.purchase</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="openeducat_library.view_op_purchase_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requested_id']" position="after">
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

@@ -18,28 +18,10 @@
     <!-- Dashboard -->
     <menuitem id="menu_lms_main_dashboard"
               parent="menu_lms_main"
-              name="Dashboard"
-              sequence="5"/>
-
-    <!--<record id="action_lms_dashboard" model="ir.actions.client">
-        <field name="name">Dashboard</field>
-        <field name="tag">lms_dashboard</field>
-        <field name="target">main</field>
-    </record>-->
-
-    <menuitem id="menu_lms_dashboard"
-              parent="menu_lms_main_dashboard"
-              name="KPI Dashboard"
+              name="Course Dashboard"
               groups="openeducat_core.group_op_back_office"
               sequence="5"
               action="lms_dashboard_act"/>
-
-    <menuitem id="menu_openeducat_lms_dashboard"
-              name="Course Dashboard"
-              action="op_lms_dashboard_kanban"
-              parent="menu_lms_main_dashboard"
-              groups="openeducat_core.group_op_faculty"
-              sequence="6"/>
 
     <!-- Course -->
     <menuitem id="menu_op_course"

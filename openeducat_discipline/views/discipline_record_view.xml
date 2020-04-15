@@ -13,6 +13,7 @@
                     <field name="discipline_master"/>
                     <field name="recipients_ids" widget="many2many_tags"/>
                     <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -36,9 +37,12 @@
                                statusbar_visible="draft,email_sent,awaiting_letter,awaiting_meeting,action_taken"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group col="4" colspan="4">
                             <field name="student_id"/>
-                             <field name="progression_id"/>
+                            <field name="progression_id"/>
                             <field name="date"/>
                             <field name="course_id" readonly="1"/>
                             <field name="discipline_master"/>
@@ -48,6 +52,7 @@
                                     <field name="name"/>
                                 </tree>
                             </field>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <group>
                             <separator string="Misbehaviour Info" colspan="4"/>
@@ -94,6 +99,8 @@
                             domain="['&amp;',('date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),('date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d'))]"/>
                     <filter string="Month" name="month"
                             domain="[('date','&gt;=', context_today().strftime('%Y-%m-1')), ('date','&lt;', ((context_today() + relativedelta(months=1)).strftime('%Y-%m-1')) )]"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                     <group expand="0" string="Group By...">
                         <filter string="Student" name="group_by_student"
                                 domain="[]" context="{'group_by':'student_id'}"/>
@@ -136,13 +143,24 @@
                 </calendar>
             </field>
         </record>
+        <record model="ir.ui.view" id="view_op_discipline_graph">
+            <field name="name">op.discipline.graph</field>
+            <field name="model">op.discipline</field>
+            <field name="arch" type="xml">
+                <graph string="Discipline Graph View" type="bar">
+                    <field name="student_id"/>
+                    <field name="misbehaviour_category_id"/>
+                </graph>
+            </field>
+        </record>
+
 
         <record model="ir.actions.act_window" id="act_open_op_discipline_view">
             <field name="name">Discipline Records</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">op.discipline</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">calendar,tree,form,pivot</field>
+            <field name="view_mode">calendar,tree,form,pivot,graph</field>
             <field name="search_view_id" ref="view_op_discipline_search"/>
         </record>
 

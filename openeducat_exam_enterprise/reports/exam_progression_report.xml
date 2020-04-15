@@ -4,13 +4,13 @@
               inherit_id="openeducat_student_progress_enterprise.student_progression_report"
               priority="10">
         <xpath expr="//div[hasclass('progression')]" position="after">
-            <div t-if="objs.marksheet_lines" class="row mt32">
-                <div class="col-md-12">
-                    <div class="row mb16 col-md-6">
+            <div t-if="objs.marksheet_lines" class="row mt32" style="page-break-inside:avoid;">
+                <div class="col-md-12" style="page-break-inside:avoid;">
+                    <div class="row mb16 col-md-6" style="page-break-inside:avoid;">
                         <strong>Marksheet:</strong>
                     </div>
-                    <table class="table table-sm">
-                        <thead>
+                    <table class="table table-bordered" style="page-break-inside:avoid;">
+                        <thead class="text-center" style="background-color:#eeeeee; font-size:14px; font-weight:600;">
                             <tr>
                                 <th>Total Marks</th>
                                 <th>Percentage</th>
@@ -18,7 +18,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-center" style="font-size:12px;">
                             <t t-foreach="objs.marksheet_lines" t-as="lines">
                                 <tr>
                                     <td>

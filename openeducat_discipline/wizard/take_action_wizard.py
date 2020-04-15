@@ -72,7 +72,6 @@ class TakeAction(models.TransientModel):
             raise UserError(
                 _('The value of the deposit amount must be positive.'))
         df_product_1 = self.env.ref('openeducat_discipline.df_product_1')
-
         invoice = accounts.create({
             'partner_id': discipline.student_id.partner_id.id,
             'type': 'out_invoice',
@@ -87,7 +86,6 @@ class TakeAction(models.TransientModel):
                        'product_uom_id': df_product_1.uom_id.id,
                        'product_id': df_product_1.id, }
         invoice.write({'invoice_line_ids': [(0, 0, line_values)]})
-
         invoice._compute_invoice_taxes_by_group()
         self.state = 'invoice'
         self.invoice_id = invoice.id

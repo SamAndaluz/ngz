@@ -263,7 +263,7 @@ msgstr "عروض التنسيب"
 msgid "Placement Offers\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "عروض التوظيف\n"
-"                                <تمتد نمط = \"تعويم: الأيسر. الحشو: 0 20px 0 20px؛\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_placement_enterprise
 #: model:ir.model.fields,field_description:openeducat_placement_enterprise.field_res_users__placement_team_id

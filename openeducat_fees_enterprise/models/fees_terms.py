@@ -22,16 +22,26 @@ class OpFeesTemplateLine(models.Model):
         ('before', 'Before'), ('after', 'After')], 'Duration Type')
     days = fields.Integer('Days')
     template_id = fields.Many2one('mail.template', 'Template')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
 
 class OpFeesTermsLine(models.Model):
     _inherit = "op.fees.terms.line"
 
     line_ids = fields.One2many('op.fees.template.line', 'line_id', 'Lines')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
 
 class OpFeesTerms(models.Model):
     _inherit = "op.fees.terms"
+
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     @api.model
     def run_send_fees_reminder(self):

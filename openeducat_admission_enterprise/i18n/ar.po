@@ -101,7 +101,7 @@ msgstr "رسوم المبلغ"
 msgid "Fees Collection Details\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "رسوم تفاصيل المجموعات\n"
-"                                <تمتد نمط = \"تعويم: الأيسر. الحشو: 0 20px 0 20px؛\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_admission_enterprise
 #: model:ir.actions.server,name:openeducat_admission_enterprise.invoice_cron_ir_actions_server

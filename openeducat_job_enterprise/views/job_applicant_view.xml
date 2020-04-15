@@ -6,11 +6,12 @@
             <field name="model">op.job.applicant</field>
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
-                <tree string="Job Applicant">
+                <tree create="false" string="Job Applicant">
                     <field name="name"/>
                     <field name="user_id"/>
                     <field name="post_id"/>
                     <field name="stage_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -25,6 +26,9 @@
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <div class="oe_button_box" name="button_box">
                             <button name="action_get_attachment_tree_view"
                                     class="oe_stat_button pull-right"
@@ -47,9 +51,24 @@
                                 <group>
                                     <field name="date"/>
                                 </group>
-                                 <group>
+                                <group>
                                     <field name="mobile"/>
                                 </group>
+                                <group>
+                                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                                </group>
+                                <group string="Contract">
+                                    <label for="salary_expected"/>
+                                    <div class="o_row">
+                                        <field name="salary_expected"/>
+                                    </div>
+                                    <label for="salary_proposed"/>
+                                    <div class="o_row">
+                                        <field name="salary_proposed"/>
+                                    </div>
+                                    <field name="availability"/>
+                                </group>
+
                                 <field name="kanban_state" widget="kanban_state_selection"/>
                                 <field name="legend_normal" invisible="1"/>
                                 <field name="legend_blocked" invisible="1"/>
@@ -65,6 +84,24 @@
                 </form>
             </field>
         </record>
+
+        <record id="view_op_jobpost_applicant_search" model="ir.ui.view">
+            <field name="name">op.job.applicant.search</field>
+            <field name="model">op.job.applicant</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Job Applicant">
+                    <field name="name"/>
+                    <field name="post_id"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    <searchpanel>
+                        <field name="post_id" icon="fa-clipboard"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
         <record id="quick_create_job_form" model="ir.ui.view">
             <field name="name">op.job.applicant.form.quick_create</field>
             <field name="model">op.job.applicant</field>
@@ -83,7 +120,7 @@
             <field name="name">op.job.applicant.kanban</field>
             <field name="model">op.job.applicant</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="stage_id" class="o_kanban_applicant">
+                <kanban create="false" default_group_by="stage_id" class="o_kanban_applicant">
                     <field name="stage_id" options='{"group_by_tooltip": {"requirements": "Requirements"}}'/>
                     <field name="color"/>
                     <field name="priority"/>
@@ -130,10 +167,11 @@
                                     </div>
                                     <t t-if="record.mobile.raw_value">
                                         <i class="fa fa-mobile mr4" role="img" aria-label="Mobile" title="Mobile"/>
-                                        <field name="mobile" widget ="phone"/><br/>
+                                        <field name="mobile" widget="phone"/>
+                                        <br/>
                                     </t>
                                     <div class="o_kanban_record_bottom mt4">
-                                         <div class="float-left mr4" groups="base.group_user">
+                                        <div class="float-left mr4" groups="base.group_user">
                                             <field name="priority" widget="priority"/>
                                         </div>
                                         <div class="oe_kanban_bottom_left">
@@ -184,6 +222,41 @@
             </field>
         </record>
 
+        <record id="view_op_job_applicant_search" model="ir.ui.view">
+            <field name="name">op.job.applicant.search</field>
+            <field name="model">op.job.applicant</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="post_id"/>
+                    <searchpanel>
+                        <field name="post_id"/>
+                        <field name="company_id" icon="fa-building"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_op_job_applicant_pivot" model="ir.ui.view">
+            <field name="name">op.job.applicant.pivot</field>
+            <field name="model">op.job.applicant</field>
+            <field name="arch" type="xml">
+                <pivot string="Job Applicant">
+                    <field name="user_id" type="row"/>
+                    <field name="post_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_op_job_applicant_graph" model="ir.ui.view">
+            <field name="name">op.job.applicant.graph</field>
+            <field name="model">op.job.applicant</field>
+            <field name="arch" type="xml">
+                <graph string="Job Applicant" type="pie">
+                    <field name="post_id"/>
+                </graph>
+            </field>
+        </record>
 
         <!-- stage tree view-->
         <record model="ir.ui.view" id="job_stage_tree">
@@ -294,7 +367,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">op.job.applicant</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="view_mode">kanban,tree,form,activity,pivot,graph</field>
             <field name="context">{'default_post_id': 1}</field>
         </record>
 

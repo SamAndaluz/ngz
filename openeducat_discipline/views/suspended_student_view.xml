@@ -11,6 +11,7 @@
                     <field name="suspend_from_date"/>
                     <field name="suspend_to_date"/>
                     <field name="misbehaviour_category_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -27,6 +28,7 @@
                             <field name="suspend_from_date"/>
                             <field name="suspend_to_date"/>
                             <field name="misbehaviour_category_id"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                     </sheet>
                 </form>

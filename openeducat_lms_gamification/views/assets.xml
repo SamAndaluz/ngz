@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend_js" name="gamification assets"
+              inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link type="text/css"
+                  href="/openeducat_lms_gamification/static/src/scss/gamification_common.scss"
+                  rel="stylesheet"/>
+        </xpath>
+    </template>
+</odoo>

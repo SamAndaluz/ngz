@@ -21,7 +21,7 @@ class ProgressDiscipline(models.TransientModel):
     def _get_default_student(self):
         ctx = self._context
         if ctx.get('active_model') == 'op.student.progression':
-            obj = self.env['op.student.progression'].\
+            obj = self.env['op.student.progression']. \
                 browse(ctx.get('active_ids')[0])
             return obj.student_id
 
@@ -32,7 +32,7 @@ class ProgressDiscipline(models.TransientModel):
                                       string='Discipline')
 
     def Add_discipline(self):
-        core = self.env['op.student.progression'].\
+        core = self.env['op.student.progression']. \
             browse(self.env.context['active_ids'])
         for i in core:
             i.discipline_lines = self.discipline_ids

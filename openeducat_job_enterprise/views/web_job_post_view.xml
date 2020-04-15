@@ -27,7 +27,7 @@ box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15); margin-bottom: 30px;">
                                                 </div>
                                                 <div style="padding-top:15px;">
                                                     <i class="fa fa-map-marker"></i>
-                                                    <span t-field="jobs.street"/>
+                                                    <span id="street" t-field="jobs.street"/>
                                                     <span>,</span>
                                                     <span t-field="jobs.street2"/>
                                                     <span>,</span>
@@ -76,7 +76,7 @@ box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15); margin-bottom: 30px;">
                                         </p>
                                     </div>
                                     <div class="col-7 col-sm-7 col-md-6 col-lg-8">
-                                        <p class="mt0" t-field="job_post_id.employment_type"/>
+                                        <p class="mt0" id="job_post_field" t-field="job_post_id.employment_type"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -164,7 +164,7 @@ box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15); margin-bottom: 30px;">
                                         </p>
                                     </div>
                                     <div class="col-7 col-sm-7 col-md-6 col-lg-8">
-                                        <p class="mt0" t-field="job_description_id.job_post"/>
+                                        <p id="job_post" class="mt0" t-field="job_description_id.job_post"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -239,5 +239,4 @@ box-shadow: 0px 0px 15px 0px rgba(72, 73, 121, 0.15); margin-bottom: 30px;">
             </div>
         </t>
     </template>
-
 </odoo>

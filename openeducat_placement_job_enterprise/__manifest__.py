@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Placement Job',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Placement Job Post Management.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base',
@@ -25,7 +22,8 @@
                 'openeducat_skill_enterprise',
                 'openeducat_placement_enterprise',
                 'openeducat_job_enterprise'],
-    'data': ['security/ir.model.access.csv',
+    'data': ['security/op_security.xml',
+             'security/ir.model.access.csv',
              'data/template_mail.xml',
              'data/activity_announcement_data.xml',
              'data/mail_data.xml',

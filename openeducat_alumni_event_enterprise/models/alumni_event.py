@@ -17,7 +17,7 @@ class OpEvent(models.Model):
     alumni_event_id = fields.Many2one('op.alumni.group', string='Alumni Group')
 
 
-class opalumni(models.Model):
+class Opalumni(models.Model):
     _inherit = "op.alumni.group"
 
     event_ids = fields.One2many(

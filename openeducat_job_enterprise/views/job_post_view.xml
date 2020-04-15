@@ -24,7 +24,7 @@
 
                                         <div class="o_primary col-12">
                                             <span>
-                                                <t t-esc="record.name.value"/>
+                                                <t t-esc="record.job_post.value"/>
                                             </span>
                                         </div>
                                         <div class="o_kanban_record_subtitle col-12 text-muted">
@@ -61,8 +61,8 @@
                                             <a t-if="widget.editable" name="edit_job" type="edit">Edit</a>
                                         </div>
                                         <div t-if="widget.deletable">
-                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
-                                    </div>
+                                            <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                        </div>
                                     </div>
                                     <div role="menuitem" aria-haspopup="true">
                                         <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
@@ -101,6 +101,8 @@
                     <field name="start_date"/>
                     <field name="end_date"/>
                     <field name="created_by"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    <field name="department_id" groups="openeducat_core.group_multi_department"/>
                 </tree>
             </field>
         </record>
@@ -127,6 +129,9 @@
                         <field name="states" widget="statusbar" statusbar_visible="submit,done"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group>
                             <group string="Job Position" name="jobposition">
                                 <field name="name"/>
@@ -160,6 +165,8 @@
                                 <field name="start_date"/>
                                 <field name="end_date"/>
                                 <field name="expected_employees"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                                <field name="department_id" groups="openeducat_core.group_multi_department"/>
                             </group>
                         </group>
                         <group>
@@ -179,8 +186,8 @@
             <field name="model">op.job.post</field>
             <field name="arch" type="xml">
                 <pivot string="Job Post Records">
-                    <field name="start_date"/>
-                    <field name="end_date"/>
+                    <field name="job_post" type="col"/>
+                    <field name="city" type="row"/>
                 </pivot>
             </field>
         </record>
@@ -192,9 +199,15 @@
             <field name="arch" type="xml">
                 <search string="Job Post">
                     <field name="name"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    <searchpanel>
+                        <field name="company_id" icon="fa-building"/>
+                    </searchpanel>
                 </search>
             </field>
         </record>
+
         <record model="ir.actions.act_window" id="act_open_op_job_post_view">
             <field name="name">Job Post</field>
             <field name="type">ir.actions.act_window</field>

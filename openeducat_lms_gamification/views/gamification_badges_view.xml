@@ -25,11 +25,11 @@
                                     <li>
                                         <div class="menu-icon">
                                             <a href="#">
-                                                <img t-if="not badges.image"
+                                                <img t-if="not badges.image_1920"
                                                      t-attf-src="/openeducat_lms/static/src/img/channel-default.jpg"
                                                      class="img img-fluid"
                                                      style="max-width: 85%;"/>
-                                                <img t-if="badges.image"
+                                                <img t-if="badges.image_1920"
                                                      t-attf-src="/web/image/gamification.badge/#{badges.id}/image"
                                                      class="img img-fluid"
                                                      style="max-width: 85%;"/>

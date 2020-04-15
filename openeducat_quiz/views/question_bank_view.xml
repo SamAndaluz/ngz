@@ -11,6 +11,7 @@
                     <field name="name"/>
                     <field name="bank_type_id"/>
                     <field name="description"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -23,9 +24,13 @@
             <field name="arch" type="xml">
                 <form string="Question Bank">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group>
                             <field name="name" required="1"/>
                             <field name="bank_type_id" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <notebook colspan="4">
                             <page string="Questions">
@@ -48,6 +53,16 @@
                                                    attrs="{'invisible': [('que_type', '!=', 'blank')], 'required': [('que_type', '=', 'blank')]}"/>
                                             <field name="grade_false_id"
                                                    attrs="{'invisible': [('que_type', '!=', 'blank')], 'required': [('que_type', '=', 'blank')]}"/>
+                                            <field name="material_type"/>
+                                            <field name="video_type"
+                                                   attrs="{'invisible': [('material_type', 'not in', ['video'])],'required':[('material_type', 'in', ['video'])]}"/>
+                                            <field name="datas" widget="binary"
+                                                   attrs="{'invisible': ['|','&amp;',('material_type', 'in', ['quiz']),('video_type', 'in', ['fileupload']),'&amp;','&amp;',('material_type', 'not in', ['audio','document','infographic']),('video_type', 'in', ['youtube','vimeo','dartfish']),('video_type', 'not in', ['fileupload'])]}"/>
+                                            <field name="url"
+                                                    attrs="{'invisible': ['|', ('material_type', '!=', 'video'), ('video_type', '=', 'fileupload')]}"/>
+                                            <field name="document_id"
+                                                   attrs="{'invisible': ['|', ('material_type', '!=','video'), ('video_type', '=', 'fileupload')]}"/>
+
                                         </group>
                                         <notebook colspan="4" attrs="{'invisible': [('que_type', '!=', 'optional')]}">
                                             <page string="Answers">
@@ -85,6 +100,8 @@
             <field name="arch" type="xml">
                 <search string="Question Bank">
                     <field name="name" select="True"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>
@@ -122,6 +139,7 @@
                 <tree string="Question Bank Type">
                     <field name="name"/>
                     <field name="description"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -134,8 +152,12 @@
             <field name="arch" type="xml">
                 <form string="Question Bank Type">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group>
                             <field name="name" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <field name="description" placeholder="Description..."/>
                     </sheet>
@@ -151,6 +173,8 @@
             <field name="arch" type="xml">
                 <search string="Question Bank Type">
                     <field name="name" select="True"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>

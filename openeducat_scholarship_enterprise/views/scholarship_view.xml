@@ -11,6 +11,7 @@
                     <field name="student_id"/>
                     <field name="type_id"/>
                     <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -27,10 +28,14 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirm,reject"/>
                     </header>
                     <sheet>
-                        <group colspan="4">
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group col="4">
                             <field name="name"/>
                             <field name="student_id"/>
                             <field name="type_id"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -48,6 +53,8 @@
             <field name="arch" type="xml">
                 <search string="Scholarship">
                     <field name="name"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Name" name="group_by_schol_name"

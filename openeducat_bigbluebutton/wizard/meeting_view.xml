@@ -13,7 +13,8 @@
                             <group>
                                 <field name="name" required="1"/>
                                 <field name="apw" required="1"/>
-                                <field name="session_id" invisible="1"/>
+                                <field name="meeting_id" invisible="1"/>
+                                <field name="invite_via_email" readonly="0"/>
                             </group>
                             <group>
                                 <field name="user_id" readonly="1"/>

@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -37,6 +37,10 @@ class OpLesson(models.Model):
     end_datetime = fields.Datetime(string='End Time')
     session_ids = fields.Many2many("op.session", "lesson_session_rel_1",
                                    string="Session")
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
     state = fields.Selection(
         [('draft', 'Draft'), ('plan', 'Planned'),
          ('conduct', 'Conducted'), ('cancel', 'Cancelled')],
@@ -57,8 +61,8 @@ class OpLesson(models.Model):
     @api.constrains('start_datetime', 'end_datetime')
     def _check_date_time(self):
         if self.start_datetime > self.end_datetime:
-            raise ValidationError(
-                'End Time cannot be set before Start Time.')
+            raise ValidationError(_(
+                'End Time cannot be set before Start Time.'))
 
     @api.onchange('course_id')
     def onchange_course_id(self):
@@ -80,7 +84,7 @@ class OpLesson(models.Model):
         if self.faculty_id:
             session_ids = self.env['op.faculty'].search([
                 ('id', '=', self.faculty_id.id)]).session_ids
-            return{
+            return {
                 'domain': {'session_ids': [('id', 'in', session_ids.ids)]}
             }
 

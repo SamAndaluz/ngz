@@ -12,7 +12,7 @@
         </record>
 
         <record id="op_qu_bnk_c" model="op.question.bank">
-            <field name="name">First Mid-Term C</field>
+            <field name="name">General Knowledge</field>
             <field name="bank_type_id" ref="op_qu_bnk_typ_c"/>
         </record>
 
@@ -23,6 +23,11 @@
 
         <record id="op_qu_bnk_gk" model="op.question.bank">
             <field name="name">Checkout Your GK</field>
+            <field name="bank_type_id" ref="op_qu_bnk_typ_gk"/>
+        </record>
+
+        <record id="op_qu_bnk_que" model="op.question.bank">
+            <field name="name">simple Questions</field>
             <field name="bank_type_id" ref="op_qu_bnk_typ_gk"/>
         </record>
     </data>

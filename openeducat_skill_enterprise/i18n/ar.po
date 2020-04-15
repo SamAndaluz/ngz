@@ -149,7 +149,7 @@ msgstr "مهارات"
 msgid "Skills\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "مهارات\n"
-"                                <تمتد نمط = \"تعويم: الأيسر. الحشو: 0 20px 0 20px؛\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_skill_enterprise
 #: model:ir.actions.act_window,name:openeducat_skill_enterprise.act_open_op_skill_category_view

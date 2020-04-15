@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Classroom',
     'complexity': "easy",
-    'description': """
-        This module adds classroom management feature to OpenEduCat_Core.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -26,6 +23,7 @@
     ],
     'data': [
         'security/op_security.xml',
+        'views/classroom_view.xml',
     ],
     'demo': [
     ],

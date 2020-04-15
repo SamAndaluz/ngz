@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Exam',
     'complexity': "easy",
-    'description': """
-        This module provide exam management system.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -27,6 +24,14 @@
     ],
     'data': [
         'security/op_security.xml',
+        'views/exam_view.xml',
+        'views/exam_attendees_view.xml',
+        'views/result_template_view.xml',
+        'views/marksheet_register_view.xml',
+        'views/marksheet_line_view.xml',
+        'views/result_line_view.xml',
+        'views/exam_room_view.xml',
+        'views/exam_type_view.xml',
         'views/exam_dashboard_view.xml',
         'dashboard/exam_dashboard.xml',
         'wizards/progression_marksheet_wizard_view.xml',

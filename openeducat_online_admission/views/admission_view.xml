@@ -4,6 +4,7 @@
         <record id="view_op_admission_inherit_online_form" model="ir.ui.view">
             <field name="name">op.admission.form</field>
             <field name="model">op.admission</field>
+            <field name="priority" eval="100"/>
             <field name="type">form</field>
             <field name="inherit_id" ref="openeducat_admission.view_op_admission_form"/>
             <field name="arch" type="xml">

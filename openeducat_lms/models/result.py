@@ -43,7 +43,7 @@ class OpQuizResult(models.Model):
             not_attempt_ans = 1
         message = ''
         is_message = 0
-        for msg in quiz.message_ids:
+        for msg in quiz.quiz_message_ids:
             result_to = msg.result_to
             result_from = msg.result_from
             if (self.score <= result_to) and (self.score >= result_from):

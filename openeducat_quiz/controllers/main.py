@@ -8,11 +8,15 @@
 #
 ##############################################################################
 
-from datetime import datetime
+import werkzeug
+import base64
 
+
+from datetime import datetime
 from odoo import http
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
+from odoo.exceptions import AccessError
 
 
 class OpeneducatQuizRender(http.Controller):
@@ -22,7 +26,7 @@ class OpeneducatQuizRender(http.Controller):
         not_attempt_answer = []
         right_answers = []
 
-        result = request.env['op.quiz.result'].\
+        result = request.env['op.quiz.result']. \
             sudo().browse(int(values['ExamID']))
         result_line_answer = request.env['op.quiz.result.line.answers']
         for line in result.line_ids:
@@ -43,30 +47,30 @@ class OpeneducatQuizRender(http.Controller):
                         'answer': line.answer or '',
                     })
                     line.mark = answer.grade_id.value * \
-                                line.question_mark / 100
+                        line.question_mark / 100
             elif ('blank' + str(line.id)) in values:
                 line.given_answer = values['blank' + str(line.id)]
                 if line.case_sensitive:
                     if line.answer == line.given_answer:
-                        received_mark = (
-                                                line.question_mark * (
-                                                line.grade_true_id.value or 0.0)) / 100
+                        received_mark = (line.question_mark * (
+                            line.grade_true_id.
+                            value or 0.0)) / 100
                         line.mark = received_mark
                     else:
-                        received_mark = (
-                                                line.question_mark * (
-                                                line.grade_false_id.value or 0.0)) / 100
+                        received_mark = (line.question_mark * (
+                            line.grade_false_id.
+                            value or 0.0)) / 100
                         line.mark = received_mark
                 else:
                     if line.answer.lower() == line.given_answer.lower():
-                        received_mark = (
-                                                line.question_mark * (
-                                                line.grade_true_id.value or 0.0)) / 100
+                        received_mark = (line.question_mark * (
+                            line.grade_true_id.
+                            value or 0.0)) / 100
                         line.mark = received_mark
                     else:
-                        received_mark = (
-                                                line.question_mark * (
-                                                line.grade_false_id.value or 0.0)) / 100
+                        received_mark = (line.question_mark * (
+                            line.grade_false_id.
+                            value or 0.0)) / 100
                         line.mark = received_mark
             elif ('descriptive' + str(line.id)) in values:
                 line.given_answer = values['descriptive' + str(line.id)]
@@ -113,8 +117,9 @@ class OpeneducatQuizRender(http.Controller):
     @http.route('/users/result-overview', type="http", auth="user",
                 website=True)
     def get_result_overview(self, **post):
-        quiz_result = request.env['op.quiz.result']
+        quiz_result = request.env['op.quiz.result'].search([])
         user = request.env['res.users'].browse(request.env.uid)
+
         post['user'] = user
         attempt = quiz_result.sudo().search(
             [('user_id', '=', user.id)])
@@ -128,9 +133,11 @@ class OpeneducatQuizRender(http.Controller):
         post['progress'] = progress
         post['result_btn'] = 0
         data = []
-        attempt = attempt.filtered(lambda r: r.state == 'done')
-        for res in attempt:
+        attempts = attempt.filtered(lambda r: r.state == 'done')
+        for res in attempts:
             data.append({
+                'id': res.id,
+                'index': res.index,
                 'name': res.quiz_id.name,
                 'ttl_que': res.total_question or 0,
                 'ttl_crct': res.total_correct or 0,
@@ -139,6 +146,7 @@ class OpeneducatQuizRender(http.Controller):
                 'rec_marks': res.received_marks or 0,
                 'score': str(res.score or 0) + ' %',
                 'finish_date': res.finish_date,
+                'display_result': res.quiz_id.display_result,
             })
         post['result_data'] = data
         return http.request.render('openeducat_quiz.my_result', post)
@@ -245,32 +253,32 @@ class OpeneducatQuizRender(http.Controller):
                         int(kwargs['answer']))
                     line.given_answer = answer.name
                     line.mark = answer.grade_id.value * \
-                                line.question_mark / 100
+                        line.question_mark / 100
                 elif line.que_type == 'blank':
                     line.given_answer = str(kwargs['answer'])
                     if line.case_sensitive:
                         if line.answer == line.given_answer:
                             received_mark = (line.question_mark * (
-                                    line.grade_true_id.value or 0.0)) / 100
+                                line.grade_true_id.value or 0.0)) / 100
                             line.mark = received_mark
                         else:
                             received_mark = (line.question_mark * (
-                                    line.grade_false_id.value or 0.0)) / 100
+                                line.grade_false_id.value or 0.0)) / 100
                             line.mark = received_mark
                     else:
                         if line.answer.lower() == line.given_answer.lower():
                             received_mark = (line.question_mark * (
-                                    line.grade_true_id.value or 0.0)) / 100
+                                line.grade_true_id.value or 0.0)) / 100
                             line.mark = received_mark
                         else:
                             received_mark = (line.question_mark * (
-                                    line.grade_false_id.value or 0.0)) / 100
+                                line.grade_false_id.value or 0.0)) / 100
                             line.mark = received_mark
                 elif line.que_type == 'descriptive':
                     line.given_answer = str(kwargs['answer'])
             line_val = line.result_id.get_prev_next_result(line.id)
             if line_val['next_result']:
-                return request.redirect('/quiz/attempt/%s/question/%s' % (
+                return request.redirect('/quiz/attempt/%s/question/%s?fullscreen=1' % (
                     line.result_id.id, int(line_val['next_result'])))
             else:
                 result_line.search_count(
@@ -287,6 +295,14 @@ class OpeneducatQuizRender(http.Controller):
         data = result.get_answer_data()
         return http.request.render(
             'openeducat_quiz.quiz_results', data)
+
+    @http.route('/exam/result/<int:res_id>', type='http',
+                auth='user', website=True)
+    def exam_result(self, res_id):
+        result = request.env['op.quiz.result'].sudo().search([
+            ('state', '=', 'done'), ('id', '=', res_id)])
+        return request.render('openeducat_quiz.exam_results', {
+            'result': result})
 
     @http.route([
         '/quiz/attempt/<model("op.quiz.result"):result>',
@@ -403,7 +419,31 @@ class OpeneducatQuizRender(http.Controller):
             'time_spent_minute': time_spent_minute,
             'time_spent_second': time_spent_second,
         })
+        if post.get('fullscreen') == '1':
+            return request.render("openeducat_quiz."
+                                  "quiz_render_form_view_fullscreen", post)
         return request.render("openeducat_quiz.quiz_render_form_view", post)
+
+    @http.route('/material/embed/<int:material_id>', type='http',
+                auth='public', website=True)
+    def materials_embed(self, material_id, page="1", **kw):
+        try:
+            template = 'openeducat_quiz.embed_material'
+            material = request.env['op.quiz.line'].browse(material_id)
+        except AccessError:
+            template = 'openeducat_quiz.embed_material_forbidden'
+            material = request.env['op.quiz.line'].sudo().browse(material_id)
+        return request.render(template, {'material': material})
+
+    @http.route('''/quiz/material/<model( \
+                    "op.quiz.line", "[('datas', '!=', False), ( \
+                    'material_type', '=', 'document')]"):material>/pdf_content''',
+                type='http', auth="public", website=True)
+    def material_get_pdf_content(self, material):
+        response = werkzeug.wrappers.Response()
+        response.data = material.datas and base64.b64decode(material.datas) or b''
+        response.mimetype = 'application/pdf'
+        return response
 
     @http.route('/quiz/<model("op.quiz.result"):result>', type='http',
                 auth='user', website=True)
@@ -413,17 +453,26 @@ class OpeneducatQuizRender(http.Controller):
             'result': result,
             'total_question': result.total_question
         })
-        if not result.quiz_id.single_que:
-            return request.render("openeducat_quiz.quiz_web_page", post)
-        return request.render(
-            "openeducat_quiz.quiz_web_page_single", post)
+
+        if post.get('fullscreen') == '1':
+            if not result.quiz_id.single_que:
+                return request.render("openeducat_quiz.quiz_web_page_fullscreen",
+                                      post)
+            return request.render(
+                "openeducat_quiz.quiz_web_page_single_fullscreen", post)
+        else:
+            if not result.quiz_id.single_que:
+                return request.render("openeducat_quiz.quiz_web_page", post)
+            return request.render(
+                "openeducat_quiz.quiz_web_page_single", post)
 
     @http.route('/quiz/results', type="http", auth="public", website=True)
     def quiz_result(self, **kwargs):
         values = {}
         for field_name, field_value in kwargs.items():
             values[field_name] = field_value
-        result = request.env['op.quiz.result'].sudo().browse(int(values['ExamID']))
+        result = request.env['op.quiz.result'].sudo(). \
+            browse(int(values['ExamID']))
         quiz = result.sudo().quiz_id
         value = self.get_quiz_result_data(values)
         if not quiz.show_result:
@@ -433,8 +482,8 @@ class OpeneducatQuizRender(http.Controller):
     @http.route('/quiz/configuration', type="json", auth="user", website=True)
     def quiz_configuration(self, result_id, **kwargs):
         if result_id:
-            result = request.env['op.quiz.result'].browse(int(result_id))
-            quiz = result.quiz_id
+            result = request.env['op.quiz'].browse(int(result_id))
+            quiz = result
             data = {
                 'prev_allow': 1 if quiz.prev_allow else 0,
                 'prev_readonly': 1 if quiz.prev_readonly else 0,

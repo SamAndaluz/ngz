@@ -15,27 +15,22 @@
     "sequence": 3,
     'summary': 'Track student attendance',
     'complexity': "easy",
-    'description': """
-This module aims to manage student's attendances.
-==================================================
-
-Keeps account of the attendances of the students via kiosk mode and
-barcode scanner.
-        """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
         'openeducat_core',
-        'openeducat_attendance',
-        'barcodes'
+        'openeducat_attendance_enterprise',
+        'barcodes',
+        'openeducat_student_progress_enterprise'
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/web_asset_backend_template.xml',
+        'views/op_student_progression_portal.xml',
         'views/student_attendance_view.xml',
         'views/op_student_view.xml',
-        'views/op_student_progression_portal.xml',
         'menus/openeducat_student_attendance_enterprise_menu.xml',
+        'reports/student_badge.xml',
         'reports/attendance_timesheet_progression_report.xml',
     ],
     'qweb': [

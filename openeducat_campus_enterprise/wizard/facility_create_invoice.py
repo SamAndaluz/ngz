@@ -14,7 +14,7 @@ from odoo.exceptions import UserError
 
 class FacilityInvoice(models.TransientModel):
     _name = "facility.invoice"
-    _description = "Faculty Invoice"
+    _description = "facility Invoice"
 
     partner_id = fields.Many2one('res.partner', 'Customer', required=True)
     product_id = fields.Many2one('product.product', 'Product', required=True)
@@ -36,31 +36,29 @@ class FacilityInvoice(models.TransientModel):
                    You may have to install a chart of account from Accounting \
                    app, settings menu.') % (product.name,))
 
-        invoice = self.env['account.invoice'].create({
+        invoice = self.env['account.move'].create({
             'partner_id': self.partner_id.id,
             'type': 'out_invoice',
-            'reference': False,
-            'date_invoice': fields.Date.today(),
-            'account_id': self.partner_id.property_account_receivable_id.id,
+            'invoice_date': fields.Date.today(),
             'invoice_line_ids': [(0, 0, {
                 'name': product.name,
                 'account_id': account_id,
                 'price_unit': self.product_id.list_price,
                 'quantity': 1.0,
                 'discount': 0.0,
-                'uom_id': self.product_id.uom_id.id,
+                'product_uom_id': self.product_id.uom_id.id,
                 'product_id': product.id,
             })],
         })
-        invoice.compute_taxes()
+        invoice._compute_invoice_taxes_by_group()
         facility.invoice_id = invoice.id
-        form_view = self.env.ref('account.invoice_form')
-        tree_view = self.env.ref('account.invoice_tree')
+        form_view = self.env.ref('account.view_move_form')
+        tree_view = self.env.ref('account.view_invoice_tree')
         value = {
             'domain': str([('id', '=', invoice.id)]),
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'account.invoice',
+            'res_model': 'account.move',
             'view_id': False,
             'views': [(form_view.id, 'form'),
                       (tree_view.id, 'tree')],

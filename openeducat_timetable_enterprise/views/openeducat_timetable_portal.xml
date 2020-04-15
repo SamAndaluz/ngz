@@ -47,7 +47,7 @@
                             <t t-if="timetable_ids" t-foreach="timetable_ids" t-as="timetable">
                                 <tr>
                                     <td>
-                                        <span t-esc="timetable.faculty_id.name"/>
+                                        <span id='test' t-esc="timetable.faculty_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="timetable.course_id.name"/>

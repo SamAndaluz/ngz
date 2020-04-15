@@ -101,7 +101,7 @@ msgstr "frais Montant"
 msgid "Fees Collection Details\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Frais Détails de la collection\n"
-"                                <Span style = \"float: left; padding: 0 0 20px 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_admission_enterprise
 #: model:ir.actions.server,name:openeducat_admission_enterprise.invoice_cron_ir_actions_server

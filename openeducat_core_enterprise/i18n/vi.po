@@ -489,7 +489,7 @@ msgstr "Thực hiện các công việc tốt trong công việc"
 msgid "Educational\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "giáo dục\n"
-"                                <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_core_enterprise.openeducat_create_subject_registration
@@ -799,7 +799,7 @@ msgstr "Người có một số phù hiệu"
 msgid "Personal Information\n"
 "                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Thông tin cá nhân\n"
-"                                    <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model:op.badge.student,badge_name:openeducat_core_enterprise.op_badge_student_2

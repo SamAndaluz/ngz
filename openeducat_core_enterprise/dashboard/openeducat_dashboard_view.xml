@@ -10,18 +10,18 @@
             <field name="name">op.course.dashboard.kanban</field>
             <field name="model">op.course</field>
             <field name="arch" type="xml">
-                <kanban create="false" class="oe_background_grey o_kanban_dashboard o_account_kanban"
+                <kanban create="true" class="oe_background_grey o_kanban_dashboard o_account_kanban"
                         banner_route="/openeducat_core_enterprise/openeducat_core_enterprise_onboarding_panel">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="color"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} " style="width:306px;">
                                 <div t-attf-class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
-                                            <a>
+                                            <a type="edit" class="mr-auto">
                                                 <field name="name"/>
                                             </a>
                                         </div>
@@ -38,23 +38,33 @@
                                     </div>
                                 </div>
                                 <div class="container o_kanban_card_content">
-                                    <div class="row">
-                                        <div name="first_column" class="col-md-3 o_kanban_primary_left">
-                                            <button name="%(openeducat_core_enterprise.act_course_dashboard_op_student_view)d"
-                                                    type="action" class="btn btn-primary  btn-sm">Students
-                                            </button>
+                                    <div class="row col-md-12" style="padding: 0px; overflow: visible">
+                                        <div class="col-md-6">
+                                            <div name="first_column" class="col-md-12 o_kanban_primary_left">
+                                                <a name="%(openeducat_core_enterprise.act_course_dashboard_op_student_view)d"
+                                                   type="action" style="overflow: visible;">
+                                                    <field name="studnet_count"/>
+                                                    Students
+                                                </a>
+                                            </div>
+                                             <div name="forth_column" class="col-md-12 o_kanban_primary_left">
+                                            </div>
+
                                         </div>
-                                        <div name="second_column" class="col-md-3 o_kanban_primary_left">
-                                            <button name="%(act_dashboard_op_batch_view)d" type="action"
-                                                    class="btn btn-primary btn-sm">Batches
-                                            </button>
-                                        </div>
-                                        <div name="third_column" class="col-md-3 o_kanban_primary_left">
-                                            <button name="%(act_dashboard_op_subject_view)d" type="action"
-                                                    class="btn btn-primary btn-sm">Subjects
-                                            </button>
-                                        </div>
-                                        <div name="forth_column" class="col-md-3 o_kanban_primary_left">
+                                        <div class="col-md-6">
+                                            <div name="third_column" class="col-md-12 o_kanban_primary_left">
+                                                <a name="%(act_dashboard_op_subject_view)d" type="action" style="overflow: visible;">
+                                                    <field name="subject_count"/>
+                                                    Subjects
+                                                </a>
+                                            </div>
+                                            <div name="second_column" class="col-md-12 o_kanban_primary_left">
+                                                <a name="%(act_dashboard_op_batch_view)d" type="action" style="overflow: visible;">
+                                                    <field name="batch_count"/>
+                                                    Batches
+                                                </a>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div name="graph_section" class="o_kanban_graph_section"></div>
@@ -104,6 +114,7 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,form</field>
             <field name="usage">menu</field>
+            <field name="view_id" ref="openeducat_core.view_op_course_form"/>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p>This is the Course Dashboard.</p>
@@ -128,17 +139,17 @@
             <field name="name">op.batch.dashboard.kanban</field>
             <field name="model">op.batch</field>
             <field name="arch" type="xml">
-                <kanban create="false" class="oe_background_grey o_kanban_dashboard o_account_kanban">
+                <kanban create="true" class="oe_background_grey o_kanban_dashboard o_account_kanban">
                     <field name="id"/>
                     <field name="name"/>
                     <field name="color"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)}" style="width:306px;">
                                 <div t-attf-class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
-                                            <a>
+                                            <a type="edit" class="mr-auto">
                                                 <field name="name"/>
                                             </a>
                                         </div>
@@ -155,13 +166,16 @@
                                     </div>
                                 </div>
                                 <div class="container o_kanban_card_content">
-                                    <div class="row">
-                                        <div name="first_column" class="col-md-3 o_kanban_primary_left">
-                                            <button name="%(openeducat_core_enterprise.act_batch_dashboard_op_student_view)d"
-                                                    type="action" class="btn btn-primary btn-sm">Students
-                                            </button>
+                                    <div class="row col-md-12" style="padding-right:0px;">
+                                        <div name="first_column" class="col-md-6 o_kanban_primary_left">
+                                            <a name="%(openeducat_core_enterprise.act_batch_dashboard_op_student_view)d"
+                                               type="action" style="overflow: visible;">
+                                                <field name="studnet_count"/>
+                                                Students
+                                            </a>
+                                            <div name="second_column" class=" o_kanban_primary_right"></div>
                                         </div>
-                                        <div name="second_column" class="col-md-3 o_kanban_primary_right"></div>
+
                                         <div name="third_column" class="col-md-6 o_kanban_primary_right"></div>
                                     </div>
                                     <div name="graph_section" class="o_kanban_graph_section"></div>
@@ -174,7 +188,6 @@
                                                 <span>Views</span>
                                             </div>
                                         </div>
-
                                         <div class="col-md-4 o_kanban_card_manage_section o_kanban_manage_new">
                                             <div name="openeducat_new" role="menuitem"
                                                  class="o_kanban_card_manage_title">
@@ -211,10 +224,18 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,form</field>
             <field name="usage">menu</field>
+            <field name="view_id" ref="openeducat_core.view_op_batch_form"/>
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p>This is the Batch Dashboard.</p>
             </field>
+        </record>
+
+        <record id="open_batch_dashboard_action" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="openeducat_batch_dashboard_kanban_view"/>
+            <field name="act_window_id" ref="open_batch_dashboard_kanban"/>
         </record>
 
         <menuitem id="menu_batch_dashboard_openeducat"

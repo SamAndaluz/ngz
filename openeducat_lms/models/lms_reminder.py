@@ -100,9 +100,9 @@ class MaterialReminder(models.Model):
                             days = int(material.wait_until_duration * 7)
                     if days > 0:
                         enroll_date = (
-                                datetime.strptime(
-                                    enrollment.enrollment_date,
-                                    '%Y-%m-%d %H:%M:%S') + timedelta(days=1)
+                            datetime.strptime(
+                                enrollment.enrollment_date,
+                                '%Y-%m-%d %H:%M:%S') + timedelta(days=1)
                         ).date()
                         if str(enroll_date) == str(today_date):
                             temp = True
@@ -114,10 +114,10 @@ class MaterialReminder(models.Model):
                             month = material.wait_until_duration * 12
                     if month > 0:
                         enroll_date = (
-                                datetime.strptime(
-                                    enrollment.enrollment_date,
-                                    '%Y-%m-%d %H:%M:%S') +
-                                relativedelta(months=month)).date()
+                            datetime.strptime(
+                                enrollment.enrollment_date,
+                                '%Y-%m-%d %H:%M:%S') +
+                            relativedelta(months=month)).date()
                         if str(enroll_date) == str(today_date):
                             temp = True
                     if temp:

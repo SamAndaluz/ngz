@@ -156,8 +156,6 @@ class LibraryPortal(CustomerPortal):
             'media_type_id': int(kw['media_type_ids']),
             'subject_ids': int(kw['subject_ids']),
         }
-
-
         media_id = request.env['op.media.purchase'].sudo().create(vals)
         media_id.act_requested()
 
@@ -184,7 +182,8 @@ class LibraryPortal(CustomerPortal):
                 [('requested_id', '=', student_id.partner_id.id)])
 
         return request.render(
-            "openeducat_library_enterprise.portal_submited_purchase_request_list",
+            "openeducat_library_enterprise."
+            "portal_submited_purchase_request_list",
             {'purchase_ids': media_purchase_id})
 
     @http.route(['/media/movement/list/',
@@ -208,7 +207,8 @@ class LibraryPortal(CustomerPortal):
             [('id', '=', media_movement_id)])
 
         return request.render(
-            "openeducat_library_enterprise.portal_student_media_movement_information",
+            "openeducat_library_enterprise."
+            "portal_student_media_movement_information",
             {'media_movement_ids': media_movement})
 
 

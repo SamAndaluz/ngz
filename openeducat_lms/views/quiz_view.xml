@@ -5,6 +5,7 @@
             <field name="name">op.quiz.form</field>
             <field name="model">op.quiz</field>
             <field name="type">form</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="openeducat_quiz.view_op_quiz_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='total_marks']" position="after">

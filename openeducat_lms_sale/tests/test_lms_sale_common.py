@@ -16,3 +16,4 @@ class TestLmsCommonSale(common.SavepointCase):
         self.op_course = self.env['op.course']
         self.op_material = self.env['op.material']
         self.op_enrollment = self.env['op.course.enrollment']
+        self.op_sale_order = self.env['sale.order']

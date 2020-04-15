@@ -18,32 +18,32 @@ msgstr ""
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Address :</b>"
-msgstr "<ب> العنوان: </ B>"
+msgstr "<b>ب> العنوان: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Description :</b>"
-msgstr "<ب> وصف: </ B>"
+msgstr "<b>ب> وصف: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Employment Type :</b>"
-msgstr "<ب> العمل: </ B>"
+msgstr "<b>ب> العمل: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Job Post :</b>"
-msgstr "<b> نشر الوظيفة: </ B>"
+msgstr "<b> نشر الوظيفة: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Salary :</b>"
-msgstr "<ب> راتب: </ B>"
+msgstr "<b>ب> راتب: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.job_post_list
 msgid "<span>Open Positions</span>"
-msgstr "<SPAN> المراكز المفتوحة </ SPAN>"
+msgstr "<span> المراكز المفتوحة </span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_job_applicant__message_needaction
@@ -329,7 +329,7 @@ msgstr "العمل المشاركة التفاصيل"
 msgid "Job Post Detail\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "العمل المشاركة التفاصيل\n"
-"                                <تمتد نمط = \"تعويم: الأيسر. الحشو: 0 20px 0 20px؛\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_student__job_post_ids
@@ -687,8 +687,7 @@ msgstr "سنوي"
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "Yes I\n"
 "                                        Am Interested!"
-msgstr "نعم أنا\n"
-"                                        أنا مهتم!"
+msgstr "أنا مهتم!نعم أنا\n"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.thankyou_ir_ui_view

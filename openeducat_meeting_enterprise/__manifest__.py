@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Meeting',
     'complexity': "easy",
-    'description': """
-        This module provide Meeting system.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -26,6 +23,7 @@
         'openeducat_core_enterprise',
     ],
     'data': [
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'wizard/op_meeting_wizard_view.xml',
         'views/op_meeting_view.xml',
@@ -36,10 +34,6 @@
     'demo': [
         'demo/calendar_event_type_data.xml',
         'demo/op_meeting_demo.xml',
-    ],
-    'test': [
-        'test/res_users_test.yml',
-        'test/parent_faculty_meeting.yml'
     ],
     'images': [
         'static/description/openeducat_meeting_enterprise_banner.jpg',

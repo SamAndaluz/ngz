@@ -11,6 +11,7 @@
                     <field name="name"/>
                     <field name="material_type"/>
                     <field name="user_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -23,6 +24,9 @@
             <field name="arch" type="xml">
                 <form string="Course Material">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button"
                                     name="website_lms_publish_button" type="object"
@@ -40,6 +44,7 @@
                         <group col="4" colspan="4">
                             <field name="user_id" readonly="1"/>
                             <field name="website_url"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <notebook>
                             <page name="general" string="General">
@@ -73,6 +78,7 @@
                                     <field name="quiz_id" domain="[('lms', '=', True)]"
                                            attrs="{'invisible': [('material_type', '!=', 'quiz')], 'required': [('material_type', '=', 'quiz')]}"/>
                                     <field name="total_time" widget="float_time"/>
+
                                 </group>
                             </page>
                             <page string="Description">
@@ -101,6 +107,8 @@
             <field name="arch" type="xml">
                 <search string="Course">
                     <field name="name" select="True"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>

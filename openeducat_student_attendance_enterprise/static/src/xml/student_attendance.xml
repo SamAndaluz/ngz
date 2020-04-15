@@ -37,7 +37,7 @@
                 </div>
                 <t t-if="widget.student_id">
                     <div class="o_student_attendance_user_badge o_home_menu_background">
-                        <img class="img rounded-circle" t-attf-src="/web/image?model=op.student&amp;field=image_medium&amp;id=#{widget.student_id}" t-att-title="widget.student_name" t-att-alt="widget.student_name"/>
+                        <img class="img rounded-circle" t-attf-src="/web/image?model=op.student&amp;field=image_1920&amp;id=#{widget.student_id}" t-att-title="widget.student_name" t-att-alt="widget.student_name"/>
                     </div>
                     <h1 class="mb8"><t t-esc="widget.student_name"/></h1>
                     <div class="pt-3">
@@ -108,7 +108,7 @@
                 <t t-if="widget.attendance">
                     <div class="o_student_attendance_user_badge o_home_menu_background">
                         <img class="img rounded-circle"
-                             t-attf-src="/web/image?model=op.student&amp;field=image_medium&amp;id=#{widget.attendance.student_id[0]}"
+                             t-attf-src="/web/image?model=op.student&amp;field=image_1920&amp;id=#{widget.attendance.student_id[0]}"
                              t-att-title="widget.student_name" t-att-alt="widget.student_name"/>
                     </div>
                     <h1 class="mb0">Welcome <t t-esc="widget.student_name"/>!</h1>
@@ -143,7 +143,7 @@
                 </div>
                 <t t-if="widget.student_id">
                     <div class="o_student_attendance_user_badge o_home_menu_background">
-                        <img class="img rounded-circle" t-attf-src="/web/image?model=op.student&amp;field=image_medium&amp;id=#{widget.student_id}" t-att-title="widget.student_name" t-att-alt="widget.student_name"/>
+                        <img class="img rounded-circle" t-attf-src="/web/image?model=op.student&amp;field=image_1920&amp;id=#{widget.student_id}" t-att-title="widget.student_name" t-att-alt="widget.student_name"/>
                     </div>
                     <h1 class="mb8"><t t-esc="widget.student_name"/></h1>
                     <div class="pt-3">

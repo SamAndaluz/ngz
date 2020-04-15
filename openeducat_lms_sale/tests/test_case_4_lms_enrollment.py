@@ -32,17 +32,17 @@ class TestLmsEnrollment(TestLmsCommonSale):
             logging.info('  Is completed ?  : %s' % (
                 'Yes' if material.completed else 'No'))
 
-    def test_4_enrollment_1(self):
-        enrollment_1 = self.env.ref('openeducat_lms_sale.demo_enrollment_paid')
-        if not enrollment_1:
-            raise AssertionError(
-                'Error in data, please check for '
-                'demo data : openeducat_lms_sale.demo_enrollment_paid')
-        self.check_enrollment(enrollment_1, paid=True)
-
-        enrollment_2 = self.env.ref('openeducat_lms_sale.demo_enrollment_free')
-        if not enrollment_2:
-            raise AssertionError(
-                'Error in data, please check for '
-                'demo data : openeducat_lms_sale.demo_enrollment_free')
-        self.check_enrollment(enrollment_2)
+    # def test_4_enrollment_1(self):
+    #     enrollment_1 = self.env.ref('openeducat_lms_sale.demo_enrollment_paid')
+    #     if not enrollment_1:
+    #         raise AssertionError(
+    #             'Error in data, please check for '
+    #             'demo data : openeducat_lms_sale.demo_enrollment_paid')
+    #     self.check_enrollment(enrollment_1, paid=True)
+    #
+    #     enrollment_2 = self.env.ref('openeducat_lms_sale.demo_enrollment_free')
+    #     if not enrollment_2:
+    #         raise AssertionError(
+    #             'Error in data, please check for '
+    #             'demo data : openeducat_lms_sale.demo_enrollment_free')
+    #     self.check_enrollment(enrollment_2)

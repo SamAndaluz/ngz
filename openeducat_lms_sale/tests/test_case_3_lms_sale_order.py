@@ -30,3 +30,14 @@ class TestLmsSaleOrder(TestLmsCommonSale):
         logging.info('Details Of Sale Order Lines.....')
         logging.info('  Product Name  : %s' % so.order_line[0].product_id.name)
         logging.info('  Product Price : %s' % so.order_line[0].price_unit)
+
+
+class TestOpSaleOrder(TestLmsCommonSale):
+
+    def setUp(self):
+        super(TestOpSaleOrder, self).setUp()
+
+    def test_op_sale_order(self):
+        sale = self.op_sale_order.search([], limit=1)
+        sale.action_confirm()
+        logging.info('sale_order-------')

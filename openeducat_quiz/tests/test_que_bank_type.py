@@ -25,5 +25,5 @@ class TestQueBankType(TestQuizCommon):
                 'Error in data, please check for Question Bank types')
         logging.info('Details of Question Bank Types')
         logging.info('Name  ::')
-        for type in types:
-            logging.info('%s' % type.name)
+        for data in types:
+            logging.info('%s' % data.name)

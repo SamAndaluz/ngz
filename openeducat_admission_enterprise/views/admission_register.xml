@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="view_op_admission_register_form_inherit" model="ir.ui.view">
+            <field name="name">op.admission.register.form.inherit</field>
+            <field name="model">op.admission.register</field>
+            <field name="inherit_id" ref="openeducat_admission.view_op_admission_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='max_count']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_admission_register_tree_inherit" model="ir.ui.view">
+            <field name="name">op.admission.register.tree.inherit</field>
+            <field name="model">op.admission.register</field>
+            <field name="inherit_id" ref="openeducat_admission.view_op_admission_register_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='max_count']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_admission_register_search_inherit" model="ir.ui.view">
+            <field name="name">op.admission.register.search.inherit</field>
+            <field name="model">op.admission.register</field>
+            <field name="inherit_id" ref="openeducat_admission.view_op_admission_register_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="course_id" icon="fa fa-book"/>
+                    </searchpanel>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_op_tree_onboarding" model="ir.ui.view">
             <field name="name">op.admission.register.tree.inherit</field>
             <field name="model">op.admission.register</field>
             <field name="inherit_id" ref="openeducat_admission.view_op_admission_register_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="banner_route">/openeducat_admission_enterprise/openeducat_admission_onboarding</attribute>
+                    <attribute name="banner_route">/openeducat_admission_enterprise/openeducat_admission_onboarding
+                    </attribute>
                 </xpath>
             </field>
         </record>

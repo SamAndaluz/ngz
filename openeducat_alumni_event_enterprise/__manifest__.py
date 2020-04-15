@@ -15,14 +15,13 @@
     "sequence": 3,
     'summary': 'Manage Alumni Event',
     'complexity': "easy",
-    'description': """
-        This module provide alumni Event.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base', 'website_event', 'openeducat_alumni_enterprise'],
     'data': ['views/alumni_event_view.xml',
-             'views/alumni_event_template_view.xml'
+             'views/alumni_event_template_view.xml',
+             'views/templates.xml',
+             'menus/op_menu.xml'
              ],
     'demo': ['demo/event_event_demo.xml',
              'demo/alumni_event_demo.xml'],

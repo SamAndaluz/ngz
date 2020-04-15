@@ -17,6 +17,7 @@ class OpAchievementType(models.Model):
 
     name = fields.Char('Name', size=256, required=True)
     code = fields.Char('Code', size=4, required=True)
+    active = fields.Boolean(default=True)
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)

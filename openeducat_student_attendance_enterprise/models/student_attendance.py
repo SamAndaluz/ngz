@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, exceptions, _
+from odoo import models, fields, _
 
 
 class StudentAttendance(models.Model):
@@ -43,7 +43,3 @@ class StudentAttendance(models.Model):
                                 attendance.check_in))),
                 }))
         return result
-
-    @api.returns('self', lambda value: value.id)
-    def copy(self):
-        raise exceptions.UserError(_('You cannot duplicate an attendance.'))

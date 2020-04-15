@@ -22,6 +22,9 @@
             <field name="arch" type="xml">
                 <form string="Grades">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group>
                             <field name="name" required="1"/>
                             <field name="value" required="1"/>
@@ -40,6 +43,8 @@
                 <search string="Grades">
                     <field name="name" select="True"/>
                     <field name="value"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>
@@ -77,6 +82,7 @@
                 <tree string="Quiz" banner_route="/openeducat_quiz/openeducat_quiz_onboarding_panel">
                     <field name="name"/>
                     <field name="categ_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -97,10 +103,16 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <group col="2">
                             <group>
                                 <field name="name" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
                                 <field name="quiz_config" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                                <field name="parent_id"/>
+
                             </group>
                             <group>
                                 <field name="categ_id" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
@@ -138,6 +150,15 @@
                                             <field name="answer" attrs="{'invisible': [('que_type', 'not in', ['blank','descriptive'])], 'required': [('que_type', '=', 'blank')]}"/>
                                             <field name="grade_true_id" attrs="{'invisible': [('que_type', '!=', 'blank')], 'required': [('que_type', '=', 'blank')]}"/>
                                             <field name="grade_false_id" attrs="{'invisible': [('que_type', '!=', 'blank')], 'required': [('que_type', '=', 'blank')]}"/>
+                                            <field name="material_type"/>
+                                            <field name="video_type"
+                                                    attrs="{'invisible': [('material_type', 'not in', ['video'])],'required':[('material_type', 'in', ['video'])]}"/>
+                                            <field name="datas" widget="binary"
+                                                   attrs="{'invisible': ['|','&amp;',('material_type', 'in', ['quiz']),('video_type', 'in', ['fileupload']),'&amp;','&amp;',('material_type', 'not in', ['audio','document','infographic']),('video_type', 'in', ['youtube','vimeo','dartfish']),('video_type', 'not in', ['fileupload'])]}"/>
+                                            <field name="url"
+                                                    attrs="{'invisible': ['|', ('material_type', '!=', 'video'), ('video_type', '=', 'fileupload')]}"/>
+                                            <field name="document_id"
+                                                   attrs="{'invisible': ['|', ('material_type', '!=','video'), ('video_type', '=', 'fileupload')]}"/>
                                         </group>
                                         <group name="answers" string="Answers" attrs="{'invisible': [('que_type', '!=', 'optional')]}">
                                             <field name="line_ids" nolabel="1">
@@ -182,6 +203,7 @@
                                     <group>
                                         <field name="no_of_attempt" attrs="{'readonly': [('state','!=', 'draft')]}"/>
                                         <field name="que_required" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                                        <field name="exit_allow" attrs="{'readonly': [('state','!=', 'draft')]}"/>
                                     </group>
                                 </group>
                                 <group col="2">
@@ -194,6 +216,8 @@
                                                attrs="{'invisible': [('show_result', '=', False)],'readonly': [('state','!=', 'draft')]}"/>
                                         <field name="not_attempt_ans"
                                                attrs="{'invisible': [('show_result', '=', False)],'readonly': [('state','!=', 'draft')]}"/>
+                                        <field name="display_result"/>
+
                                     </group>
                                     <group string="Timing Configuration">
                                         <field name="time_config" attrs="{'readonly': [('state','!=', 'draft')]}"/>
@@ -260,6 +284,11 @@
                 <search string="Quiz">
                     <field name="name" select="True"/>
                     <field name="categ_id"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    <searchpanel>
+                        <field name="categ_id"/>
+                    </searchpanel>
                 </search>
             </field>
         </record>

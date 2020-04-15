@@ -57,7 +57,7 @@
                                         <span t-esc="attendance.attendance_date"/>
                                     </td>
                                     <td>
-                                        <span t-esc="attendance.course_id.name"/>
+                                        <span id='test' t-esc="attendance.course_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="attendance.batch_id.name"/>

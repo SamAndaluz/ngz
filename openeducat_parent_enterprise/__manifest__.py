@@ -16,9 +16,6 @@
     "sequence": 3,
     'summary': 'Manage Parent',
     'complexity': "easy",
-    'description': """
-        This module provide parent management system.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['openeducat_core_enterprise', 'openeducat_parent'],

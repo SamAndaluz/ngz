@@ -27,7 +27,7 @@ class OpMediaMovement(models.Model):
     _inherit = "op.media.movement"
 
     @api.depends('media_id', 'media_id.queue_ids')
-    def _get_media_count(self):
+    def _compute_media_count(self):
         for media in self:
             if media.media_id and media.media_id.queue_ids:
                 media.queue_count = len(media.media_id.queue_ids)
@@ -36,7 +36,8 @@ class OpMediaMovement(models.Model):
 
     media_movement_id = fields.Many2one(
         'op.media.movement', 'Parent Media Movement')
-    queue_count = fields.Float("Media Queue Count", compute="_get_media_count")
+    queue_count = fields.Float("Media Queue Count",
+                               compute="_compute_media_count")
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)

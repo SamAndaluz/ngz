@@ -23,7 +23,8 @@ def float_time_convert(float_val):
 
 class OpCourse(models.Model):
     _name = "op.course"
-    _inherit = ["op.course", "mail.thread", "rating.mixin"]
+    _inherit = ["op.course", "mail.thread",
+                "rating.mixin", "website.published.mixin"]
     _description = "LMS Course"
 
     online_course = fields.Boolean('Online Course')
@@ -34,13 +35,18 @@ class OpCourse(models.Model):
                                    translate=html_translate,
                                    sanitize_attributes=False)
     image_1920 = fields.Image('Image', attachment=True)
-    image_medium = fields.Image('Medium', compute="_get_image",
+    image_medium = fields.Image('Medium', compute="_compute_get_image",
                                 store=True, attachment=True)
-    image_thumb = fields.Image('Thumbnail', compute="_get_image",
+    image_thumb = fields.Image('Thumbnail', compute="_compute_get_image",
                                store=True, attachment=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
+    certificate = fields.Boolean(string='Certificate')
 
     @api.depends('image_1920')
-    def _get_image(self):
+    def _compute_get_image(self):
         for record in self:
             if record.image_1920:
                 record.image_medium = record.image_1920
@@ -98,16 +104,19 @@ class OpCourse(models.Model):
         domain=lambda self: ['&', ('model', '=', self._name),
                              ('message_type', '=', 'comment')],
         string='Website Comments')
-    total_time = fields.Float('Total Time (HH:MM)',
+    total_time = fields.Float('Total Time (HH:MM)', compute='_compute_total_times'
                               )
     display_time = fields.Char('Display Time',
                                compute='_compute_display_time')
     confirm_date = fields.Date('Confirm Date')
+    is_published = fields.Boolean(
+        'Is Published', copy=False,
+        default=lambda self: self._default_is_published())
 
-    # def _compute_total_time(self):
-    #     for course in self:
-    #         for cs in course.course_section_ids:
-    #             course.total_time += cs.total_time
+    def _compute_total_times(self):
+        for course in self:
+            for cs in course.course_section_ids:
+                course.total_time += cs.total_time
 
     @api.depends('course_enrollment_ids')
     def _compute_enrolled_users(self):
@@ -210,6 +219,26 @@ class OpCourse(models.Model):
     def action_lms_onboarding_course_layout(self):
         self.env.user.company_id.onboarding_lms_course_layout_state = 'done'
 
+    def action_view_material(self):
+        action = self.env.ref('openeducat_lms.'
+                              'act_open_op_course_material_view').read()[0]
+        action['domain'] = [('id', 'in', self.course_section_ids.
+                             section_material_ids.ids)]
+        return action
+
+    def action_view_users(self):
+        action = self.env.ref('openeducat_lms.'
+                              'act_open_op_course_enrollment_view').read()[0]
+        action['domain'] = [('id', 'in', self.course_enrollment_ids.ids)]
+        return action
+
+    def action_course_completed(self):
+        action = self.env.ref('openeducat_lms.'
+                              'act_open_op_course_enrollment_view').read()[0]
+        action['domain'] = [('id', 'in', self.course_enrollment_ids.ids),
+                            ('state', '=', 'done')]
+        return action
+
 
 class OpCourseSection(models.Model):
     _name = "op.course.section"
@@ -227,6 +256,9 @@ class OpCourseSection(models.Model):
                               compute='_compute_total_time')
     display_time = fields.Char('Display Time',
                                compute='_compute_display_time')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     def _compute_total_time(self):
         for section in self:
@@ -258,6 +290,9 @@ class OpCourseMaterial(models.Model):
                               string='Total Time (HH:MM)')
     display_time = fields.Char('Display Time',
                                compute='_compute_display_time')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     def _compute_display_time(self):
         for material in self:

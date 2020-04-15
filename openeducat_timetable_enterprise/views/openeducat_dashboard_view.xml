@@ -8,14 +8,21 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//div[@name='second_column']" position="inside">
-                        <button name="%(openeducat_timetable_enterprise.act_dashboard_op_timetable_view)d"
-                                type="action" class="btn btn-primary btn-sm">Today's Lectures</button>
+                        <a name="%(openeducat_timetable_enterprise.act_dashboard_op_timetable_view)d"
+                           type="action" style="overflow: visible;">
+                            <field name="lectures_count"/>
+                            Today's Lectures
+                        </a>
                     </xpath>
                     <xpath expr="//div[@name='openeducat_new']" position="after">
-                        <div><a type="object" name="open_generate_timetable">Generate TimeTable</a></div>
+                        <div>
+                            <a type="object" name="open_generate_timetable">Generate TimeTable</a>
+                        </div>
                     </xpath>
                     <xpath expr="//div[@name='openeducat_reports']" position="after">
-                        <div><a type="object" name="open_generate_timetable_reports">TimeTable Report</a></div>
+                        <div>
+                            <a type="object" name="open_generate_timetable_reports">TimeTable Report</a>
+                        </div>
                     </xpath>
                 </data>
             </field>

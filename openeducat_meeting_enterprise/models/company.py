@@ -29,8 +29,6 @@ class ResCompany(models.Model):
         """ Mark the onboarding panel as closed. """
         self.env.user.company_id.meeting_enterprise_onboard_panel = 'closed'
 
-    """ meeting layout starts """
-
     @api.model
     def action_onboarding_meeting_layout(self):
         """ Onboarding step for the quotation layout. """

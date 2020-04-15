@@ -26,13 +26,17 @@ class OpCourseMaterial(models.Model):
     ]
 
     image_1920 = fields.Image('Image', attachment=True)
-    image_medium = fields.Image('Medium', compute="_get_image",
+    image_medium = fields.Image('Medium', compute="_compute_get_image",
                                 store=True, attachment=True)
-    image_thumb = fields.Image('Thumbnail', compute="_get_image",
+    image_thumb = fields.Image('Thumbnail', compute="_compute_get_image",
                                store=True, attachment=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     @api.depends('image_1920')
-    def _get_image(self):
+    def _compute_get_image(self):
         for record in self:
             if record.image_1920:
                 record.image_medium = record.image_1920
@@ -126,9 +130,9 @@ class OpCourseMaterial(models.Model):
             record.total_views = record.material_views + record.embed_views
 
     embed_code = fields.Text(
-        'Embed Code', readonly=True, compute='_get_embed_code')
+        'Embed Code', readonly=True, compute='_compute_get_embed_code')
 
-    def _get_embed_code(self):
+    def _compute_get_embed_code(self):
         for record in self:
             if record.datas and (record.material_type == 'infographic' and
                                  not record.document_id):

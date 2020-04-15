@@ -110,7 +110,7 @@
                                                     <div t-if="student.blood_group" class="col-md-6">
                                                         <span t-esc="{False:False, 'B+':'B+ve', 'O+':'O+ve',
                                                                 'AB+':'AB+ve','A-':'A-ve','B-':'B-ve','O-':'O-ve',
-                                                                'AB-':'AB-ve' }[student.blood_group]"/>
+                                                                'AB-':'AB-ve','A+':'A+ve'}[student.blood_group]"/>
                                                     </div>
                                                 </div>
                                             </div>

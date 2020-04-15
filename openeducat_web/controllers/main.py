@@ -19,16 +19,17 @@ class OpenEduCatWebController(http.Controller):
     def db_register(self, **post):
         val = {}
         if post and post.get('instance_key'):
-            request.env.ref('base.main_company').write({
+            request.env['res.company'].sudo().search([]).write({
                 'openeducat_instance_key': post.get('instance_key')
             })
-            if not request.env['res.config.settings'].request_verify_instance(
-                    post.get('instance_key')):
+            if not request.env['res.config.settings']. \
+                    request_verify_instance_controller(
+                        post.get('instance_key')):
                 val.update({'invalid_instance': True})
             else:
                 val.update({'hash_allow': True})
         if post and post.get('instance_hash_key'):
-            request.env.ref('base.main_company').write({
+            request.env['res.company'].sudo().search([]).write({
                 'openeducat_instance_hash_key': post.get('instance_hash_key')
             })
             if request.env['res.config.settings'].request_verify_hash(

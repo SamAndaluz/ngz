@@ -15,10 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Attendances',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Attendance Management.
-
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -29,6 +25,8 @@
     'data': [
         'security/op_security.xml',
         'wizards/progression_attendance_wizard_view.xml',
+        'data/auto_create_attendance_sheet.xml',
+        'views/templates.xml',
         'views/attendance_sheet_view.xml',
         'views/openeducat_dashboard_view.xml',
         'views/attendance_register.xml',
@@ -39,7 +37,8 @@
         'views/student_progression_attendance_portal.xml',
         'reports/attendance_progression_report.xml'
     ],
-    'demo': ['demo/progression_attendance_demo.xml'],
+    'demo': ['demo/progression_attendance_demo.xml',
+             'demo/attendance_register_demo.xml'],
     'css': [],
     'qweb': [],
     'js': [],

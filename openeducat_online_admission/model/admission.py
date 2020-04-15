@@ -19,5 +19,6 @@ class OpAdmission(models.Model):
         ('submit', 'Submitted'), ('confirm', 'Confirmed'),
         ('admission', 'Admission Confirm'), ('reject', 'Rejected'),
         ('pending', 'Pending'), ('cancel', 'Cancelled'), ('done', 'Done')],
-         default='draft', track_visibility='onchange')
+        default='draft', track_visibility='onchange')
     order_id = fields.Many2one('sale.order', 'Registration Fees Ref')
+    application = fields.Char(selection_add=[('self', 'Delf'), ('other', 'Other')])

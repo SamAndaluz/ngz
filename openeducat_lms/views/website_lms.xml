@@ -33,7 +33,8 @@
                                 <ul id="menu" class="mt16  col-md-11 col-sm-10 col-xs-8">
                                     <li t-if="category">
                                         <a class="text-secondary" href="/courses" style="font-size: 16px;">Courses /</a>
-                                        <span class="text-center mt16 mb32 category-menu__link category-menu__link--primary text-primary"
+                                        <span id="category"
+                                              class="text-center mt16 mb32 category-menu__link category-menu__link--primary text-primary"
                                               style="font-size: 15px;" t-raw="category.name" t-if="category"></span>
                                     </li>
                                     <li t-foreach="categories" t-as="categ" class="set-icon-cat"
@@ -42,7 +43,7 @@
                                            class="category-menu__link category-menu__link--primary">
                                             <span t-att-class="categ.icon" aria-hidden="true"
                                                   style="position: relative; left: 15px;"></span>
-                                            <span t-field="categ.name" style="padding-left: 20px;"/>
+                                            <span id="cat" t-field="categ.name" style="padding-left: 20px;"/>
                                         </a>
                                     </li>
                                 </ul>
@@ -132,79 +133,85 @@
                     </div>
                 </div>
             </div>
-            <div class="container mt32 mb64">
-                <div class="row">
-                    <t t-foreach="courses" t-as="course">
-                        <div t-if="course_index % 4 == 0" class="clearfix"/>
-                        <div class="col-md-3 col-sm-3 col-xs-12 mb16">
-                            <div class="card-body" style="padding:0px;">
-                                <div class="course-thumbnail">
-                                    <a t-attf-href="/course-detail/#{slug(course)}">
-                                        <img t-if="not course.image_1920"
-                                             t-attf-src="/openeducat_lms/static/src/img/channel-default.jpg"
-                                             class="img img-fluid"/>
-                                        <img t-if="course.image_1920" t-attf-src="/web/image/op.course/#{course.id}/image_1920"
-                                             class="img img-fluid"/>
-                                    </a>
+            <div id="gamerow" class="row">
+                <div t-att-class="'col-md-9' if website.user_id != user_id else 'col-md-12'">
+                    <div class="container mt32 mb64">
+                        <div class="row">
+                            <t t-foreach="courses" t-as="course">
+                                <div t-if="course_index % 4 == 0" class="clearfix"/>
+                                <div class="col-md-4 col-sm-4 col-xs-12 mb16">
+                                    <div class="card-body" style="padding:0px;">
+                                        <div class="course-thumbnail">
+                                            <a t-attf-href="/course-detail/#{slug(course)}">
+                                                <img t-if="not course.image_1920"
+                                                     t-attf-src="/openeducat_lms/static/src/img/channel-default.jpg"
+                                                     class="img img-fluid"/>
+                                                <img t-if="course.image_1920"
+                                                     t-attf-src="/web/image/op.course/#{course.id}/image_1920"
+                                                     class="img img-fluid"/>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <div class="course-title">
+                                                <h2 class="website_lms_h2">
+                                                    <a t-attf-href="/course-detail/#{slug(course)}"
+                                                       t-esc="course.name"/>
+                                                </h2>
+                                            </div>
+                                            <div class="course-instructor">
+                                                Teacher:
+                                                <span style="font-weight: 600;">
+                                                    <t t-if="course.faculty_ids" t-esc="course.faculty_ids[0].name"/>
+                                                </span>
+                                                <span class="faculty-img hidden-sm">
+                                                    <img t-if="course.faculty_ids"
+                                                         t-att-src="'data:image/png;base64,%s' % to_text(course.faculty_ids[0].image_1920)"
+                                                         height="32" width="32" style="border-radius: 50%;"
+                                                         class="img img-fluid"/>
+                                                </span>
+                                            </div>
+                                            <div class="course-price">
+                                                <span t-if="course.type == 'free'">Free</span>
+                                                <span t-if="course.type == 'paid'">
+                                                    <span t-esc="course.product_id.lst_price"
+                                                          t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                </span>
+                                            </div>
+                                            <div class="course-student">
+                                                <span>
+                                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                                    Students:
+                                                    <b>
+                                                        <t t-esc="len(course.course_enrollment_ids)"/>
+                                                    </b>
+                                                    <t t-name="website_rating.rating_stars_static">
+                                                        <t t-set="val_integer"
+                                                           t-value="round(course.rating_get_stats()['avg'])"/>
+                                                        <t t-set="val_decimal" t-value="0"/>
+                                                        <t t-set="empty_star" t-value="5 - val_integer"/>
+                                                        <div class="o_website_rating_static">
+                                                            <t t-foreach="range(0,val_integer)" t-as="num">
+                                                                <i class="fa fa-star"/>
+                                                            </t>
+                                                            <t t-if="val_decimal">
+                                                                <i class="fa fa-star-half-o"/>
+                                                            </t>
+                                                            <t t-foreach="range(0,empty_star)" t-as="num">
+                                                                <i class="fa fa-star-o"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="course-title">
-                                        <h2 class="website_lms_h2">
-                                            <a t-attf-href="/course-detail/#{slug(course)}" t-esc="course.name"/>
-                                        </h2>
-                                    </div>
-                                    <div class="course-instructor">
-                                        Teacher:
-                                        <span style="font-weight: 600;">
-                                            <t t-if="course.faculty_ids" t-esc="course.faculty_ids[0].name"/>
-                                        </span>
-                                        <span class="faculty-img hidden-sm">
-                                            <img t-if="course.faculty_ids"
-                                                 t-att-src="'data:image/png;base64,%s' % to_text(course.faculty_ids[0].image_1920)"
-                                                 height="32" width="32" style="border-radius: 50%;"
-                                                 class="img img-fluid"/>
-                                        </span>
-                                    </div>
-                                    <div class="course-price">
-                                        <span t-if="course.type == 'free'">Free</span>
-                                        <span t-if="course.type == 'paid'">
-                                            <span t-esc="course.product_id.lst_price"
-                                                  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
-                                        </span>
-                                    </div>
-                                    <div class="course-student">
-                                        <span>
-                                            <i class="fa fa-users" aria-hidden="true"></i>
-                                            Students:
-                                            <b>
-                                                <t t-esc="len(course.course_enrollment_ids)"/>
-                                            </b>
-                                            <t t-name="website_rating.rating_stars_static">
-                                                <t t-set="val_integer"
-                                                   t-value="round(course.rating_get_stats()['avg'])"/>
-                                                <t t-set="val_decimal" t-value="0"/>
-                                                <t t-set="empty_star" t-value="5 - val_integer"/>
-                                                <div class="o_website_rating_static">
-                                                    <t t-foreach="range(0,val_integer)" t-as="num">
-                                                        <i class="fa fa-star"/>
-                                                    </t>
-                                                    <t t-if="val_decimal">
-                                                        <i class="fa fa-star-half-o"/>
-                                                    </t>
-                                                    <t t-foreach="range(0,empty_star)" t-as="num">
-                                                        <i class="fa fa-star-o"/>
-                                                    </t>
-                                                </div>
-                                            </t>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                            </t>
                         </div>
-                    </t>
-                </div>
-                <div style="text-align:center;">
-                    <t t-call="website.pager"/>
+                        <div style="text-align:center;">
+                            <t t-call="website.pager"/>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="oe_structure"/>
@@ -217,7 +224,7 @@
             <div class="container mt64">
                 <div class="row">
                     <t t-foreach="courses" t-as="course">
-                        <div t-if="course_index % 3 == 0" class="clearfix"/>
+                        <div t-if="course_index % 4 == 0" class="clearfix"/>
                         <div class="col-md-3 col-sm-3 col-xs-12 mb16">
                             <div class="card-body" style="padding:0px;">
                                 <div class="course-thumbnail">
@@ -233,9 +240,8 @@
                                 <div>
                                     <div class="course-title">
                                         <h2 class="website_lms_h2">
-                                            <a t-attf-href="/course-detail/#{slug(course['course'])}"
+                                            <a id="course_name" t-attf-href="/course-detail/#{slug(course['course'])}"
                                                t-esc="course['course'].name"/>
-
                                         </h2>
                                     </div>
                                     <div class="course-instructor">

@@ -29,4 +29,3 @@ class OpActivity(models.Model):
             self.progression_id = student.id
             sequence = student.name
             student.write({'name': sequence})
-

@@ -17,10 +17,48 @@ from odoo.http import request
 class GamificationOpenEduCatLms(OpenEduCatLms):
 
     @http.route()
+    def courses(self, search='', category=False, page=0, ppg=False, **post):
+        r = super(GamificationOpenEduCatLms, self).courses(
+            search='', category=False, page=0, ppg=False, **post)
+        achievements = request.env['gamification.badge.user'].sudo().search(
+            [('badge_id.is_published', '=', True)], limit=5)
+        if request.env.user._is_public():
+            challenges = None
+            challenges_done = None
+        else:
+            challenges = request.env['gamification.challenge'].sudo().search(
+                [], order='id asc', limit=5)
+            challenges_done = request.env['gamification.badge.user'].sudo().\
+                search([
+                ('challenge_id', 'in', challenges.ids),
+                ('user_id', '=', request.env.user.id),
+                ('badge_id.is_published', '=', True)
+            ]).mapped('challenge_id')
+        users = request.env['res.users'].sudo().search([
+            ('karma', '>', 0),
+            ('website_published', '=', True)], limit=5, order='karma desc')
+        rr = request.render('openeducat_lms_gamification.my_challenges')
+
+        r.qcontext.update({'rr': rr,
+                           'achievements': achievements,
+                           'users': users,
+                           'top3_users': self._get_top3_users(),
+                           })
+        return r
+
+    def _get_top3_users(self):
+        return request.env['res.users'].sudo().search_read([
+            ('karma', '>', 0),
+            ('website_published', '=', True),
+            ('image_1920', '!=', False)], ['id'], limit=3, order='karma desc')
+
+    @http.route()
     def enroll_course(self, course, **kwargs):
         r = super(GamificationOpenEduCatLms, self).enroll_course(
             course, **kwargs)
+        course._action_set_course_done()
         for challenge in course.challenge_ids:
+
             current_challenge_users = challenge.user_ids.ids
             if request.env.uid not in current_challenge_users:
                 current_challenge_users.append(request.env.uid)
@@ -30,15 +68,21 @@ class GamificationOpenEduCatLms(OpenEduCatLms):
 
     @http.route()
     def get_course_material(self, course, section=None, material=None,
-                            result=None, next=None, **kwargs):
+                            result=None, next_mat=None, **kwargs):
         r = super(GamificationOpenEduCatLms, self).get_course_material(
-            course, section, material, result, next, **kwargs)
+            course, section, material, result, next_mat, **kwargs)
         for challenge in course.challenge_ids:
             request.env['gamification.goal'].sudo().search(
                 [('challenge_id', '=', challenge.id),
                  ('user_id', '=', request.env.uid),
                  ('state', '!=', 'reached')]).sudo().update_goal()
             challenge.sudo()._check_challenge_reward()
+        reward = request.render('openeducat_lms_gamification.reward_point_view')
+        r.qcontext.update({'reward': reward})
+        reward_material = request.env['op.material'].sudo().search([('material_type', '=', 'quiz')])
+
+        if result:
+            reward_material._action_set_quiz_material_done()
         return r
 
     @http.route(['/my/badges'], type='http', auth='public', website=True)

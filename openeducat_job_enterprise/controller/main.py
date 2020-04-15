@@ -38,7 +38,8 @@ class OnlineJob(http.Controller):
         type='http', auth='public', website=True)
     def job_description_detail(self, job_description_id, **kwargs):
 
-        return http.request.render('openeducat_job_enterprise.jobpost_description',
+        return http.request.render('openeducat_job_enterprise.'
+                                   'jobpost_description',
                                    {'job_description_id': job_description_id})
 
     @http.route(
@@ -128,7 +129,7 @@ class OnlineJob(http.Controller):
             attachment_value = {
                 'name': file.filename,
                 'datas': base64.encodestring(file.read()),
-                'name': file.filename,
+                # 'name': file.filename,
                 'res_model': model_name,
                 'res_id': record.id,
             }

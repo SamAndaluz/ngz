@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Alumni Job Post',
     'complexity': "easy",
-    'description': """
-        This module provide alumni to create job.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base',

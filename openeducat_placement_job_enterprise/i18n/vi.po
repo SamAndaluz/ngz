@@ -27,7 +27,7 @@ msgstr "\n"
 #. module: openeducat_placement_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_placement_job_enterprise.view_op_activity_kanban
 msgid "&amp;nbsp;"
-msgstr "& Amp; nbsp;"
+msgstr ""
 
 #. module: openeducat_placement_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_placement_job_enterprise.activity_detail

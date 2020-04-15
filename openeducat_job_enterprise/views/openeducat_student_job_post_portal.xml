@@ -21,6 +21,7 @@
                                     <tr>
                                         <th>Application Number</th>
                                         <th>Job Post</th>
+                                        <th>Salary Proposed</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,6 +32,9 @@
                                             </td>
                                             <td>
                                                 <span t-esc="job.post_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="job.salary_proposed"/>
                                             </td>
                                         </tr>
                                     </t>

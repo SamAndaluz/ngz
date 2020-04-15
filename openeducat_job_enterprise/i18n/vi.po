@@ -18,32 +18,32 @@ msgstr ""
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Address :</b>"
-msgstr "<B> Địa chỉ: </ b>"
+msgstr "<b> Địa chỉ: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Description :</b>"
-msgstr "<B> Mô tả: </ b>"
+msgstr "<b> Mô tả: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Employment Type :</b>"
-msgstr "<B> Kiểu trình công tác: </ b>"
+msgstr "<b> Kiểu trình công tác: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Job Post :</b>"
-msgstr "<B> Job bài viết: </ b>"
+msgstr "<b> Job bài viết: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Salary :</b>"
-msgstr "<B> Mức lương: </ b>"
+msgstr "<b> Mức lương: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.job_post_list
 msgid "<span>Open Positions</span>"
-msgstr "<Span> Open Positions </ span>"
+msgstr "<Span> Open Positions </span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_job_applicant__message_needaction
@@ -329,7 +329,7 @@ msgstr "Job bài viết chi tiết"
 msgid "Job Post Detail\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Job bài viết chi tiết\n"
-"                                <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_student__job_post_ids

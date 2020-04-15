@@ -19,7 +19,7 @@
         <record id="activity_announcement_demo2" model="op.activity.announcement">
             <field name="name">Campus Recruitment For Civil Engineering Branch</field>
             <field name="partner_id" ref="base.res_partner_10"/>
-            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo1'),ref('openeducat_job_enterprise.job_post_demo2')])]"/>
+            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo3'),ref('openeducat_job_enterprise.job_post_demo4')])]"/>
             <field name="skill_id" eval="[(6,0,[ref('openeducat_skill_enterprise.skill_demo1'),ref('openeducat_skill_enterprise.skill_demo2')])]"/>
             <field name="team_id" ref="openeducat_placement_enterprise.placement_cell_demo2"/>
             <field name="start_date"
@@ -34,7 +34,7 @@
         <record id="activity_announcement_demo3" model="op.activity.announcement">
             <field name="name">Campus Recruitment For Mechanical Engineering Branch</field>
             <field name="partner_id" ref="base.res_partner_12"/>
-            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo2')])]"/>
+            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo7')])]"/>
             <field name="skill_id" eval="[(6,0,[ref('openeducat_skill_enterprise.skill_demo1')])]"/>
             <field name="team_id" ref="openeducat_placement_enterprise.placement_cell_demo1"/>
             <field name="start_date"
@@ -49,7 +49,7 @@
         <record id="activity_announcement_demo4" model="op.activity.announcement">
             <field name="name">Campus Recruitment For Electrical Engineering Branch</field>
             <field name="partner_id" ref="base.res_partner_18"/>
-            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo1')])]"/>
+            <field name="job_post_id" eval="[(6,0,[ref('openeducat_job_enterprise.job_post_demo5'),ref('openeducat_job_enterprise.job_post_demo6')])]"/>
             <field name="skill_id" eval="[(6,0,[ref('openeducat_skill_enterprise.skill_demo2')])]"/>
             <field name="team_id" ref="openeducat_placement_enterprise.placement_cell_demo2"/>
             <field name="start_date"

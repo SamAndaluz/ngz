@@ -2,9 +2,9 @@
 <odoo>
     <data>
         <template id="assets_frontend" inherit_id="website.assets_frontend" name="Calendar Template">
-          <xpath expr="." position="inside">
-              <script type="text/javascript" src="/openeducat_online_admission/static/src/js/datepicker.js"></script>
-          </xpath>
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/openeducat_online_admission/static/src/js/datepicker.js"></script>
+            </xpath>
         </template>
         <template id="admission_registration" name="Course Registration Form">
             <t t-call="website.layout">
@@ -17,8 +17,8 @@
                                     <br></br>
                                     <form role="form" data-toggle="validator" method="post" action="/shop/confirm_order"
                                           id="request_demo">
-                                        <div class="row">
-                                            <div class="form-group col-md-12">
+                                        <div class="row js_get_data">
+                                            <div class="form-group col-md-12" style="padding-right: 45px;">
                                                 <input type="hidden" name="csrf_token"
                                                        t-att-value="request.csrf_token()"/>
                                                 <label for="register_id">Select Class</label>
@@ -39,80 +39,112 @@
                                                     </t>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="name">First Name</label>
-                                                <input type="text" class="form-control" name="first_name" id="name"
-                                                       placeholder="First Name" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="name">Middle Name</label>
-                                                <input type="text" class="form-control" id="middle_name"
-                                                       name="middle_name" placeholder="Middle Name" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="name">Last Name</label>
-                                                <input type="text" class="form-control" name='last_name' id="last_name"
-                                                       placeholder="Last Name" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="gender">Gender</label>
-                                                <br/>
+                                            <div t-if="student_id" class="form-group col-md-12">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="gender" id="male" value="m" required="1">
-                                                        Male
+                                                    <input type="radio" name="application" id="self_application"
+                                                           t-att-value="partner_id.id" required="1">
+                                                        Self
                                                     </input>
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="gender" id="female" value="f"
-                                                           required="1">Female
+                                                    <input type="radio" name="application" id="self_application"
+                                                           value="0"
+                                                           required="1">
+                                                        Other
                                                     </input>
                                                 </label>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="name">Date of Birth</label>
-                                                <input type="text" t-attf-class="form-control a fa-calendar"
-                                                       id="calendar"
-                                                       name="birth_date" placeholder="mm/dd/yyyy" required="1"/>
+                                            <div class="students" id="studnet_registration">
+                                                <div class="row col-md-12 "
+                                                     style="padding-right: 15px;">
+                                                    <div class="form-group col-md-4 " id="name">
+
+                                                        <label for="name">First Name</label>
+                                                        <input type="text" class="form-control"
+                                                               id="studnet_registration"
+                                                               name="first_name" placeholder="First Nname"
+                                                               required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-4 " id="name">
+                                                        <label for="name">Middle Name</label>
+                                                        <input type="text" class="form-control"
+                                                               id="studnet_registration"
+                                                               name="middle_name" placeholder="Middle Name"
+                                                               required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-4 " id="studnet_registration">
+                                                        <label for="name">Last Name</label>
+                                                        <input type="text" class="form-control" name='last_name'
+                                                               id="studnet_registration"
+                                                               placeholder="Last Name" required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="gender">Gender</label>
+                                                        <br/>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="gender" id="male" value="m"
+                                                                   required="1">
+                                                                Male
+                                                            </input>
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="gender" id="female" value="f"
+                                                                   required="1">Female
+                                                            </input>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="name">Date of Birth</label>
+                                                        <input type="text"
+                                                               t-attf-class="form-control a fa-calendar:before"
+                                                               id="birthdate" data-date-format="MM/DD/YYYY"
+                                                               name="birth_date" placeholder="MM/DD/YYYY"
+                                                               required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email"
+                                                               placeholder="Email" required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="phone">Mobile Number</label>
+                                                        <input type="text" class="form-control" id="phone"
+                                                               name="phone"
+                                                               placeholder="Mobile Number" required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="street">Street</label>
+                                                        <input type="text" name="street" class="form-control"
+                                                               placeholder="Street" required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label" for="city">City</label>
+                                                        <input type="text" name="city" class="form-control"
+                                                               placeholder="City"
+                                                               required="1"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label label-optional" for="zip">Zip /
+                                                            Postal
+                                                            Code
+                                                        </label>
+                                                        <input type="text" name="zip" class="form-control"
+                                                               placeholder="Zip / Postal Code" required="1"/>
+                                                    </div>
+                                                    <div class="from-group col-md-6">
+                                                        <label class="control-label" for="country_id">Country</label>
+                                                        <select name="country_id" class="form-control" required="1">
+                                                            <option value="">Country...</option>
+                                                            <t t-foreach="countries or []" t-as="country">
+                                                                <option t-att-value="country.id">
+                                                                    <t t-esc="country.name"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="email">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email"
-                                                       placeholder="Email" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="phone">Mobile Number</label>
-                                                <input type="tel" class="form-control" id="phone" name="phone"
-                                                       placeholder="Mobile Number" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="street2">Street</label>
-                                                <input type="text" name="street2" class="form-control"
-                                                       placeholder="Street" required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label class="control-label" for="city">City</label>
-                                                <input type="text" name="city" class="form-control" placeholder="City"
-                                                       required="1"/>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label class="control-label label-optional" for="zip">Zip / Postal
-                                                    Code
-                                                </label>
-                                                <input type="text" name="zip" class="form-control"
-                                                       placeholder="Zip / Postal Code" required="1"/>
-                                            </div>
-                                            <div class="from-group col-md-6">
-                                                <label class="control-label" for="country_id">Country</label>
-                                                <select name="country_id" class="form-control" required="1">
-                                                    <option value="">Country...</option>
-                                                    <t t-foreach="countries or []" t-as="country">
-                                                        <option t-att-value="country.id">
-                                                            <t t-esc="country.name"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                            <div class="from-group col-md-12">
+                                            <div class="from-group col-md-12" style="padding-right: 45px;">
                                                 <button type="submit" class="btn btn-primary mb16 mt16 col-md-12">Next
                                                 </button>
                                             </div>
@@ -135,7 +167,10 @@
                             <div class="row">
                                 <div class="text-center">
                                     <br></br>
-                                    <h2>Your application has been confirmed.</h2>
+                                    <h2>Your application
+                                        <t t-esc="admission_id.application_number"/>
+                                        has been received.
+                                    </h2>
                                 </div>
                             </div>
                         </div>

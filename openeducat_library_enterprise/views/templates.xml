@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_tests" name="Website Library Media Tests" inherit_id="web.assets_tests">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="/openeducat_library_enterprise/static/tests/tours/library_media_test.js"></script>
+            <script type="text/javascript"
+                    src="/openeducat_library_enterprise/static/tests/tours/media_test.js"></script>
+             <script type="text/javascript"
+                    src="/openeducat_library_enterprise/static/tests/tours/media_queue_request.js"></script>
+        </xpath>
+    </template>
+</odoo>

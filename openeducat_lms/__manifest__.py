@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'LMS',
     'complexity': "easy",
-    'description': """
-        This module provide feature of LMS.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -29,12 +26,15 @@
         'openeducat_quiz',
     ],
     'data': [
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'views/assets.xml',
         'wizard/course_invitation_view.xml',
         'data/course_invitation.xml',
         'data/material_reminder.xml',
         'data/auth_signup.xml',
+        'data/report_paperformat.xml',
+        'data/certificate_sequence.xml',
         'views/quiz_view.xml',
         'views/course_catagory_view.xml',
         'views/course_view.xml',
@@ -47,8 +47,10 @@
         'views/material_detail_view.xml',
         'views/my_courses.xml',
         'views/lms_onboard.xml',
+        'views/certificate_portal.xml',
+        'reports/course_reports.xml',
+        'reports/course_certificate_templates.xml',
         'dashboard/lms_dashboard.xml',
-        'dashboard/openeducat_lms_dashboard_view.xml',
         'menus/op_menu.xml',
     ],
     'demo': [

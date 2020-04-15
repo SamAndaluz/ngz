@@ -62,7 +62,7 @@
                                 <tr>
                                     <td>
                                         <a t-attf-href="/library/media/#{library_media.id}">
-                                            <span t-esc="library_media.name"/>
+                                            <span id='test' t-esc="library_media.name"/>
                                         </a>
                                     </td>
                                     <td>
@@ -112,7 +112,7 @@
                                 </div>
                                 <div t-if="media_data.author_ids" class="col-md-8">
                                     <t t-foreach="media_data.author_ids" t-as="author">
-                                        <span t-esc="author.name"/>
+                                        <span id="test1" t-esc="author.name"/>
                                         <br/>
                                     </t>
                                 </div>
@@ -323,7 +323,7 @@
                                 <strong>Media:</strong>
                             </div>
                             <div t-if="media_movement_ids.media_id.name" class="col-md-8">
-                                <t t-esc="media_movement_ids.media_id.name"/>
+                                <t t-esc="media_movement_ids.media_id.name" id='media'/>
                             </div>
                             <div t-if="media_movement_ids.media_unit_id.name" class="col-md-4">
                                 <strong>Media Unit:</strong>

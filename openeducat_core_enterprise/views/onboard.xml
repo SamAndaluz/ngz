@@ -24,7 +24,6 @@
                     <group colspan="4" col="4" name="main">
                         <field name="name"/>
                         <field name="code"/>
-                        <field name="section"/>
                         <field name="evaluation_type"/>
                         <field name="parent_id"/>
                         <field name="min_unit_load"/>

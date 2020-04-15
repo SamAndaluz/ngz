@@ -15,7 +15,7 @@ class StudentProgression(models.Model):
     _inherit = ["op.student.progression"]
 
     @api.depends("marksheet_lines")
-    def _calculate_total_marksheet_line(self):
+    def _compute_calculate_total_marksheet_line(self):
         self.total_marksheet_line = len(self.marksheet_lines)
 
     marksheet_lines = fields.One2many(
@@ -24,5 +24,5 @@ class StudentProgression(models.Model):
         string='Progression Marksheet')
     total_marksheet_line = fields.Integer(
         'Total Marksheet',
-        compute="_calculate_total_marksheet_line",
+        compute="_compute_calculate_total_marksheet_line",
         store=True)

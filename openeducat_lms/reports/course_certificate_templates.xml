@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="certification_report_view">
+            <t t-call="web.html_container">
+                <t t-call="web.html_container">
+                    <t t-set="data_report_margin_top" t-value="12"/>
+                    <t t-set="data_report_header_spacing" t-value="3"/>
+                    <t t-set="data_report_dpi" t-value="110"/>
+                    <t t-foreach="docs" t-as="o">
+                        <div class="certification-wrapper">
+                            <t t-call="web.internal_layout">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="page mb16">
+                                            <br/>
+                                            <div class="oe_structure"/>
+                                            <div class="page"
+                                                 t-attf-style="background-image:url('/openeducat_lms/static/description/certificate.png');background-size:1200px 900px; width:1200px; height:900px;">
+
+                                                <div style="margin-left: 445px; padding-top:349px">
+                                                    <h1 style="font-size:52px   ;font-family: initial;">
+                                                        <span t-field="o.company_id"/>
+                                                    </h1>
+                                                    <p style="padding-left: 68px;font-size: 23px;">
+                                                        Certifies that
+                                                    </p>
+                                                    <h2 style="margin-left: 52px;">
+                                                        <span t-esc="o.user_id.name"/>
+                                                    </h2>
+                                                    <p style="margin-left: 19px;font-size: 23px;">
+                                                        Successfully achieved
+                                                    </p>
+                                                    <h3>
+                                                        <span t-field="o.course_id"/>
+                                                    </h3>
+                                                    <p>
+                                                        <strong>Date of Certification:</strong>
+                                                        <span t-field="o.completion_date"/>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <h3 style="padding-top: 43px; padding-left: 704px;">
+                                                        <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}"
+                                                             t-att-alt="o.company_id.name"/>
+                                                    </h3>
+                                                </div>
+                                                <span style="padding-left: 129px;margin-top: 58px;">
+                                                    Certificate Number:
+                                                </span>
+                                                <span t-field="o.index"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

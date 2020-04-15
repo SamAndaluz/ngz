@@ -15,19 +15,18 @@
     "sequence": 3,
     'summary': 'LMS',
     'complexity': "easy",
-    'description': """
-        This module provide feature of LMS Gamification.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
-        'gamification',
-        'openeducat_lms',
+        'gamification', 'website_profile',
+        'openeducat_lms'
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/course_view.xml',
         'views/gamification_badges_view.xml',
+        'views/assets.xml',
+        'views/web_gamification_view.xml',
         'menus/op_menu.xml',
     ],
     'demo': [

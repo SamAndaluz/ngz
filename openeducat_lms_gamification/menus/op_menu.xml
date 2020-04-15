@@ -26,4 +26,9 @@
               parent="menu_op_lms_gamification"
               action="gamification.badge_list_action"
               sequence="30"/>
+
+    <menuitem id="gamification_rank_menu"
+              parent="menu_op_lms_gamification"
+              action="gamification.gamification_karma_ranks_action"
+              sequence="30"/>
 </odoo>

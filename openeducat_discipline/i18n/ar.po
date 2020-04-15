@@ -446,7 +446,7 @@ msgid ""
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr ""
 "انضباط\n"
-"                                <تمتد نمط = \"تعويم: الأيسر. الحشو: 0 20px 0 20px؛\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_discipline
 #: model_terms:ir.ui.view,arch_db:openeducat_discipline.student_progression_discipline_portal_inherit

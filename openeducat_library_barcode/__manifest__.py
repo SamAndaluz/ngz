@@ -12,7 +12,6 @@
     'name': 'Library Barcode Scanning System',
     'version': '13.0',
     'category': 'Education',
-    'description': """Library barcode.""",
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

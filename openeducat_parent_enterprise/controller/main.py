@@ -14,12 +14,11 @@ from odoo import http
 from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
-class Parent_core_Potal(CustomerPortal):
+class ParentCorePotal(CustomerPortal):
 
     @http.route(['/my/child/<int:child_id>'],
                 type='http', auth="user", website=True)
     def portal_child_detail(self, child_id=None, **kw):
-
         values = self._prepare_portal_layout_values()
         student_id = request.env['op.student'].sudo().search(
             [('id', '=', child_id)])

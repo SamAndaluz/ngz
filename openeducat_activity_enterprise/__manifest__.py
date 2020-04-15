@@ -15,10 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Activities',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Activity Manangement.
-
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -28,7 +24,6 @@
     ],
     'data': [
 
-
         'security/op_security.xml',
         'security/ir.model.access.csv',
         'wizards/progression_activity_wizard_view.xml',
@@ -36,6 +31,7 @@
         'views/openeducat_activity_view.xml',
         'views/openeducat_progression_activity.xml',
         'views/student_progression_activity_portal.xml',
+        'views/activity_type_view.xml',
         'reports/migration_report_view.xml',
         'reports/activity_progression_report.xml',
     ],

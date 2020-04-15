@@ -263,7 +263,7 @@ msgstr "安置优惠"
 msgid "Placement Offers\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "安置优惠\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_placement_enterprise
 #: model:ir.model.fields,field_description:openeducat_placement_enterprise.field_res_users__placement_team_id

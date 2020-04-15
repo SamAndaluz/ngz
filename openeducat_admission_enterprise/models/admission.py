@@ -17,3 +17,16 @@ class OpAdmission(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)
+
+
+class OpCourse(models.Model):
+    _inherit = "op.course"
+
+    admission_count = fields.Integer(
+        compute="_compute_admission_count_dashboard_data", string='Admission Count')
+
+    def _compute_admission_count_dashboard_data(self):
+        for course in self:
+            admission_list = self.env['op.admission'].search_count(
+                [('course_id', 'in', [course.id]), ('state', '=', 'done')])
+            course.admission_count = admission_list

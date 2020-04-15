@@ -110,7 +110,7 @@ msgstr "родитель"
 msgid "Parent\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "родитель\n"
-"                                <SPAN стиль = \"плавать: слева; обивка: 0 20px 0 20px;\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_parent_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_parent_enterprise.view_op_parent_form_onboard

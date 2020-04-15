@@ -18,7 +18,7 @@ class EventBarcode(http.Controller):
 
     @http.route('/openeducat_library_barcode/register_attendee',
                 type='json', auth="user")
-    def register_attendee(self, barcode, media_barcode,
+    def register_attendee(self, media_barcode,
                           librarycard_barcode, **kw):
         media_unit_number = media_barcode
         library_card_number = librarycard_barcode
@@ -46,7 +46,7 @@ class EventBarcode(http.Controller):
                     'return_date': date.today() +
                     timedelta(days=card.library_card_type_id.duration),
                     'state': 'available',
-                    'partner_id': card.student_id.partner_id.id or\
+                    'partner_id': card.student_id.partner_id.id or
                     card.faculty_id.partner_id.id,
                 }
                 movement = request.env['op.media.movement'].create(
@@ -79,7 +79,8 @@ class EventBarcode(http.Controller):
         return {
             'success': _('Successfully Return'),
             'penalty': media_move_search.penalty or 0.0,
-            'currency_id': media_move_search.student_id.user_id.company_id.currency_id.symbol,
+            'currency_id': media_move_search.student_id.user_id.company_id.
+            currency_id.symbol,
             'media': unit.name,
             'student': media_move_search.student_id.name
         }

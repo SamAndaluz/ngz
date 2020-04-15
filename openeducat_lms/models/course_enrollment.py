@@ -9,6 +9,7 @@
 ##############################################################################
 
 from odoo import models, fields, api
+import uuid
 
 
 class OpCourseEnrollment(models.Model):
@@ -16,6 +17,8 @@ class OpCourseEnrollment(models.Model):
     _rec_name = "user_id"
     _description = "LMS Course Enrollment"
 
+    index = fields.Char(string='Index', required=True, copy=False, readonly=True,
+                        index=True, )
     course_id = fields.Many2one('op.course', 'Course', required=True)
     navigation_policy = fields.Selection(
         related='course_id.navigation_policy', string='Navigation Policy')
@@ -34,6 +37,30 @@ class OpCourseEnrollment(models.Model):
     completed_percentage = fields.Integer(
         compute="_compute_completed_percentage",
         string="Completed Percentage", store=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
+
+    access_url = fields.Char(
+        'Portal Access URL', compute='_compute_access_url',
+        help='Customer Portal URL')
+    access_token = fields.Char('Security Token', copy=False)
+
+    @api.model
+    def create(self, vals):
+        if vals.get('index', '/') == '/':
+            vals['index'] = self.env['ir.sequence'] \
+                                .next_by_code('op.course.enrollment') or '/'
+        return super(OpCourseEnrollment, self).create(vals)
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return '%s' % (self.course_id.name)
+
+    def _compute_access_url(self):
+        for record in self:
+            record.access_url = '/certificate/%s' % (record.id)
 
     @api.depends('course_id.training_material', 'enrollment_material_line')
     def _compute_completed_percentage(self):
@@ -47,6 +74,36 @@ class OpCourseEnrollment(models.Model):
 
     def action_onboarding_enrollment_layout(self):
         self.env.user.company_id.onboarding_enrollment_layout_state = 'done'
+
+    def _portal_ensure_token(self):
+        """ Get the current record access token """
+        if not self.access_token:
+            # we use a `write` to force the cache clearing otherwise
+            # `return self.access_token` will return False
+            self.sudo().write({'access_token': str(uuid.uuid4())})
+        return self.access_token
+
+    def get_portal_url(self, suffix=None, report_type=None,
+                       download=None, query_string=None, anchor=None):
+        """
+            Get a portal url for this model, including access_token.
+            The associated route must handle the flags for them to have any effect.
+            - suffix: string to append to the url, before the query string
+            - report_type: report_type query string, often one of: html, pdf, text
+            - download: set the download query string to true
+            - query_string: additional query string
+            - anchor: string to append after the anchor #
+        """
+        self.ensure_one()
+        url = self.access_url + '%s?access_token=%s%s%s%s%s' % (
+            suffix if suffix else '',
+            self._portal_ensure_token(),
+            '&report_type=%s' % report_type if report_type else '',
+            '&download=true' if download else '',
+            query_string if query_string else '',
+            '#%s' % anchor if anchor else ''
+        )
+        return url
 
 
 class OpCourseEnrollmentMaterial(models.Model):
@@ -63,3 +120,6 @@ class OpCourseEnrollmentMaterial(models.Model):
     completed = fields.Boolean('Completed')
     completed_date = fields.Datetime('Completed Time')
     last_access_date = fields.Datetime('Last Access Time')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)

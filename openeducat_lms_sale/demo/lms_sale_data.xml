@@ -49,106 +49,15 @@
         <!--Enrollment Details-->
         <record id="demo_enrollment_free" model="op.course.enrollment">
             <field name="course_id" ref="openeducat_lms.demo_course_1"/>
-            <field name="user_id" ref="base.user_root"/>
+            <field name="user_id" ref="base.user_admin"/>
             <field name="state">in_progress</field>
         </record>
 
         <record id="demo_enrollment_paid" model="op.course.enrollment">
             <field name="course_id" ref="openeducat_lms.demo_course_2"/>
             <field name="order_id" ref="demo_sale_order"/>
-            <field name="user_id" ref="base.user_root"/>
+            <field name="user_id" ref="base.user_admin"/>
             <field name="state">in_progress</field>
-        </record>
-
-        <!--Enrollment Material-->
-        <record id="demo_enrollment_material_1" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_french_image"/>
-            <field name="enrollment_id" ref="demo_enrollment_paid"/>
-        </record>
-
-        <record id="demo_enrollment_material_2" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_french_pdf"/>
-            <field name="enrollment_id" ref="demo_enrollment_paid"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_intro" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_intro_course"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_intro_syntax" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_cnd_image"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_words" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_words"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_anaconda_bundle" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_anaconda_bundle"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_syntax" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_syntax_pdf"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_variable" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_variable"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_string_number" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_string_number"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_functions" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_functions"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_cnd_syntax" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_cnd_image"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_sequence_list" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_sequence_list"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_iteration" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_iteration"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_files" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_files"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
-        </record>
-
-        <record id="demo_enrollment_material_python_files_rw" model="op.course.enrollment.material">
-            <field name="material_id"
-                   ref="openeducat_lms.material_python_files_rw"/>
-            <field name="enrollment_id" ref="demo_enrollment_free"/>
         </record>
     </data>
 </odoo>

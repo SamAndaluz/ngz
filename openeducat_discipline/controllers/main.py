@@ -58,7 +58,7 @@ class DisciplinePortal(CustomerPortal):
                     'res_model': 'op.discipline',
                     'res_id': discipline_id,
                     'type': 'binary',
-                    'name': attachment.filename,
+                    # 'name': attachment.filename,
                     'datas': base64.encodestring(attached_file),
                 })
                 attechment_list.append(attachment.id)
@@ -70,7 +70,7 @@ class DisciplinePortal(CustomerPortal):
                 'email_from': 'nikbhai@gmail.com',
             }
 
-        request.env["mail.mail"].create(vals)
+        request.env["mail.mail"].sudo().create(vals)
 
         template = request.env.ref(
             'openeducat_discipline.email_student_apology_letter_template',

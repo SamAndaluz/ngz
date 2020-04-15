@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Health',
     'complexity': "easy",
-    'description': """
-        This module adds the feature of health in Openeducat
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

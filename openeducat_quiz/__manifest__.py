@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Quiz Management',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Quiz Management.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -27,18 +24,23 @@
         'openeducat_web',
     ],
     'data': [
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'views/category_view.xml',
         'wizard/question_view.xml',
         'wizard/update_mark_view.xml',
+        'data/portal_result_sequence.xml',
         'views/quiz_view.xml',
         'views/result_view.xml',
         'views/website_view.xml',
+        'views/website_view_fullscreen.xml',
         'views/quiz_asset.xml',
         'views/question_bank_view.xml',
+        'views/quiz_embeded.xml',
         'views/my_account_result.xml',
         'views/onboard.xml',
         'menus/op_menu.xml',
+
     ],
     'demo': [
         'demo/question_bank_type.xml',
@@ -49,10 +51,13 @@
         'demo/question_bank_c.xml',
         'demo/question_bank_cpp.xml',
         'demo/question_bank_science.xml',
+        'demo/question_bank_reference_gk.xml',
         'demo/op_quiz_category_data.xml',
         'demo/op_quiz_data.xml',
-        'demo/op_quiz_config_data.xml',
         'demo/op_quiz_line_data.xml',
+        'demo/op_quiz_result_line.xml',
+        'demo/op_quiz_result.xml',
+
     ],
     'images': [
         'static/description/openeducat_quiz_banner.jpg',

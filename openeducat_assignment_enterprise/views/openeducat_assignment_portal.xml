@@ -1,87 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="student_portal_assignment"
-              inherit_id="openeducat_core_enterprise.openeducat_enterprise_student_portal"
-              priority="35">
-        <xpath expr="//div[@name='student_portal_div']" position="inside">
-            <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a href="#" data-toggle="collapse" data-parent="#accordion" data-target="#assignment">
-                            <h4 class="border panel-title">
-                                Assignment
-                                <span style="float:left;padding: 0 20px 0 20px;">+</span>
-                            </h4>
-                        </a>
-                    </div>
-                    <div id="assignment" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <table class="mt16 table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th style="width:150px;">Name</th>
-                                        <th style="width:100px;">Course</th>
-                                        <th>Batch</th>
-                                        <th>Subject</th>
-                                        <th>Faculty</th>
-                                        <th>Reviewer</th>
-                                        <th>Marks</th>
-                                        <th style="width:200px;">Assignment Type</th>
-                                        <th>State</th>
-                                        <th style="width:120px;">Issued Date</th>
-                                        <th style="width:200px;">Submission Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="student.allocation_ids" t-as="assignment">
-                                        <tr>
-                                            <td>
-                                                <span t-esc="assignment.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.course_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.batch_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.subject_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.faculty_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.reviewer.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.marks"/>
-                                            </td>
+    <template id="assignment_details">
+        <t t-call="portal.portal_layout">
 
-                                            <td>
-                                                <span t-esc="assignment.assignment_type_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="{False:False, 'draft':'Draft',
-                                                'publish':'Published', 'finish':'Finished',
-                                                'cancel':'Cancel'}[assignment.state]"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.issued_date"
-                                                      t-options="{'widget': 'datetime'}"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="assignment.submission_date"
-                                                      t-options="{'widget': 'datetime'}"/>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Assignment Information</t>
+            </t>
+            <t t-if="not assignment">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+
+            <div t-if="assignment" style="background-color:white; padding: 2px 40px 20px 40px;">
+                <div class="mt32">
+                    <div t-if="assignment.name" class="row col-md-12">
+                        <strong>
+                            <span style="font-size:24px;" t-esc="assignment.name"/>
+                        </strong>
+                    </div>
+                    <div class="mt16"/>
+                    <div class="row col-md-12">
+                        <div class="row col-md-6">
+                            <div t-if="assignment.course_id" class="col-md-4">
+                                <strong>Course:</strong>
+                            </div>
+                            <div t-if="assignment.course_id" class="col-md-8">
+                                <span id="test1" t-esc="assignment.course_id.name"/>
+                            </div>
+                            <div t-if="assignment.subject_id" class="col-md-4">
+                                <strong>Subject:</strong>
+                            </div>
+                            <div t-if="assignment.subject_id" class="col-md-8">
+                                <span t-esc="assignment.subject_id.name"/>
+                            </div>
+                            <div t-if="assignment.assignment_type_id" class="col-md-4">
+                                <strong>Assignment Type:</strong>
+                            </div>
+                            <div t-if="assignment.assignment_type_id" class="col-md-8">
+                                <span t-esc="assignment.assignment_type_id.name"/>
+                            </div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div t-if="assignment.batch_id" class="col-md-4">
+                                <strong>Batch:</strong>
+                            </div>
+                            <div t-if="assignment.batch_id" class="col-md-8">
+                                <span t-esc="assignment.batch_id.name"/>
+                            </div>
+                            <div t-if="assignment.faculty_id" class="col-md-4">
+                                <strong>Faculty:</strong>
+                            </div>
+                            <div t-if="assignment.faculty_id" class="col-md-8">
+                                <span t-esc="assignment.faculty_id.name"/>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Reviewer:</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span t-esc="assignment.reviewer.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt32 row col-md-12">
+                        <div class="row col-md-6">
+                            <div t-if="assignment.issued_date" class="col-md-4">
+                                <strong>Issued Date:</strong>
+                            </div>
+                            <div t-if="assignment.issued_date" class="col-md-8">
+                                <span t-esc="assignment.issued_date"/>
+                            </div>
+                            <div t-if="assignment.marks" class="col-md-4">
+                                <strong>Marks:</strong>
+                            </div>
+                            <div t-if="assignment.marks" class="col-md-8">
+                                <span t-esc="assignment.marks"/>
+                            </div>
+                        </div>
+                        <div class="row col-md-6">
+                            <div t-if="assignment.submission_date" class="col-md-4">
+                                <strong>Submission Date:</strong>
+                            </div>
+                            <div t-if="assignment.submission_date" class="col-md-8">
+                                <span t-esc="assignment.submission_date"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="assignment.description" class="mt32">
+                        <h4>Description</h4>
+                        <span t-esc="assignment.description"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt16" t-if="assignment.attachment_ids"
+                 style="background-color:white; padding: 2px 40px 20px 40px;">
+                <div class="mt32">
+                    <div class="row mt16">
+                        <div t-if="assignment.attachment_ids" class="col-md-2">
+                            <strong>Attachments:</strong>
+                        </div>
+                        <div t-if="assignment.attachment_ids" class="col-md-10">
+                            <t t-foreach="assignment.attachment_ids" t-as="attch">
+                                <a t-attf-href="/assignment/attachment/download/#{attch.id}">
+                                    <t t-if="attch.name" t-esc="attch.name"/>
+                                    <i t-if="attch.name" class="fa fa-download"/>
+                                </a>
+                                <br/>
+                            </t>
                         </div>
                     </div>
                 </div>
             </div>
-        </xpath>
+        </t>
     </template>
 </odoo>

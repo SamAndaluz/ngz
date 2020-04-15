@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Achievement',
     'complexity': "easy",
-    'description': """
-        This module adds the feature of achievement in Openeducat
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -34,6 +31,7 @@
         'views/openeducat_achievement_portal.xml',
         'views/openeducat_progression_achievement.xml',
         'views/student_progression_achievement_portal.xml',
+        'views/assessts.xml',
         'menus/op_menu.xml',
         'report/achievement_progression_report.xml',
     ],
@@ -44,6 +42,9 @@
         'demo/achievement_type_demo.xml',
         'demo/achievement_demo.xml',
         'demo/progression_achievement_demo.xml'
+    ],
+    'qweb': [
+        'static/src/xml/ach_widget_templates.xml',
     ],
     'installable': True,
     'auto_install': False,

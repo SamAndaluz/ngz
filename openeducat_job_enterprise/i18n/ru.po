@@ -18,32 +18,32 @@ msgstr ""
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Address :</b>"
-msgstr "<B> Адрес: </ b>"
+msgstr "<b> Адрес: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Description :</b>"
-msgstr "<Б> Описание: </ b>"
+msgstr "<b> Описание: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Employment Type :</b>"
-msgstr "<Б> Вид занятости: </ b>"
+msgstr "<b> Вид занятости: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Job Post :</b>"
-msgstr "<Б> Работа Сообщение: </ b>"
+msgstr "<b> Работа Сообщение: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "<b>Salary :</b>"
-msgstr "<Б> Зарплата: </ b>"
+msgstr "<b> Зарплата: </b>"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.job_post_list
 msgid "<span>Open Positions</span>"
-msgstr "<SPAN> Открытые позиции </ SPAN>"
+msgstr "<span> Открытые позиции </span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_job_applicant__message_needaction
@@ -141,8 +141,7 @@ msgstr "Поздравляем!"
 #: model_terms:website.page,arch_db:openeducat_job_enterprise.thankyou
 msgid "Continue To Our\n"
 "                                                Website"
-msgstr "Продолжают Наша\n"
-"                                                Веб-сайт"
+msgstr "Продолжают Наша Веб-сайт\n"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_job_post__country_id
@@ -329,7 +328,7 @@ msgstr "Работа сообщение Detail"
 msgid "Job Post Detail\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Работа сообщение Detail\n"
-"                                <SPAN стиль = \"плавать: слева; обивка: 0 20px 0 20px;\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_job_enterprise
 #: model:ir.model.fields,field_description:openeducat_job_enterprise.field_op_student__job_post_ids
@@ -687,8 +686,7 @@ msgstr "каждый год"
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.jobpost_detail
 msgid "Yes I\n"
 "                                        Am Interested!"
-msgstr "да я\n"
-"                                        Интересуюсь!"
+msgstr "да я Интересуюсь!\n"
 
 #. module: openeducat_job_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_job_enterprise.thankyou_ir_ui_view

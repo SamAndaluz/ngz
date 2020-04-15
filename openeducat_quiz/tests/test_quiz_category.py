@@ -28,3 +28,16 @@ class TestQuizCategory(TestQuizCommon):
         logging.info('  Name     :   Code')
         for category in categories:
             logging.info('%s :    %s' % (category.name, category.code))
+
+
+class TestOpQuiz(TestQuizCommon):
+
+    def setUp(self):
+        super(TestOpQuiz, self).setUp()
+
+    def test_case_op_quiz(self):
+        quiz = self.op_quiz.search([])
+        quiz.action_confirm()
+        quiz.action_draft()
+        quiz.action_cancel()
+        quiz.action_done()

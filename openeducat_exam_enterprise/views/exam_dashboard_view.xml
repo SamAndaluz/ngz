@@ -4,14 +4,20 @@
             <field name="name">op.exam.view.kanban</field>
             <field name="model">op.exam.session</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile">
+                <kanban create="false" string="LMS Overview"
+                        class="o_emphasize_colors o_kanban_dashboard o_slide_kanban breadcrumb_item active"
+                        edit="false">
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div style="margin-bottom:20px;">
-                                    <strong style="font-size:20px;">
-                                        <field name="name"/>&amp;nbsp;
-                                    </strong>
+                            <div t-attf-class="#{kanban_color(0)} oe_kanban_global_click">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title mb16">
+                                        <div class="o_primary">
+                                            <a type="edit" class="mr-auto">
+                                                <field name="name" class="o_primary"/>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb10">
                                     <span>Start Date :</span>
@@ -61,13 +67,18 @@
             <field name="view_mode">kanban</field>
         </record>
 
+        <record id="exam_dashboard_overview_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="7"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="openeducat_exam.view_op_exam_session_form"/>
+            <field name="act_window_id" ref="exam_dashboard_act"/>
+        </record>
+
         <record id="exam_dashboard_action_overview" model="ir.actions.act_window.view">
             <field name="sequence" eval="2"/>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="exam_view_kanban"/>
             <field name="act_window_id" ref="exam_dashboard_act"/>
         </record>
-
-
     </data>
 </odoo>

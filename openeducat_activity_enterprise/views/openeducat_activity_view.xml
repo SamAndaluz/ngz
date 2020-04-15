@@ -11,7 +11,23 @@
                 <xpath expr="//field[@name='student_id']" position="after">
                     <field name="progression_id" readonly="1" force_save="1"/>
                 </xpath>
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
             </field>
         </record>
+
+        <record id="view_op_activity_inherited_tree_view" model="ir.ui.view">
+            <field name="name">op.activity.tree</field>
+            <field name="model">op.activity</field>
+            <field name="inherit_id" ref="openeducat_activity.view_op_activity_tree"/>
+            <field name="priority" eval="10"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>

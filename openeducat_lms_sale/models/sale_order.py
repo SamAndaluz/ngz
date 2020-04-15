@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         for so in self:
-            enrollments = self.env['op.course.enrollment'].search(
+            enrollments = self.env['op.course.enrollment'].sudo().search(
                 [('order_id', '=', so.id)])
             if enrollments:
                 for e in enrollments:

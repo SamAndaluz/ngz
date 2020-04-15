@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="placement_student_form_view">
-            <field name="name">op.student.form</field>
+        <record id="placement_smart_button" model="ir.ui.view">
+            <field name="name">placement.smart.buttons</field>
             <field name="model">op.student</field>
             <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@name='educational']" position="after">
-                    <page name="placement_offers" string="Placement Offers">
-                        <field name="placement_line" colspan="4" nolabel="1"/>
-                    </page>
+                <xpath expr="//div[@name='smart_button']" position="inside">
+                    <button class="btn oe_stat_button" type="object"
+                            name="get_placement"
+                            style="border-right: 1px solid;"
+                            icon="fa-briefcase">
+                        <field string="Placements" name="placement_count" widget="statinfo"/>
+                    </button>
                 </xpath>
             </field>
         </record>
+
 
         <record id="view_op_placement_offer_tree" model="ir.ui.view">
             <field name="name">op.placement.offer.tree</field>
@@ -80,12 +84,24 @@
             </field>
         </record>
 
+        <record id="view_op_placement_offer_pivot" model="ir.ui.view">
+            <field name="name">view.op.placement.offer.pivot</field>
+            <field name="model">op.placement.offer</field>
+            <field name="arch" type="xml">
+                <pivot string="Placement Offer">
+                    <field name="name" type="col"/>
+                    <field name="training_period" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+
         <record model="ir.actions.act_window" id="act_open_op_placement_offer_view">
             <field name="name">Placement Offers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">op.placement.offer</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot</field>
             <field name="search_view_id" ref="view_op_placement_offer_search"/>
         </record>
 

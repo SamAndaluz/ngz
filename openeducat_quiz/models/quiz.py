@@ -9,10 +9,12 @@
 ##############################################################################
 
 import random
+import urllib.parse as urlparse
 
 from odoo import models, fields, api, exceptions, _
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.http import request
+from odoo.exceptions import ValidationError
 
 
 class OpQuizResultMessage(models.Model):
@@ -23,6 +25,9 @@ class OpQuizResultMessage(models.Model):
     result_to = fields.Float('Result To (%)')
     message = fields.Html('Message')
     quiz_id = fields.Many2one('op.quiz', 'Quiz')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
 
 class OpQuiz(models.Model):
@@ -31,7 +36,7 @@ class OpQuiz(models.Model):
     _description = "Quiz"
 
     @api.depends('line_ids', 'line_ids.mark')
-    def _get_total_marks(self):
+    def _compute_get_total_marks(self):
         for obj in self:
             total = 0.0
             for line in obj.line_ids:
@@ -46,14 +51,17 @@ class OpQuiz(models.Model):
     line_ids = fields.One2many('op.quiz.line', 'quiz_id', 'Questions')
     quiz_message_ids = fields.One2many('op.quiz.result.message', 'quiz_id',
                                        string='Message')
-    total_marks = fields.Float(compute="_get_total_marks",
+    total_marks = fields.Float(compute="_compute_get_total_marks",
                                string='Total Marks', store=True)
+    active = fields.Boolean(default=True)
+    parent_id = fields.Many2one('op.quiz', 'Parent Quiz')
 
     # Result Configuration
     show_result = fields.Boolean('Display Result')
     right_ans = fields.Boolean('Display Right Answer')
     wrong_ans = fields.Boolean('Display Wrong Answer')
     not_attempt_ans = fields.Boolean('Display Not Attempted Answer')
+    display_result = fields.Boolean('display On Portal')
 
     # Quiz Config with Question Bank
     quiz_config = fields.Selection([
@@ -73,6 +81,7 @@ class OpQuiz(models.Model):
     no_of_attempt = fields.Integer('No of Attempt')
     que_required = fields.Boolean('All Question are Required')
     shuffle = fields.Boolean('Shuffle the Choices')
+    exit_allow = fields.Boolean('Allow Exit')
 
     # Timing Configuration
     time_config = fields.Boolean('Time Configuration')
@@ -93,9 +102,12 @@ class OpQuiz(models.Model):
     quiz_audio = fields.Binary('Audio File')
     quiz_video = fields.Binary('Video File')
     quiz_html = fields.Html('HTML Content')
-    description = fields.Char('Sort Description', size=256)
+    description = fields.Char('Short Description', size=256)
     challenge_ids = fields.Many2many(
         'gamification.challenge', string='Challenges')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     def action_confirm(self):
         for obj in self:
@@ -149,7 +161,7 @@ class OpQuiz(models.Model):
                         line_data.append([0, False, {
                             'name': answer.name,
                             'grade_id': answer.grade_id and
-                                        answer.grade_id.id or False
+                            answer.grade_id.id or False
                         }])
                     if not line_data:
                         continue
@@ -184,14 +196,18 @@ class OpQuiz(models.Model):
         if allowed_attempt and total_attempt >= allowed_attempt:
             raise exceptions.ValidationError(
                 _('You are already reached maximum attempt of this exam'))
+
         line_data = []
+        # ans = self.env['op.question.bank.line'].search([])
         if self.quiz_config in ('quiz_bank_selected', 'normal'):
             for line in self.line_ids:
                 answer_data = []
                 correct_ans = ''
                 values = {
                     'name': line.name,
-                    'question_mark': line.mark
+                    'question_mark': line.mark,
+                    'bank_line': line.id
+                    # 'bank_line':ans,
                 }
                 if line.que_type == 'optional':
                     for answer in line.line_ids:
@@ -200,8 +216,7 @@ class OpQuiz(models.Model):
                         answer_data.append([0, False, {
                             'name': answer.name,
                             'grade_id': answer.grade_id and
-                                        answer.grade_id.id or False
-                        }])
+                                            answer.grade_id.id or False}])
                     values['line_ids'] = answer_data
                 elif line.que_type == 'blank':
                     correct_ans = line.answer or ''
@@ -276,11 +291,117 @@ class OpQuizLine(models.Model):
     quiz_id = fields.Many2one('op.quiz', 'Quiz')
     mark = fields.Float('Marks', default=1.0)
     que_id = fields.Many2one('op.question.bank.line', 'question')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     _sql_constraints = [
         ('check_mark', 'check(mark > 0)',
          'Questions mark should be greater then 0')
     ]
+
+    material_type = fields.Selection([
+        ('video', 'Video'), ('audio', 'Audio'),
+        ('document', 'Document/PDF'), ('infographic', 'Image')],
+        string='Material Type')
+    video_type = fields.Selection([
+        ('youtube', 'Youtube'), ('vimeo', 'Vimeo'),
+        ('dartfish', 'Dartfish'), ('fileupload', 'FileUpload')],
+        string="Video Type", default="youtube")
+    datas = fields.Binary('Content', attachment=True)
+    url = fields.Char('Document URL', help="Youtube or Google Document URL")
+    document_id = fields.Char('Document ID')
+
+    embed_code = fields.Text(
+        'Embed Code', readonly=True, compute='_compute_get_embed_code')
+
+    @api.onchange('url')
+    def on_change_urls(self):
+        self.ensure_one()
+        if self.url:
+            data = urlparse.urlparse(self.url)
+            if data.scheme and data.netloc:
+                doc_id = False
+                if self.video_type == 'youtube':
+                    url_data = urlparse.urlparse(self.url)
+                    query = urlparse.parse_qs(url_data.query)
+                    doc_id = query.get('v', False) and query['v'][0] or False
+                    if not doc_id:
+                        doc_id = url_data.path and url_data.path[1:] or False
+                elif self.video_type == 'vimeo':
+                    url_data = urlparse.urlparse(self.url)
+                    doc_id = url_data.path and url_data.path[1:] or False
+                elif self.video_type == 'dartfish':
+                    url_data = urlparse.urlparse(self.url)
+                    query = urlparse.parse_qs(url_data.query)
+                    doc_id = query.get('CR', False) and query['CR'][0] or False
+            else:
+                raise ValidationError(
+                    _('Please enter valid URL: %s' % self.url))
+            if doc_id:
+                self.document_id = doc_id
+            else:
+                raise ValidationError(_('Could not fetch url. Document Id or \
+                    access right not available:\n%s') % doc_id)
+
+    def _compute_get_embed_code(self):
+        for record in self:
+            if record.material_type == 'video' and record.datas:
+                record.embed_code = '<video controls \
+                        controlsList="nodownload"><source class="audio" \
+                        src="data:video/mp4;base64,%s"></video>' % record.\
+                    datas.decode("utf-8")
+            elif record.material_type == 'video' and \
+                    record.video_type == 'youtube' and record.document_id:
+                record.embed_code = '<iframe \
+                src="https://www.youtube.com/embed/%s?theme=light" \
+                allowFullScreen="true" frameborder="0"></iframe>' % (
+                    record.document_id)
+            elif record.material_type == 'video' and \
+                    record.video_type == 'vimeo' and record.document_id:
+                record.embed_code = '<iframe \
+                src="https://player.vimeo.com/video/%s" \
+                frameborder="0" webkitallowfullscreen mozallowfullscreen \
+                allowfullscreen></iframe>' % (record.document_id)
+            elif record.material_type == 'video' and \
+                    record.video_type == 'dartfish' and record.document_id:
+                record.embed_code = '<iframe \
+                src="https://www.dartfish.tv/Embed?CR=' + \
+                                    record.document_id + \
+                                    '&VW=100%&VH=100%" frameborder="0" \
+                                    allowfullscreen ></iframe>'
+            elif record.datas and (record.material_type == 'document'):
+                record.embed_code = '<iframe src="/material/embed/%s?page=1" \
+                            allowFullScreen="true" height="%s" width="%s" \
+                            frameborder="0"></iframe>' % (record.id, 315, 420)
+            elif record.material_type == 'audio':
+                record.embed_code = '<audio controls \
+                            controlsList="nodownload"><source class="audio" \
+                            src="data:audio/mp3;base64,%s"></audio>' % record.\
+                    datas.decode("utf-8")
+            elif record.datas and (record.material_type == 'infographic'):
+                record.embed_code = '<iframe src="/material/embed/%s?page=1" \
+                allowFullScreen="true" height="%s" width="%s" \
+                frameborder="0"></iframe>' % (record.id, 315, 420)
+
+            else:
+                record.embed_code = False
+
+    @api.depends('name')
+    def _compute_website_url(self):
+        super(OpQuizLine, self)._compute_website_url()
+        base_url = self.env['ir.config_parameter'].sudo().get_param(
+            'web.base.url')
+        for material in self:
+            if material.id:
+                if self.env.registry.get('link.tracker'):
+                    url = self.env['link.tracker'].sudo().create({
+                        'url': '%s/quiz/material/%s' % (
+                            base_url, slug(material))
+                    }).short_url
+                else:
+                    url = '%s/quiz/material/%s' % (base_url, slug(material))
+                material.website_url = url
 
 
 class OpQuizAnswer(models.Model):
@@ -290,6 +411,9 @@ class OpQuizAnswer(models.Model):
     name = fields.Char('Answer')
     grade_id = fields.Many2one('op.answer.grade', 'Grade', required=True)
     line_id = fields.Many2one('op.quiz.line', 'Question')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
 
 class OpAnswerGrade(models.Model):
@@ -298,6 +422,10 @@ class OpAnswerGrade(models.Model):
 
     name = fields.Char('Name')
     value = fields.Float('Grade (%)')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
 
 class OpQuizConfig(models.Model):
@@ -307,3 +435,6 @@ class OpQuizConfig(models.Model):
     quiz_id = fields.Many2one('op.quiz', 'Quiz')
     bank_id = fields.Many2one('op.question.bank', 'Question Bank')
     no_of_question = fields.Integer('Number of Question')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)

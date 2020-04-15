@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'LMS',
     'complexity': "easy",
-    'description': """
-        This module provide feature of LMS to sale course.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -31,6 +28,7 @@
     ],
     'demo': [
         'demo/lms_sale_data.xml',
+
     ],
     'images': [
         'static/description/openeducat_lms_sale_banner.jpg',

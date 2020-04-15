@@ -42,7 +42,6 @@ class TestCourse(TestCourseMaterial):
     def details_of_course(self, case_number, data):
         logging.info('Test Case - %d : %s' % (case_number, data.name))
         logging.info('Code          : %s' % data.code)
-        logging.info('Section       : %s' % data.section)
         if data.faculty_ids:
             logging.info('Information of Faculty ::')
             for faculty in data.faculty_ids:

@@ -17,6 +17,11 @@ class OpAttendanceRegister(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)
+    auto_create = fields.Boolean('Auto Create')
+    auto_create_type = fields.Selection([
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly')], 'Auto create sheet duration')
 
     def action_onboarding_attendance_register_layout(self):
         self.env.user.company_id.onboarding_attendance_register_layout_state =\

@@ -10,6 +10,7 @@
                     <field name="sequence"/>
                     <field name="route_line_id"/>
                     <field name="stop_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -25,6 +26,7 @@
                             <field name="route_line_id" required="1"/>
                             <field name="stop_id" required="1"/>
                             <field name="estimated_time" widget="float_time" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                     </sheet>
                 </form>

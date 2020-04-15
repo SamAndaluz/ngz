@@ -20,7 +20,7 @@ class OpDiscipline(models.Model):
     _rec_name = "student_id"
 
     @api.depends('student_id')
-    def _get_student_class(self):
+    def _compute_get_student_class(self):
         for record in self:
             if record.student_id:
                 student_search = self.env['op.student']. \
@@ -34,7 +34,8 @@ class OpDiscipline(models.Model):
                                      string="Progression No")
     date = fields.Date('Date', copy=False, default=fields.Date.today())
     course_id = fields.Many2one(
-        'op.course', 'Course', compute='_get_student_class', store=True)
+        'op.course', 'Course',
+        compute='_compute_get_student_class', store=True)
     discipline_master = fields.Many2one(
         'res.users', string='Created By',
         default=lambda self: self.env.user, readonly=True)
@@ -47,7 +48,7 @@ class OpDiscipline(models.Model):
     misbehaviour_category_id = fields.Many2one(
         'op.misbehaviour.category', 'Misbehaviour Category', required=True)
     misbehaviour_action = fields.Char('Action To Be Taken', required=True)
-    meeting_datetime = fields.Datetime('Meeting Date Time', required=True)
+    meeting_datetime = fields.Datetime('Meeting Date Time')
     meeting_remark = fields.Text('Remark For Meeting')
     master_comment = fields.Text('Comment By Discipline Master')
     parent_comment = fields.Text(
@@ -64,6 +65,7 @@ class OpDiscipline(models.Model):
         default=lambda self: self.env.user.company_id)
     note = fields.Text(string="Note")
     recipients_ids = fields.Many2many('res.partner', 'recipients_id')
+    active = fields.Boolean(default=True)
 
     @api.onchange('student_id')
     def onchange_student_discipline_progrssion(self):

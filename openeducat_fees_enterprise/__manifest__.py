@@ -15,10 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Fees',
     'complexity': "easy",
-    'description': """
-        This module provide feature of fees collection &
-        other finance operations.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -26,6 +22,7 @@
         'openeducat_core_enterprise',
     ],
     'data': [
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'views/fees_terms_view.xml',
         'views/service_cron.xml',

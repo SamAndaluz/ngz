@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Facility',
     'complexity': "easy",
-    'description': """
-        This module adds the feature of facility in Openeducat
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -26,6 +23,8 @@
     ],
     'data': [
         'security/op_security.xml',
+        'views/facility_view.xml',
+        'views/facility_line_view.xml',
     ],
     'demo': [
     ],

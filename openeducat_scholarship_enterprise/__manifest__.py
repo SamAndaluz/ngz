@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Scholarship',
     'complexity': "easy",
-    'description': """
-        This module adds the feature of scholarship in Openeducat
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['openeducat_core_enterprise'],

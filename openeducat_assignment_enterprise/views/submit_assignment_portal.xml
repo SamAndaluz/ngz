@@ -3,6 +3,19 @@
 
     <template id="portal_my_home_submit_assignment" name="Portal My Home : assign Details"
               inherit_id="portal.portal_my_home" priority="20">
+
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Assignments</t>
+                <t t-if="user_id.sudo().is_parent">
+                    <t t-set="url" t-value="'/student/assignment/details/'+ student_id"/>
+                </t>
+                <t t-if="user_id.sudo().is_student">
+                    <t t-set="url" t-value="'/student/assignment/details'"/>
+                </t>
+            </t>
+        </xpath>
+
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-if="user_id.sudo().is_student" t-call="portal.portal_docs_entry">
                 <t t-set="title">Assignment Submissions</t>
@@ -160,7 +173,7 @@
                                 <tr>
                                     <td>
                                         <a t-attf-href="/assignment/data/#{assignment_list.id}">
-                                            <span t-esc="assignment_list.assignment_id.name"/>
+                                            <span id="name" t-esc="assignment_list.assignment_id.name"/>
                                         </a>
                                     </td>
                                     <td>
@@ -209,7 +222,7 @@
                                         <span t-esc="assignment_data.student_id.name"/>
                                     </td>
                                     <td>
-                                        <span t-esc="assignment_data.assignment_id.name"/>
+                                        <span id="name" t-esc="assignment_data.assignment_id.name"/>
                                     </td>
                                     <td>
                                         <span t-esc="assignment_data.submission_date"/>
@@ -262,7 +275,7 @@
                                     <strong>Assignments:</strong>
                                 </div>
                                 <div class="col-md-7">
-                                    <span t-esc="assignment_ids.assignment_id.name"/>
+                                    <span id="name" t-esc="assignment_ids.assignment_id.name"/>
                                 </div>
                             </div>
                             <div t-if="attachment_ids" class="row mt8 col-md-12">
@@ -271,8 +284,8 @@
                                 </div>
                                 <div class="col-md-7">
                                     <t t-if="attachment_ids" t-foreach="attachment_ids" t-as="attachment">
-                                        <t t-if="attachment.name" t-esc="attachment.name"/>
-                                        <a t-attf-href="/assignment/download/#{attachment.id}">
+                                        <a t-attf-href="/assignment/submission/download/#{attachment.id}">
+                                            <t t-if="attachment.name" t-esc="attachment.name"/>
                                             <i t-if="attachment.name" class="fa fa-download"/>
                                         </a>
                                         <br/>
@@ -318,6 +331,69 @@
                     </xpath>
                 </t>
             </div>
+        </t>
+    </template>
+
+
+    <template id="openeducat_student_assignments">
+        <t t-call="portal.portal_layout">
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Assignments Information</t>
+            </t>
+            <t t-if="not student">
+                <p>There are currently no information for your account!!!</p>
+            </t>
+            <t t-if="student">
+                <div style="background-color:white; padding: 20px 40px 20px 40px;">
+                    <div class="mt16">
+                        <div class="panel-body">
+                            <table class="mt16 table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Course</th>
+                                        <th>Assignment Type</th>
+                                        <th>Issued Date</th>
+                                        <th>Submission Date</th>
+                                        <th>State</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="student.allocation_ids" t-as="assignment">
+                                        <tr>
+                                            <td>
+                                                <a t-attf-href="/assignment/details/#{assignment.id}">
+                                                    <span t-esc="assignment.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.course_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.assignment_type_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.issued_date"
+                                                      t-options="{'widget': 'datetime'}"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="assignment.submission_date"
+                                                      t-options="{'widget': 'datetime'}"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="{False:False, 'draft':'Draft',
+                                                'publish':'Published', 'finish':'Finished',
+                                                'cancel':'Cancel'}[assignment.state]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
         </t>
     </template>
 </odoo>

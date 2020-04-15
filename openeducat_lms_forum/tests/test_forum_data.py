@@ -63,3 +63,15 @@ class TestLmsForumCommon(common.SavepointCase):
                 forum.name)
         info('      Post-1 : %s' % post_1.name)
         info('      Post-2 : %s' % post_2.name)
+
+
+class TestCourseForum(common.SavepointCase):
+
+    def setUp(self):
+        super(TestCourseForum, self).setUp()
+
+    def test_op_course_forum(self):
+        self.op_forum = self.env['op.course']
+
+        course = self.op_forum.search([])
+        course.action_create_forum()

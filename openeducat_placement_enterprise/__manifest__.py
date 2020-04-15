@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Placement',
     'complexity': "easy",
-    'description': """
-        This module provide placement management system.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': ['base',

@@ -13,7 +13,7 @@ import random
 import requests
 import socket
 import urllib
-from xml.dom import minidom
+import xmltodict
 
 try:
     FileNotFoundError
@@ -25,24 +25,15 @@ def bbb_wrap_load_file(url):
     socket.setdefaulttimeout(10)
     try:
         req = requests.post(url)
-        val = minidom.parseString(req.text)
+        val = req.text
         return val
     except FileNotFoundError:
         return None
 
 
 def assign2Dict(xml):
-    try:
-        mapping = {}
-        response = xml.firstChild
-        for child in response.childNodes:
-            if child.hasChildNodes():
-                mapping[child.tagName] = child.firstChild.nodeValue
-            else:
-                mapping[child.tagName] = None
-        return mapping
-    except FileNotFoundError:
-        return None
+    data = xmltodict.parse(xml)
+    return data['response']
 
 
 # -----------------------------GET URLs-----------------------------------
@@ -68,9 +59,8 @@ def joinURL(meetingID, username, PW, SALT, URL):
         'password': PW
     }
     parameters = urllib.parse.urlencode(parameters)
-    return url_join + parameters + '&checksum=' + hashlib.sha1((
-            "join" + parameters + SALT).encode(
-        'utf-8')).hexdigest()
+    return url_join + parameters + '&checksum=' + hashlib.sha1(
+        ("join" + parameters + SALT).encode('utf-8')).hexdigest()
 
 
 #

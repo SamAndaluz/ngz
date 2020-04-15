@@ -15,9 +15,6 @@
     'sequence': 3,
     'summary': "Manage Admissions""",
     'complexity': "easy",
-    'description': """
-        This is gives the feature of admission process.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [

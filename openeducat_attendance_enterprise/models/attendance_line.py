@@ -22,6 +22,8 @@ class OpAttendanceLine(models.Model):
         self.env.user.company_id.onboarding_attendance_lines_layout_state =\
             'done'
 
+    session_id = fields.Many2one(
+        related='attendance_id.session_id')
     progression_id = fields.Many2one('op.student.progression',
                                      string="Progression No")
 

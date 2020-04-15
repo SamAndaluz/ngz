@@ -16,3 +16,7 @@ class OpCourse(models.Model):
     _inherit = "op.course"
 
     survey_ids = fields.One2many('survey.survey', 'course_id', string='Survey')
+
+    def get_survey(self):
+        action = self.env.ref('survey.action_survey_form').read()[0]
+        return action

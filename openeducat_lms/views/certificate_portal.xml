@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_home_certificate" name="Portal My Home : Certificate Details"
+              inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="user_id.sudo().is_parent or user_id.sudo().is_student" t-call="portal.portal_docs_entry">
+                <t t-set="title">Certificates</t>
+                <t>
+                    <t t-set="url" t-value="'/certificate'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="certicate_portal_view">
+        <t t-call="portal.portal_layout">
+            <h3 class="page-header mt-4">Your Certificates</h3>
+            <t t-if="not result_data">
+                <p>There are currently no Certificates</p>
+            </t>
+            <t t-if="result_data">
+                <table class="table table-stripped mt-4">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Name</th>
+                            <th>Enrollment Date</th>
+                            <th>Completion Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="result_data" t-as="line">
+                            <tr>
+                                <td>
+                                    <t t-esc="line['index']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['name'].name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['enroll_date']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['cmp_date']"/>
+                                </td>
+                                <td>
+                                    <t t-if="line['name'].certificate == True">
+                                        <a t-att-href="line['certi']" title="Download Certificate">
+                                            <i class="fa fa-2x fa-download"></i>
+                                        </a>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+        </t>
+    </template>
+</odoo>

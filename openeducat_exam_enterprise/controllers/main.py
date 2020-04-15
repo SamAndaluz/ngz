@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo.http import request
+from odoo.http import request, Response
 
 from odoo import http
 from odoo.addons.portal.controllers.portal import CustomerPortal
@@ -39,8 +39,8 @@ class Exam(http.Controller):
             for attendant in exam.attendees_line.filtered(
                     lambda att: att.marks >= exam.min_marks):
                 pass_count += 1
-            length = len(exam.attendees_line) if exam.attendees_line else 1
-            ratio = (pass_count / length) * 100
+            lengths = len(exam.attendees_line) if exam.attendees_line else 1
+            ratio = (pass_count / lengths) * 100
             if subject:
                 res = {
                     'id': exam.id,
@@ -99,12 +99,42 @@ class ExamPortal(CustomerPortal):
             "openeducat_exam_enterprise.openeducat_exam_portal",
             {'exam_ids': exam_id})
 
+    def check_exam_access(self, exam_id=None):
+
+        marksheet_id = request.env['op.marksheet.line'].sudo().search(
+            [('id', '=', exam_id)])
+        user = request.env.user
+        user_list = []
+        count = 0
+        for rec in marksheet_id.student_id:
+            if rec.user_id:
+                user_list.append(rec.user_id)
+
+        if user.partner_id.is_parent:
+            parent_id = request.env['op.parent'].sudo().search(
+                [('name', '=', user.partner_id.id)])
+            for student_id in parent_id.student_ids:
+                if student_id.partner_id.user_id in user_list:
+                    count += 1
+            if count > 0:
+                return True
+            else:
+                return False
+        else:
+            if user not in user_list:
+                return False
+            else:
+                return True
+
     @http.route(['/student/exam/data/<int:exam_id>'],
                 type='http', auth="user", website=True)
     def portal_student_exam_form(self, exam_id):
 
         exam_instance = request.env['op.marksheet.line'].sudo().search(
             [('id', '=', exam_id)])
+        access_role = self.check_exam_access(exam_instance.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
 
         return request.render(
             "openeducat_exam_enterprise.openeducat_exam_portal_data",

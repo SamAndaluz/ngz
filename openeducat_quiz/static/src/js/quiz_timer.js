@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var url = window.location.href;
     var check_url = url.split("/")[3];
+
+
     if(check_url !==''){
 
         var pieces = url.split("/");
@@ -19,20 +21,21 @@ $(document).ready(function () {
         }
         else{
             if($('#divCounter')){
+
                 var hoursleft = parseInt($('#time_spent_hr').val());
                 var minutesleft = parseInt($('#time_spent_minute').val());
                 var secondsleft = parseInt($('#time_spent_second').val());
                 var finishedtext = "Countdown finished!";
                 var end1;
-                    if(localStorage.getItem("end1")) {
-                        end1 = new Date(localStorage.getItem("end1"));
-                    } else {
-                        end1 = new Date();
-                        end1.setHours(end1.getHours()+hoursleft);
-                        end1.setMinutes(end1.getMinutes()+minutesleft);
-                        end1.setSeconds(end1.getSeconds()+secondsleft);
-                    }
-                    var counter = function () {
+                if(localStorage.getItem("end1")) {
+                    end1 = new Date(localStorage.getItem("end1"));
+                } else {
+                    end1 = new Date();
+                    end1.setHours(end1.getHours()+hoursleft);
+                    end1.setMinutes(end1.getMinutes()+minutesleft);
+                    end1.setSeconds(end1.getSeconds()+secondsleft);
+                }
+                var counter = function () {
                         var now = new Date();
                         var diff = end1 - now;
                         diff = new Date(diff);
@@ -67,20 +70,20 @@ $(document).ready(function () {
                             document.getElementById('spanSn').innerHTML = sec;
                         }
                     }
-                    var url = window.location.href;
-                    var pieces = url.split("/");
-                    if(typeof pieces[5]!=='undefined'){
-                        pieces = pieces[4].split("/");
-                        }
-                    if(pieces == 'attempt'){
-                         var interval = setInterval(counter, 1000);
-                    }
-                    $('.quiz_finish1').on('click',function(e){
-                        e.preventDefault();
-                        var spent_time = $('#all_time').html();
-                        $('#from_quiz_dynamic').append('<input type="hidden" name="t_spent_time" value="'+spent_time+'" />');
-                        $('#from_quiz_dynamic').submit();
-                    });
+                var url = window.location.href;
+                var pieces = url.split("/");
+                if(typeof pieces[5]!=='undefined'){
+                    pieces = pieces[4].split("/");
+                }
+                if(pieces == 'attempt'){
+                     var interval = setInterval(counter, 1000);
+                }
+                $('.quiz_finish1').on('click',function(e){
+                    e.preventDefault();
+                    var spent_time = $('#all_time').html();
+                    $('#from_quiz_dynamic').append('<input type="hidden" name="t_spent_time" value="'+spent_time+'" />');
+                    $('#from_quiz_dynamic').submit();
+                });
 
                     $('#prev_timer').on('click',function(e){
                         e.preventDefault();

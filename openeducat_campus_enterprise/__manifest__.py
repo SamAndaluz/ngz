@@ -15,10 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Campus',
     'complexity': "easy",
-    'description': """
-        This module adds campus management
-        feature to OpenEduCat_Core_Enterprise.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -41,9 +37,7 @@
         'demo/facility_demo.xml',
         'demo/facility_allocation_demo.xml',
     ],
-    'test': [
-        'test/facility_invoice_creation.yml',
-    ],
+    'test': [],
     'images': [
         'static/description/openeducat_campus_enterprise_banner.jpg',
     ],

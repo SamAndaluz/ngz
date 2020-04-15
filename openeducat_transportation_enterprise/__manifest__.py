@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Manage Transportations',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Transportations.
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -35,10 +32,6 @@
         'views/vehicle_view.xml',
         'views/onboard.xml',
         'menus/op_menu.xml',
-    ],
-    'test': [
-        'test/res_users_test.yml',
-        'test/transport_sub_value.yml'
     ],
     'demo': [
         'demo/vehicle_demo.xml',

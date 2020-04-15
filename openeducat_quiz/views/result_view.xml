@@ -17,6 +17,7 @@
                     <field name="total_correct"/>
                     <field name="total_incorrect"/>
                     <field name="score"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -38,6 +39,7 @@
                     <sheet>
                         <group col="2">
                             <group>
+                                <field name="index"/>
                                 <field name="name" readonly="1"/>
                                 <field name="user_id" readonly="1"/>
                             </group>
@@ -52,6 +54,7 @@
                                 <field name="received_marks" readonly="1"/>
                                 <field name="score" readonly="1"/>
                                 <field name="finish_date" readonly="1"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="show"/>
                             </group>
                             <group>
                                 <field name="total_question" readonly="1"/>
@@ -87,6 +90,7 @@
                                                attrs="{'invisible': [('que_type', '!=', 'blank')]}"/>
                                         <field name="grade_false_id"
                                                attrs="{'invisible': [('que_type', '!=', 'blank')]}"/>
+                                        <field name="bank_line"/>
                                     </group>
                                 </form>
                             </field>
@@ -116,6 +120,9 @@
                         <filter string="Finished On" name="group_by_result_finish"
                                 context="{'group_by': 'finish_date'}"/>
                     </group>
+                    <searchpanel>
+                        <field name="quiz_id"/>
+                    </searchpanel>
                 </search>
             </field>
         </record>

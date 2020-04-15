@@ -11,7 +11,7 @@
 import calendar
 from datetime import datetime, date
 
-from odoo.http import request
+from odoo.http import request, Response
 
 from odoo import fields
 from odoo import http
@@ -73,8 +73,7 @@ class StudentPortal(CustomerPortal):
             {
                 'student': student_data,
                 'student_image': student_img
-             }
-        )
+            })
 
     @http.route(['/my/account'], type='http', auth='user', website=True)
     def account(self, redirect=None, **post):
@@ -97,15 +96,15 @@ class StudentPortal(CustomerPortal):
                     {key: post[key]
                      for key in self.OPTIONAL_BILLING_FIELDS if key in post})
                 values.update({'zip': values.pop('zipcode', '')})
+                values.update({'country_id': int(values.pop('country_id'))})
+                values.update({'state_id': (values.pop('state_id')) or False})
                 partner.sudo().write(values)
                 if user.is_parent:
                     return request.redirect('/my/child')
                 else:
                     return request.redirect('/my/home')
-
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
-
         values.update({
             'partner': partner,
             'countries': countries,
@@ -237,6 +236,33 @@ class OpenEduCatController(http.Controller):
             }
         )
 
+    def check_subject_registration_access(self, reg_id=None):
+
+        registration_id = request.env['op.subject.registration'].sudo().search(
+            [('id', '=', reg_id)])
+
+        user = request.env.user
+        user_list = []
+        count = 0
+        for rec in registration_id.student_id:
+            if rec.user_id:
+                user_list.append(rec.user_id)
+        if user.partner_id.is_parent:
+            parent_id = request.env['op.parent'].sudo().search(
+                [('name', '=', user.partner_id.id)])
+            for student_id in parent_id.student_ids:
+                if student_id.partner_id.user_id in user_list:
+                    count += 1
+            if count > 0:
+                return True
+            else:
+                return False
+        else:
+            if user not in user_list:
+                return False
+            else:
+                return True
+
     @http.route(['/subject/registration/data/<int:reistration_id>'],
                 type='http', auth='user', website=True)
     def portal_student_subject_registration_data(self, reistration_id=None):
@@ -244,6 +270,10 @@ class OpenEduCatController(http.Controller):
         subject_registration_id = request.env[
             'op.subject.registration'].sudo().search(
             [('id', '=', reistration_id)])
+
+        access_role = self.check_subject_registration_access(subject_registration_id.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
 
         return request.render(
             "openeducat_core_enterprise."
@@ -269,29 +299,27 @@ class OpenEduCatController(http.Controller):
         return request.render(
             "openeducat_core_enterprise."
             "openeducat_create_subject_registration",
-            {
-                 'student_id': student_id,
-                 'subject_registration_ids': elective_subjects,
-                 'course_ids': course_ids,
-                 'batch_ids': batch_ids,
-            }
-        )
+            {'student_id': student_id,
+             'subject_registration_ids': elective_subjects,
+             'course_ids': course_ids,
+             'batch_ids': batch_ids,
+             })
 
     @http.route(['/subject/registration/submit',
                  '/subject/registration/submit/<int:page>'],
                 type='http', auth="user", website=True)
     def portal_submit_subject_registration(self, **kw):
 
-        compulsory_subject = request.httprequest.\
+        compulsory_subject = request.httprequest. \
             form.getlist('compulsory_subject_ids')
-        elective_subject = request.httprequest.\
+        elective_subject = request.httprequest. \
             form.getlist('elective_subject_ids')
 
         vals = {
             'student_id': kw['student_id'],
             'course_id': kw['course_id'],
             'batch_id': kw['batch_id'],
-            'min_unit_load':  kw['min_unit_load'],
+            'min_unit_load': kw['min_unit_load'],
             'max_unit_load': kw['max_unit_load'],
             'compulsory_subject_ids': [[6, 0, compulsory_subject]],
             'elective_subject_ids': [[6, 0, elective_subject]],
@@ -318,6 +346,5 @@ class OpenEduCatController(http.Controller):
             for subject_id in subject_ids:
                 subject_list.append({'name': subject_id.name,
                                      'id': subject_id.id})
-
         return {'batch_list': batch_list,
                 'subject_list': subject_list}

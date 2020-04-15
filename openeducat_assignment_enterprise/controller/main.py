@@ -11,7 +11,7 @@
 from datetime import datetime
 import base64
 import io
-from odoo.http import request
+from odoo.http import request, Response
 from odoo.tools import consteq, plaintext2html
 from werkzeug.exceptions import NotFound, Forbidden
 from odoo import http
@@ -51,7 +51,7 @@ def _message_post_helper(res_model='', res_id=None, message='',
         The rest of the kwargs are passed on to message_post()
     """
     record = request.env[res_model].browse(res_id)
-    author_id = request.env.user.partner_id.id if\
+    author_id = request.env.user.partner_id.id if \
         request.env.user.partner_id else False
 
     if token:
@@ -59,7 +59,7 @@ def _message_post_helper(res_model='', res_id=None, message='',
         if access_as_sudo:
             record = record.sudo()
             if request.env.user._is_public():
-                if kw.get('pid') and\
+                if kw.get('pid') and \
                         consteq(kw.get('hash'),
                                 record._sign_token(int(kw.get('pid')))):
                     author_id = kw.get('pid')
@@ -161,7 +161,7 @@ class SubmitAssignment(CustomerPortal):
                     'res_model': 'op.assignment.sub.line',
                     'res_id': assignment_id,
                     'type': 'binary',
-                    'name': attachment.filename,
+                    # 'name': attachment.filename,
                     'datas': base64.encodestring(attached_file),
                 })
 
@@ -190,26 +190,55 @@ class SubmitAssignment(CustomerPortal):
             "openeducat_assignment_enterprise.portal_submited_assignment_list",
             {'assignment_ids': assignment_id})
 
+    def check_submission_access(self, submission_id=None):
+        submission = request.env['op.assignment.sub.line'].sudo().search(
+            [('id', '=', submission_id)])
+
+        user = request.env.user
+        user_list = []
+        count = 0
+        for rec in submission.student_id:
+            if rec.user_id:
+                user_list.append(rec.user_id)
+
+        if user.partner_id.is_parent:
+            parent_id = request.env['op.parent'].sudo().search(
+                [('name', '=', user.partner_id.id)])
+            for student_id in parent_id.student_ids:
+                if student_id.partner_id.user_id in user_list:
+                    count += 1
+            if count > 0:
+                return True
+            else:
+                return False
+        else:
+            if user not in user_list:
+                return False
+            else:
+                return True
+
     @http.route(['/assignment/data/<int:assignment_id>',
                  '/assignment/data/<int:assignment_id>/page/<int:page>'],
                 type='http', auth="user", website=True)
     def portal_submited_assignment_data(self, assignment_id=None):
 
-        assignment_instance = request.env[
+        submission_instance = request.env[
             'op.assignment.sub.line'].sudo().search(
             [('id', '=', assignment_id)])
-        attachment_instance = request.env['ir.attachment'].sudo().search(
-            [('res_id', '=', assignment_id)])
+        attachment_instance = submission_instance.attachment_ids
+        access_role = self.check_submission_access(submission_instance.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
 
         return request.render(
             "openeducat_assignment_enterprise.assignment_data", {
-                'assignment_ids': assignment_instance,
+                'assignment_ids': submission_instance,
                 'attachment_ids': attachment_instance,
             })
 
-    @http.route(['/assignment/download/<int:attachment_id>'],
-                type='http', auth='user')
-    def griffin_download_attachment_1(self, attachment_id):
+    @http.route(['/assignment/submission/download/<int:attachment_id>'],
+                type='http', auth='user', website=True)
+    def download_submission_attachment(self, attachment_id):
 
         attachment = request.env['ir.attachment'].sudo().search_read(
             [('id', '=', int(attachment_id))],
@@ -218,8 +247,84 @@ class SubmitAssignment(CustomerPortal):
         if attachment:
             attachment = attachment[0]
         res_id = attachment['res_id']
-        assignment_id = request.env['op.assignment.sub.line'].sudo().search(
+        submission_id = request.env['op.assignment.sub.line'].sudo().search(
             [('id', '=', res_id)])
+        access_role = self.check_submission_access(submission_id.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
+
+        if submission_id:
+            if attachment["type"] == "url":
+                if attachment["url"]:
+                    return http.redirect_with_hash(attachment["url"])
+                else:
+                    return request.not_found()
+            elif attachment["datas"]:
+                data = io.BytesIO(base64.standard_b64decode(
+                    attachment["datas"]))
+                return http.send_file(
+                    data, filename=attachment['name'], as_attachment=True)
+            else:
+                return request.not_found()
+
+    def check_assignment_access(self, assignment_id=None):
+
+        assignment = request.env['op.assignment'].sudo().search(
+            [('id', '=', assignment_id)])
+
+        user = request.env.user
+        user_list = []
+        count = 0
+        for rec in assignment.allocation_ids:
+            if rec.user_id:
+                user_list.append(rec.user_id)
+        if user.partner_id.is_parent:
+            parent_id = request.env['op.parent'].sudo().search(
+                [('name', '=', user.partner_id.id)])
+            for student_id in parent_id.student_ids:
+                if student_id.partner_id.user_id in user_list:
+                    count += 1
+            if count > 0:
+                return True
+            else:
+                return False
+        else:
+            if user not in user_list:
+                return False
+            else:
+                return True
+
+    @http.route(['/assignment/details/<int:assignment_id>'],
+                type='http', auth='user', website=True)
+    def assignment_details(self, assignment_id=None):
+
+        assignment = request.env['op.assignment'].sudo().search(
+            [('id', '=', assignment_id)])
+
+        access_role = self.check_assignment_access(assignment.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
+
+        return request.render(
+            "openeducat_assignment_enterprise.assignment_details",
+            {'assignment': assignment})
+
+    @http.route(['/assignment/attachment/download/<int:attachment_id>'],
+                type='http', auth='user', website=True)
+    def download_assignment_attachment(self, attachment_id):
+        attachment = request.env['ir.attachment'].sudo().search_read(
+            [('id', '=', int(attachment_id))],
+            ["name", "datas", "res_model", "res_id", "type", "url"])
+        if attachment:
+            attachment = attachment[0]
+        res_id = attachment['res_id']
+        assignment_id = request.env['op.assignment'].sudo().search(
+            [('id', '=', res_id)])
+
+        access_role = self.check_assignment_access(assignment_id.id)
+        if access_role is False:
+            return Response("[Bad Request]", status=404)
+
         if assignment_id:
             if attachment["type"] == "url":
                 if attachment["url"]:
@@ -233,3 +338,21 @@ class SubmitAssignment(CustomerPortal):
                     data, filename=attachment['name'], as_attachment=True)
             else:
                 return request.not_found()
+
+    @http.route(['/student/assignment/details',
+                 '/student/assignment/details/<int:student_id>'],
+                type='http', auth='user', website=True)
+    def student_assignment_details(self, student_id=None):
+        if student_id:
+            student_data = self.get_student(student_id=student_id)
+        else:
+            student_data = self.get_student()
+
+        if not student_data:
+            return request.render('website.404')
+
+        return request.render(
+            "openeducat_assignment_enterprise.openeducat_student_assignments",
+            {
+                'student': student_data,
+            })

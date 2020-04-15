@@ -50,3 +50,16 @@ class OpStudent(models.Model):
 
     placement_line = fields.One2many(
         'op.placement.offer', 'student_id', 'Placement Details')
+
+    placement_count = fields.Integer(compute='_compute_placement_count')
+
+    def get_placement(self):
+        action = self.env.ref('openeducat_placement_enterprise.'
+                              'act_open_op_placement_offer_view').read()[0]
+        action['domain'] = [('student_id', 'in', self.ids)]
+        return action
+
+    def _compute_placement_count(self):
+        for record in self:
+            record.placement_count = self.env['op.placement.offer'].search_count(
+                [('student_id', 'in', self.ids)])

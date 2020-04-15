@@ -8,4 +8,5 @@
 #
 ##############################################################################
 
-from . import session
+from . import res_config_setting
+from . import calendar_event

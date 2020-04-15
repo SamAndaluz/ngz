@@ -49,7 +49,7 @@
                                              />
                                         <div class="media-body">
                                             <a t-attf-href="/alumni/detail/#{slug(alumni)}/#{o.id}">
-                                                <span t-field="o.name"/>
+                                                <span id="alumni" t-field="o.name"/>
                                             </a>
                                             <t t-if="o.country_id">
                                                 <span t-field="o.country_id.image"

@@ -489,7 +489,7 @@ msgstr "Geschehen gute Arbeit bei der Arbeit"
 msgid "Educational\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Lehrreich\n"
-"                                <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_core_enterprise.openeducat_create_subject_registration
@@ -799,8 +799,7 @@ msgstr "Menschen einige Abzeichen mit"
 msgid "Personal Information\n"
 "                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Persönliche Informationen\n"
-"                                    <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
-
+"                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 #. module: openeducat_core_enterprise
 #: model:op.badge.student,badge_name:openeducat_core_enterprise.op_badge_student_2
 #: model:op.gamification.badge,name:openeducat_core_enterprise.op_gamification_badge_2

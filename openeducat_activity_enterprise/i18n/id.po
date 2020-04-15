@@ -41,7 +41,7 @@ msgid ""
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr ""
 "Log aktivitas\n"
-"                                <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_activity_enterprise
 #: model:ir.model,name:openeducat_activity_enterprise.model_activity_progress_wizard

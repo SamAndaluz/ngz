@@ -20,3 +20,6 @@ class OpRoutePssenger(models.Model):
         'op.route.line', 'Route Line', required=True, ondelete='cascade')
     partner_id = fields.Many2one('res.partner', 'Passenger', required=True)
     present = fields.Boolean('Present/Absent')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)

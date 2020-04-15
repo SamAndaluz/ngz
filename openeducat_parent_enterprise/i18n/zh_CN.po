@@ -110,7 +110,7 @@ msgstr "父母"
 msgid "Parent\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "亲\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_parent_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_parent_enterprise.view_op_parent_form_onboard

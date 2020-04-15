@@ -2,14 +2,14 @@
 <odoo>
     <data>
         <record model="ir.ui.view" id="view_report_course_pivot">
-        <field name="name">courses.pivot</field>
-        <field name="model">op.course</field>
-        <field name="arch" type="xml">
-            <pivot string="Course" disable_linking="True">
-                <field name="name" type="col"/>
-                <field name="user_id" type="row"/>
-            </pivot>
-        </field>
+            <field name="name">courses.pivot</field>
+            <field name="model">op.course</field>
+            <field name="arch" type="xml">
+                <pivot string="Course" disable_linking="True">
+                    <field name="name" type="col"/>
+                    <field name="user_id" type="row"/>
+                </pivot>
+            </field>
         </record>
 
         <record id="view_op_lms_course_tree" model="ir.ui.view">
@@ -21,8 +21,8 @@
                 <tree string="Course" banner_route="/openeducat_lms/openeducat_lms_onboarding_panel">
                     <field name="name"/>
                     <field name="code"/>
-                    <field name="section"/>
                     <field name="parent_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -44,18 +44,58 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div>
+                            <div class="oe_button_box" name="button_box" width="100%">
+                                <button name="action_view_material"
+                                        type="object"
+                                        icon="fa-files-o"
+                                        class="btn oe_stat_button"
+                                        groups="website.group_website_publisher">
+                                    <div class="o_field_widget o_stat_info">
+                                        <span class="o_stat_value">
+                                            <field name="training_material" nolabel="1"/>
+                                        </span>
+                                        <span name="total_slides_label" class="o_stat_text">Material</span>
+                                    </div>
+                                </button>
+                                <button name="action_course_completed"
+                                        type="object"
+                                        icon="fa-trophy"
+                                        class="btn oe_stat_button"
+                                        groups="website.group_website_publisher">
+                                    <div class="o_field_widget o_stat_info">
+                                        <span class="o_stat_value">
+                                            <field name="course_completed" nolabel="1"/>
+                                        </span>
+                                        <span name="members_done_count_label" class="o_stat_text">Completed</span>
+                                    </div>
+                                </button>
+                                <button name="action_view_users"
+                                        type="object"
+                                        icon="fa-users"
+                                        class="btn oe_stat_button"
+                                        groups="website.group_website_publisher">
+                                    <field name="enrolled_users" string="Enrollments" widget="statinfo"/>
+                                </button>
+                            </div>
+                        </div>
                         <field name="image_1920" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
                             <field name="online_course" class="oe_edit_only" readonly="1"/>
                             <label class="oe_edit_only" for="online_course" string="Online Course ?"/>
-                            <h1><field name="name" placeholder="Course Name"/></h1>
+                            <h1>
+                                <field name="name" placeholder="Course Name"/>
+                            </h1>
                         </div>
                         <group col="2">
                             <group>
                                 <field name="code" required="1"/>
                                 <field name="confirm_date" readonly="1"/>
-                                <field name="section" required="1"/>
                                 <field name="user_id" readonly="1"/>
+                                <field name="company_id" groups="base.group_multi_company" optional="show"/>
                             </group>
                         </group>
                         <notebook colspan="4">
@@ -66,6 +106,7 @@
                                     </group>
                                     <group>
                                         <field name="navigation_policy" widget="radio"/>
+                                        <field name="certificate"/>
                                     </group>
                                 </group>
                                 <group string="Short Description">
@@ -85,9 +126,6 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="enrollments" string="Enrollments">
-                                <field name="course_enrollment_ids" options="{'no_create': True}"/>
-                            </page>
                             <page name="course_materials" string="Course Materials">
                                 <group col="4" colspan="4">
                                     <field name="total_time" widget="float_time"/>
@@ -105,7 +143,8 @@
                                         </group>
                                         <group string="Materials">
                                             <field name="section_material_ids" nolabel="1">
-                                                <tree string="Section Material" default_order="sequence" editable="bottom">
+                                                <tree string="Section Material" default_order="sequence"
+                                                      editable="bottom">
                                                     <field name="sequence"/>
                                                     <field name="material_id" domain="[('user_id','=',uid)]"/>
                                                     <field name="preview"/>
@@ -120,7 +159,8 @@
                                 <field name="faculty_ids" options="{'no_create': True}"/>
                             </page>
                             <page name="suggested course" string="Suggested Course">
-                                <field name="suggested_course_ids" options="{'no_create': True}" domain="[('online_course','=',True)]"/>
+                                <field name="suggested_course_ids" options="{'no_create': True}"
+                                       domain="[('online_course','=',True)]"/>
                             </page>
                             <page name="categories" string="Categories">
                                 <field name="category_ids" options="{'no_create': True}"/>
@@ -145,6 +185,11 @@
                     <field name="name" select="True"/>
                     <separator/>
                     <filter string="Online Course" name="online_course" domain="[('online_course','=',1)]"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
+                    <searchpanel>
+                        <field name="user_id" icon="fa-user"/>
+                    </searchpanel>
                 </search>
             </field>
         </record>

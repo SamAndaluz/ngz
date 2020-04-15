@@ -15,10 +15,6 @@
     "sequence": 3,
     'summary': 'Manage TimeTables',
     'complexity': "easy",
-    'description': """
-        This module provide feature of Timetable.
-
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -27,7 +23,9 @@
     ],
     'data': [
         'security/op_security.xml',
+        'views/templates.xml',
         'views/timetable_view.xml',
+        'views/timing_view.xml',
         'views/openeducat_dashboard_view.xml',
         'views/timetable_onboard.xml',
         'views/openeducat_timetable_portal.xml',

@@ -28,7 +28,7 @@
                                     <span class="fa fa-folder-open"/>
                                     In
                                     <a class="mr8" t-attf-href="/blog/#{slug(post.blog_id)}">
-                                        <span t-field="post.blog_id"/>
+                                        <span id="blog" t-field="post.blog_id"/>
                                     </a>
                                 </div>
                                 <div class="text-muted">

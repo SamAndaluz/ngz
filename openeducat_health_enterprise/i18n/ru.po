@@ -132,7 +132,7 @@ msgstr "Здоровье Detail"
 msgid "Health Detail\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Здоровье Detail\n"
-"                                <SPAN стиль = \"плавать: слева; обивка: 0 20px 0 20px;\"> + </ SPAN>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_health_enterprise
 #: model:ir.model,name:openeducat_health_enterprise.model_op_health

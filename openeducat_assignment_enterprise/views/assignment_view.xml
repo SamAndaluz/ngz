@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_assignment_inherited_form_view" model="ir.ui.view">
+            <field name="name">op.assignment..inherited.form</field>
+            <field name="model">op.assignment</field>
+            <field name="inherit_id" ref="openeducat_assignment.view_op_assignment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='reviewer']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_assignment_inherited_search_view" model="ir.ui.view">
+            <field name="name">op.assignment..inherited.search</field>
+            <field name="model">op.assignment</field>
+            <field name="inherit_id" ref="openeducat_assignment.view_op_assignment_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="subject_id" icon="fa fa-book"/>
+                    </searchpanel>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_tree_onboarding_assignment" model="ir.ui.view">
+            <field name="name">op.assignment.onboard</field>
+            <field name="model">op.assignment</field>
+            <field name="inherit_id" ref="openeducat_assignment.view_op_assignment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="banner_route">
+                        /openeducat_assignment_enterprise/openeducat_assignment_onboarding_panel
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

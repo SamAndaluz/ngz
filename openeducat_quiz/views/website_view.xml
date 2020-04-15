@@ -63,6 +63,7 @@
 
         <template id="quiz_render_exam_main_form_view" name="Exam View">
             <div class="container mt32">
+                <div class="oe_structure"/>
                 <div class="row">
                     <t t-call="openeducat_quiz.quiz_profile"/>
                 </div>
@@ -117,11 +118,10 @@
                                                 </strong>
                                             </h3>
                                         </center>
-                                        <div style="height: 70px;">
-                                            <p style="height: Auto;">
-                                                <span t-esc="exam.description"/>
-                                            </p>
+                                        <div style="height: 110px;">
+                                            <p t-esc="exam.description"/>
                                         </div>
+                                        <br/>
                                         <hr/>
                                         <div class="row pl-5">
                                             <div class="col-md-5">Attempt :
@@ -146,8 +146,6 @@
                         </div>
                     </t>
                 </div>
-
-
             </div>
         </template>
 
@@ -163,8 +161,10 @@
 
         <template id="quiz_starting_page">
             <t t-call="website.layout">
+
                 <section>
                     <div class="container">
+                        <div class="oe_structure"/>
                         <div class="row mt-4 mb-4">
                             <div class="col-md-12">
                                 <center>
@@ -188,10 +188,11 @@
                                     <span t-raw="exam.quiz_html"/>
                                 </div>
                                 <a t-if="single_page == 0" class="btn btn-primary btn-lg quiz_prv float-right"
-                                   t-attf-href="/quiz/attempt/#{slug(result)}">Start Exam
+                                   role="button" t-att-href="'/quiz/attempt/%s?fullscreen=1' %(slug(result))">Start
+                                    Exam
                                 </a>
                                 <a t-if="single_page == 1" class="btn btn-primary btn-lg quiz_prv float-right"
-                                   t-attf-href="/quiz/#{slug(result)}">Start Exam
+                                   t-attf-href="/quiz/#{slug(result)}?fullscreen=1">Start Exam
                                 </a>
                             </div>
                         </div>
@@ -213,16 +214,28 @@
                        t-attf-value="#{time_spent_second}"/>
                 <div class="container">
                     <div class="mt16 mb16">
-                        <h1 class="text-center">
+                        <a class="d-none d-sm-inline-block btn btn-light border ml-2 pull-right" role="button"
+                           title="fullscreen"
+                           t-att-href="'/quiz/attempt/%s/question/%s?fullscreen=1' %(slug(line.result_id), slug(line))">
+                            <i class="fa fa-arrows-alt"></i>
+                        </a>
+                        <h1>
                             <t t-esc="exam.name"/>
                         </h1>
                     </div>
-                    <div class="row">
+
+                    <div class="row mb64">
                         <div class="col-md-9">
-                            <div class="form-group" style="font-size: 20px;">
-                                <h2><t t-raw="question_no"/>)
+                            <t t-if="line.bank_line.embed_code != False">
+                                <div class="embed-responsive embed-responsive-16by9 embed-responsive-item mb8">
+                                    <t t-raw="line.bank_line.embed_code"/>
+                                </div>
+                            </t>
+                            <div class="form-group" style="font-size: 17px;">
+                                <h4 style="border-top: 1px solid #cecec7; padding-top: 20px; padding-bottom: 10px">
+                                    <t t-raw="question_no"/>.
                                     <t t-raw="line.name"/>
-                                </h2>
+                                </h4>
                                 <input type="hidden" t-attf-name="question" t-att-value="line.id"/>
                                 <t t-if="line.que_type == 'blank'">
                                     <t t-if="is_required ==  1">
@@ -244,7 +257,7 @@
                                        t-as="option">
                                         <input t-if="option.id == given_answer"
                                                checked="checked" type="radio"
-                                               t-attf-name="answer"
+                                               t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"
                                                required="true" disabled="true"/>
@@ -252,7 +265,7 @@
                                         <input t-if="option.id != given_answer"
                                                type="radio" t-attf-name="answer"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
-                                               t-attf-value="#{option.id}"
+                                               t-attf-value="#{option.id}" t-attf-style="font-size:25px;"
                                                required="true" disabled="true"/>
                                         <t t-if="option.id != given_answer" t-esc="option.name"/>
                                         <br/>
@@ -261,13 +274,13 @@
                                        t-foreach="line.line_ids" t-as="option">
                                         <input t-if="option.id == given_answer"
                                                checked="checked" type="radio"
-                                               t-attf-name="answer"
+                                               t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"
                                                required="true"/>
                                         <t t-if="option.id == given_answer" t-esc="option.name"/>
                                         <input t-if="option.id != given_answer"
-                                               type="radio" t-attf-name="answer"
+                                               type="radio" t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"
                                                required="true"/>
@@ -278,13 +291,13 @@
                                        t-foreach="line.line_ids" t-as="option">
                                         <input t-if="option.id == given_answer"
                                                checked="checked" type="radio"
-                                               t-attf-name="answer"
+                                               t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"
                                                disabled="true"/>
                                         <t t-if="option.id == given_answer" t-esc="option.name"/>
                                         <input t-if="option.id != given_answer"
-                                               type="radio" t-attf-name="answer"
+                                               type="radio" t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"
                                                disabled="true"/>
@@ -295,12 +308,12 @@
                                        t-as="option">
                                         <input t-if="option.id == given_answer"
                                                checked="checked" type="radio"
-                                               t-attf-name="answer"
+                                               t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"/>
                                         <t t-if="option.id == given_answer" t-esc="option.name"/>
                                         <input t-if="option.id != given_answer"
-                                               type="radio" t-attf-name="answer"
+                                               type="radio" t-attf-name="answer" t-attf-style="font-size:25px;"
                                                t-att-id="'que%sopt%s'%(line.id,option.id)"
                                                t-attf-value="#{option.id}"/>
                                         <t t-if="option.id != given_answer" t-esc="option.name"/>
@@ -325,30 +338,33 @@
                                     </t>
                                 </t>
                             </div>
-                            <div class="col-md-7 col-sm-8">
+                            <div class="col-md-7 col-sm-8 pl-0">
                                 <a t-if="prev_allow == 1 and timer == 0"
-                                   class="btn btn-primary btn-lg quiz_prv"
+                                   class="btn btn-primary btn-md quiz_prv"
                                    t-attf-href="/quiz/attempt/#{slug(line.result_id)}/question/#{slug(prev_result)}">
                                     Prev
                                 </a>
                                 <a t-if="prev_allow == 1 and timer == 1" id="prev_timer"
-                                   class="btn btn-primary btn-lg quiz_prv"
+                                   class="btn btn-primary btn-md quiz_prv"
                                    t-attf-href="/quiz/attempt/#{slug(line.result_id)}/question/#{slug(prev_result)}/prev/">
                                     Prev
                                 </a>
                                 <input type="hidden" name="ExamID" t-attf-value="#{exam.id}"/>
-                                <button t-if="next_allow == 1" class="btn btn-primary btn-lg quiz_finish1">Next</button>
+                                <button t-if="next_allow == 1" class="btn btn-primary btn-md quiz_finish1" id="hide">
+                                    Next
+                                </button>
                                 <button id="final_finish" t-if="next_allow == 0"
-                                        class="btn btn-primary btn-lg quiz_finish1">Finish
+                                        class="btn btn-primary btn-md quiz_finish1">Finish
                                 </button>
                             </div>
                         </div>
+
                         <div class="col-md-3 mb32"
-                             style="border: 1px solid;padding: 10px">
-                            <div class="col-md-12 mb32">
+                             style="border: 1px solid #ccc;padding: 10px">
+                            <div class="col-md-12">
                                 <div t-if="timer == 1" id="divCounter" class="text-center">
                                     <span t-if="timer == 1" id="all_time" style="display:none;"/>
-                                    <center>
+                                    <center style="border-bottom:1px solid #ccc; padding: 20px 5px;">
                                         <table>
                                             <tr>
                                                 <th>
@@ -364,17 +380,20 @@
                                             <tr>
                                                 <td>
                                                     <center>
-                                                        <span class="heading-digit" id="spanHr" style="width:40px;"/>
+                                                        <span class="heading-digit" id="spanHr"
+                                                              style="width:40px;"/>
                                                     </center>
                                                 </td>
                                                 <td>
                                                     <center>
-                                                        <span class="heading-digit" id="spanMt" style="width:40px;"/>
+                                                        <span class="heading-digit" id="spanMt"
+                                                              style="width:40px;"/>
                                                     </center>
                                                 </td>
                                                 <td>
                                                     <center>
-                                                        <span class="heading-digit" id="spanSn" style="width:40px;"/>
+                                                        <span class="heading-digit" id="spanSn"
+                                                              style="width:40px;"/>
                                                     </center>
                                                 </td>
                                             </tr>
@@ -385,21 +404,21 @@
                                     <!--<span class="heading-digit" id="spanSn"/>-->
                                 </div>
                                 <center>
-                                    <h4 class="mb16">Question Grid</h4>
+                                    <h4 style="padding:20px 0 15px 0;">Question Grid</h4>
                                 </center>
                                 <t t-foreach="grid_data" t-as="grid_val">
                                     <a t-attf-href="#"
                                        t-if="grid_val['is_ans_given'] == 1 and grid_val['is_readonly'] == 1 and grid_val['current_id'] == 0">
                                         <div class="btn btn-default col-md-2"
                                              disabled="true"
-                                             style="background-color: #4CAF50;">
+                                             style="background-color: #5ac15ed9; margin-top: 5px;">
                                             <span t-esc="grid_val['que_no']"/>
                                         </div>
                                     </a>
                                     <a t-attf-href="/quiz/attempt/#{slug(line.result_id)}/question/#{slug(grid_val['line'])}"
                                        t-if="grid_val['is_ans_given'] == 1 and grid_val['is_readonly'] == 0 and grid_val['current_id'] == 0">
                                         <div class="btn btn-default col-md-2"
-                                             style="background-color: #4CAF50;">
+                                             style="background-color: #5ac15ed9; margin-top: 5px;">
                                             <span t-esc="grid_val['que_no']"/>
                                         </div>
                                     </a>
@@ -419,7 +438,7 @@
                                     <a t-attf-href="/quiz/attempt/#{slug(line.result_id)}/question/#{slug(grid_val['line'])}"
                                        t-if="grid_val['current_id'] == 1">
                                         <div class="btn btn-default col-md-2"
-                                             style="background-color: #357EBD;">
+                                             style="background-color: #6ea8da9e; margin-top: 5px;">
                                             <span t-esc="grid_val['que_no']"/>
                                         </div>
                                     </a>
@@ -428,8 +447,10 @@
                             <br/>
                             <div class="col-md-12">
                                 <span class="progress-value" t-raw="progress"/>
-                                <div id="progressBar">
-                                    <div>
+                                <div id="progressBar" class="progressbar">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped"
+                                         role="progressbar" aria-valuemin="0"
+                                         aria-valuemax="100" style="width:40%">
                                     </div>
                                 </div>
                             </div>
@@ -446,20 +467,22 @@
                     <div class="wrap">
                         <div class="container">
                             <div class="mt16 mb16">
-                                <h1 class="text-center">
+                                <h1>
                                     <t t-esc="exam.name"/>
                                 </h1>
                             </div>
                             <div>
                                 <t t-foreach="result.line_ids" t-as="question">
-                                    <div class="form-group" style="font-size: 20px;">
-                                        <h2><t t-esc="question_index + 1"/>)
+                                    <hr class="mt24 mb24"/>
+                                    <div class="form-group" style="font-size: 17px;">
+                                        <h4><t t-esc="question_index + 1"/>)
                                             <t t-raw="question.name"/>
-                                        </h2>
+                                        </h4>
                                         <t t-if="question.que_type == 'optional'">
                                             <t t-foreach="question.line_ids" t-as="option">
                                                 <input type="radio"
                                                        t-attf-name="question#{question.id}"
+                                                       t-attf-style="font-size:25px;"
                                                        t-att-id="'que%sopt%s'%(question.id,option.id)"
                                                        t-attf-value="#{option.id}"/>
                                                 <t t-esc="option.name"/>
@@ -475,10 +498,11 @@
                                         </t>
                                     </div>
                                 </t>
-                                <div class="form-group">
-                                    <div class="col-md-7 col-sm-8">
+                                <div class="form-group mb64">
+                                    <hr/>
+                                    <div class="col-md-7 col-sm-8 pl-0">
                                         <input type="hidden" name="ExamID" t-attf-value="#{result.id}"/>
-                                        <button class="btn btn-primary btn-lg quiz_finish">Finish</button>
+                                        <button class="btn btn-primary btn-md quiz_finish">Finish</button>
                                     </div>
                                 </div>
                             </div>
@@ -500,6 +524,11 @@
                 <div class="wrap">
                     <div class="container">
                         <div class="mt16 mb16">
+                            <a class="d-none d-sm-inline-block btn btn-light border ml-2 pull-right" role="button"
+                               title="fullscreen"
+                               t-attf-href="/quiz/#{slug(result)}?fullscreen=1">
+                                <i class="fa fa-arrows-alt"></i>
+                            </a>
                             <h1 class="text-center">
                                 <t t-esc="exam.name"/>
                             </h1>
@@ -523,12 +552,14 @@
                                 <center>
                                     <h4>Question Grid</h4>
                                 </center>
-                                <t t-foreach="result.line_ids" t-as="question">
-                                    <div t-att-class="'btn btn-default col-md-2 que_grid que_active' if question_index == 0 else 'btn btn-default col-md-2 que_grid'"
-                                         t-att-grid-index-id="'%s' % (question_index)">
-                                        <span t-esc="question_index + 1"/>
-                                    </div>
-                                </t>
+                                <div>
+                                    <t t-foreach="result.line_ids" t-as="question">
+                                        <div t-att-class="'btn btn-default col-md-2 que_grid que_active' if question_index == 0 else 'btn btn-default col-md-2 que_grid'"
+                                             t-att-grid-index-id="'%s' % (question_index)">
+                                            <span t-esc="question_index + 1"/>
+                                        </div>
+                                    </t>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -537,59 +568,59 @@
         </template>
 
         <template id="quiz_first_question" name="quiz_first_question">
-            <div class="form-group que_show question" style="font-size: 20px;" t-att-index-id="'%s' % (question_index)">
-                <h2><t t-esc="question_index + 1"/>)
+            <div class="form-group que_show question" style="font-size: 17px;" t-att-index-id="'%s' % (question_index)">
+                <h4><t t-esc="question_index + 1"/>)
                     <t t-esc="question.name"/>
-                </h2>
+                </h4>
                 <t t-foreach="question.line_ids" t-as="option">
                     <input type="radio" t-attf-name="question#{question.id}"
-                           t-att-id="'que%sopt%s'%(question.id,option.id)"
+                           t-att-id="'que%sopt%s'%(question.id,option.id)" t-attf-style="font-size:25px;"
                            t-attf-value="#{option.id}"/>
                     <t t-esc="option.name"/>
                     <br/>
                 </t>
-                <a class="btn btn-primary btn-lg quiz_nxt" t-att-next-id="'%s' % (question_index + 1)" align="right">
+                <a class="btn btn-primary btn-md quiz_nxt" t-att-next-id="'%s' % (question_index + 1)" align="right">
                     Next
                 </a>
             </div>
         </template>
 
         <template id="quiz_middle_question" name="quiz_middle_question">
-            <div class="form-group que_hide question" style="font-size: 20px;" t-att-index-id="'%s' % (question_index)">
-                <h2><t t-esc="question_index + 1"/>)
+            <div class="form-group que_hide question" style="font-size: 17px;" t-att-index-id="'%s' % (question_index)">
+                <h4><t t-esc="question_index + 1"/>)
                     <t t-esc="question.name"/>
-                </h2>
+                </h4>
                 <t t-foreach="question.line_ids" t-as="option">
                     <input type="radio" t-attf-name="question#{question.id}"
-                           t-att-id="'que%sopt%s'%(question.id,option.id)"
+                           t-att-id="'que%sopt%s'%(question.id,option.id)" t-attf-style="font-size:25px;"
                            t-attf-value="#{option.id}"/>
                     <t t-esc="option.name"/>
                     <br/>
                 </t>
-                <a class="btn btn-primary btn-lg quiz_prv" t-att-prev-id="'%s' % (question_index - 1)" align="left">
+                <a class="btn btn-primary btn-md quiz_prv" t-att-prev-id="'%s' % (question_index - 1)" align="left">
                     Prev
                 </a>
-                <a class="btn btn-primary btn-lg quiz_nxt" t-att-next-id="'%s' % (question_index + 1)" align="right">
+                <a class="btn btn-primary btn-md quiz_nxt" t-att-next-id="'%s' % (question_index + 1)" align="right">
                     Next
                 </a>
             </div>
         </template>
 
         <template id="quiz_last_question" name="quiz_last_question">
-            <div class="form-group que_hide question" style="font-size: 20px;" t-att-index-id="'%s' % (question_index)">
-                <h2><t t-esc="question_index + 1"/>)
+            <div class="form-group que_hide question" style="font-size: 17px;" t-att-index-id="'%s' % (question_index)">
+                <h4><t t-esc="question_index + 1"/>)
                     <t t-esc="question.name"/>
-                </h2>
+                </h4>
                 <t t-foreach="question.line_ids" t-as="option">
-                    <input type="radio" t-attf-name="question#{question.id}"
+                    <input type="radio" t-attf-name="question#{question.id}" t-attf-style="font-size:25px;"
                            t-att-id="'que%sopt%s'%(question.id,option.id)"
                            t-attf-value="#{option.id}"/>
                     <t t-esc="option.name"/>
                     <br/>
                 </t>
                 <div>
-                    <a class="btn btn-primary btn-lg quiz_prv" t-att-prev-id="'%s' % (question_index - 1)">Prev</a>
-                    <button class="btn btn-primary btn-lg quiz_finish">
+                    <a class="btn btn-primary btn-md quiz_prv" t-att-prev-id="'%s' % (question_index - 1)">Prev</a>
+                    <button class="btn btn-primary btn-md quiz_finish">
                         <input type="hidden" name="ExamID" t-attf-value="#{result.id}"/>
                         Finish
                     </button>
@@ -600,13 +631,9 @@
         <template id="quiz_completed" name="Quiz Completed">
             <t t-call="website.layout">
                 <div class="wrap">
-                    <div class="container">
-                        <center>
-                            <h1>Thank you for Quiz</h1>
-                        </center>
-                        <center>
-                            <h2>Your answers are recorded</h2>
-                        </center>
+                    <div class="text-center mt128 mb128">
+                        <h1 class="font-weight-bold text-success">Thank you for Quiz</h1>
+                        <h2 class="font-weight-bold text-success">Your answers are recorded</h2>
                     </div>
                 </div>
             </t>
@@ -676,7 +703,7 @@
                                         </center>
                                     </td>
                                     <td>
-                                        <center><t t-esc="percentage"/>%
+                                        <center><t t-esc="'%.2f'%(percentage)"/>%
                                         </center>
                                     </td>
                                 </tr>
@@ -801,6 +828,61 @@
                     </div>
                 </div>
             </div>
+        </template>
+
+        <template id="exam_results" name="Exam Results">
+            <t t-call="website.layout">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="mt16 mb16">
+                            <h1 class="text-center">Score Board</h1>
+                        </div>
+                        <div>
+                            <t>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color: 'green';">
+                                                <center>Question</center>
+                                            </th>
+                                            <th>
+                                                <center>Given Aswer</center>
+                                            </th>
+                                            <th>
+                                                <center>Original Answer</center>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <t t-foreach="result" t-as="res">
+                                        <t t-foreach="res.line_ids" t-as="o">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+
+                                                        <center>
+                                                            <span t-field="o.name"/>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <t t-esc="o.given_answer"/>
+                                                        </center>
+                                                    </td>
+                                                    <td>
+                                                        <center>
+                                                            <t t-esc="o.answer"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </t>
+                                    </t>
+                                </table>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
         </template>
     </data>
 </odoo>

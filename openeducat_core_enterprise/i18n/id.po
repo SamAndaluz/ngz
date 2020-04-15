@@ -489,7 +489,7 @@ msgstr "Melakukan pekerjaan yang baik dalam pekerjaan"
 msgid "Educational\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "pendidikan\n"
-"                                <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_core_enterprise.openeducat_create_subject_registration
@@ -799,7 +799,7 @@ msgstr "Orang-orang memiliki beberapa lencana"
 msgid "Personal Information\n"
 "                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "Informasi pribadi\n"
-"                                    <Span style = \"float: left; padding: 0 20px 0 20px;\"> + </ span>"
+"                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model:op.badge.student,badge_name:openeducat_core_enterprise.op_badge_student_2

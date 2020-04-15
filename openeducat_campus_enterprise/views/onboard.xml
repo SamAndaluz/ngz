@@ -126,5 +126,4 @@
             <t t-call="openeducat_campus_enterprise.onboarding_facilities_type_layout_step" name="facilities_type_step"/>
         </t>
     </template>
-
 </odoo>

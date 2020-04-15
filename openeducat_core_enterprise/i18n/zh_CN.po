@@ -489,7 +489,7 @@ msgstr "工作做得好"
 msgid "Educational\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "教育性\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_core_enterprise.openeducat_create_subject_registration
@@ -799,7 +799,7 @@ msgstr "有一些人徽章"
 msgid "Personal Information\n"
 "                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "个人信息\n"
-"                                    的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                    <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_core_enterprise
 #: model:op.badge.student,badge_name:openeducat_core_enterprise.op_badge_student_2

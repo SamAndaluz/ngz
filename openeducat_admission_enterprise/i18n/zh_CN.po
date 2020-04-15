@@ -101,7 +101,7 @@ msgstr "收费金额"
 msgid "Fees Collection Details\n"
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr "费用的收取详情\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_admission_enterprise
 #: model:ir.actions.server,name:openeducat_admission_enterprise.invoice_cron_ir_actions_server

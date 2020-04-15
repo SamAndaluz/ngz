@@ -49,3 +49,13 @@ class TestLmsBlog(TestLmsBlogCommon):
 
         for course in courses:
             self.course_details(course)
+
+
+class TestCourseBlog(TestLmsBlogCommon):
+
+    def setUp(self):
+        super(TestCourseBlog, self).setUp()
+
+    def test_op_course(self):
+        course = self.op_course.search([])
+        course.action_create_blog()

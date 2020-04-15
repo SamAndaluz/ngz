@@ -26,6 +26,10 @@ class OpAlumniGroup(models.Model):
     forum_id = fields.Many2one('forum.forum', string='Forum', readonly=True)
     fees_id = fields.Many2one('product.product', string='Fees')
     alumni_fees_amount = fields.Float(string="Fees Amount")
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def createforum(self):
         users_res = self.env['forum.forum']

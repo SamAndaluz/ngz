@@ -56,13 +56,24 @@ class OpPlacementOffer(models.Model):
     created_by = fields.Selection(
         [('placement', 'Placement Team'),
          ('alumni', 'Alumni')], track_visibility='always', string='Created By')
-    application_count = fields.Integer(compute='_compute_application_count', string="Application Count")
+    application_count = fields.Integer(compute='_compute_application_count',
+                                       string="Application Count")
     new_application_count = fields.Integer(
         compute='_compute_new_application_count', string="New Application",
-        help="Number of applications that are new in the flow (typically at first step of the flow)")
+        help="Number of applications that are new in the flow (typically at"
+             " first step of the flow)")
     post = fields.Many2one("op.job.applicant", string="post")
-    no_of_recruitment = fields.Integer(string='Expected New Employees', copy=False,
-                                       help='Number of new employees you expect to recruit.', default=1)
+    no_of_recruitment = fields.Integer(string='Expected New Employees',
+                                       copy=False,
+                                       help='Number of new employees you'
+                                            ' expect to recruit.', default=1)
+    department_id = fields.Many2one('op.department', 'Department',
+                                    default=lambda self:
+                                    self.env.user.dept_id.id)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     @api.model
     def create(self, vals):
@@ -78,7 +89,7 @@ class OpPlacementOffer(models.Model):
             end_date = fields.Date.from_string(record.end_date)
         if end_date < start_date:
             raise ValidationError(
-                    _("End Date cannot be set before Start Date."))
+                _("End Date cannot be set before Start Date."))
 
     def set_draft(self):
         self.states = "draft"
@@ -96,15 +107,19 @@ class OpPlacementOffer(models.Model):
         self.states = "cancel"
 
     def _compute_application_count(self):
-        read_group_result = self.env['op.job.applicant'].read_group([('post_id', 'in', self.ids)], ['post_id'], ['post_id'])
-        result = dict((data['post_id'][0], data['post_id_count']) for data in read_group_result)
+        read_group_result = self.env['op.job.applicant']. \
+            read_group([('post_id', 'in', self.ids)], ['post_id'], ['post_id'])
+        result = dict((data['post_id'][0], data['post_id_count'])
+                      for data in read_group_result)
         for job in self:
             job.application_count = result.get(job.id, 0)
 
     def _compute_new_application_count(self):
         for job in self:
-            job.new_application_count = self.env["op.job.applicant"].search_count(
-                [("post_id", "=", job.id), ("stage_id", "=", job._get_first_stage().id)]
+            job.new_application_count = self.env["op.job.applicant"]. \
+                search_count(
+                [("post_id", "=", job.id),
+                 ("stage_id", "=", job._get_first_stage().id)]
             )
 
     def _get_first_stage(self):
@@ -121,6 +136,8 @@ class OpPlacementOffer(models.Model):
 
     def set_recruit(self):
         for record in self:
-            no_of_recruitment = 1 if record.no_of_recruitment == 0 else record.no_of_recruitment
-            record.write({'states': 'review', 'no_of_recruitment': no_of_recruitment})
+            no_of_recruitment = 1 if record.no_of_recruitment == 0 else \
+                record.no_of_recruitment
+            record.write({'states': 'review',
+                          'no_of_recruitment': no_of_recruitment})
         return True

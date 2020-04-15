@@ -22,7 +22,7 @@
                 <t t-call-assets="openeducat_lms.slide_embed_assets" t-css="false"/>
             </head>
             <body>
-                <div id="PDFViewer" class="d-flex flex-column h-100 border">
+                <div id="PDFViewer" class="d-flex flex-column h-100 border" style="overflow:auto; background: lightgrey;">
                     <!-- PDF Viewer Header : contains the name, and the share links -->
                     <div t-if="is_embedded" class="navbar-default oe_slides_share_bar">
                         <div class="container-fluid">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <!--  PDF Viewer Body : contains the canvas, the loader, or the image-->
-                    <div id="PDFSlideViewer" class="text-center position-relative flex-grow-1 mb-5" style="height: 0;"
+                    <div id="PDFSlideViewer" class="text-center position-relative flex-grow-1 mb-5" style="height: 0; display:contents;"
                          t-attf-data-slideid="#{material.id}"
                          t-attf-data-slideurl="/course/material/#{material.id}/pdf_content"
                          t-att-data-defaultpage="page">
@@ -54,7 +54,6 @@
                                             <img class="img-fluid" t-attf-src="/web/image/op.material/#{material.id}/image_medium" alt="suggest_slide.name"/>
                                         </span>
                                     </a>
-
                                 </div>
                             </t>
                         </div>
@@ -66,7 +65,7 @@
                                     <i class="fa fa-spinner fa-spin"></i> Loading ...
                                 </h4>
                             </div>
-                            <canvas id="PDFViewerCanvas" class="img-fluid mb-5" style="margin: auto; display: none;"></canvas>
+                            <canvas id="PDFViewerCanvas" class="img-fluid mb-5 mt-2" style="margin: auto; display: none;"></canvas>
                         </t>
                         <t t-if="material.material_type in ('infographic')">
                             <img t-attf-src="/web/image/op.material/#{material.id}/datas" class="img-fluid" style="width: 100%" alt="Slide image"/>

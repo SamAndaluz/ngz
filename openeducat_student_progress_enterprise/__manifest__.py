@@ -15,10 +15,6 @@
     "sequence": 4,
     'summary': 'Manage Student progress',
     'complexity': "easy",
-    'description': """
-        This module provide feature of student progress.
-
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -27,6 +23,7 @@
     ],
     'data': [
         'data/ir_sequence.xml',
+        'security/op_security.xml',
         'security/ir.model.access.csv',
         'report/student_progression_report.xml',
         'report/report_menu.xml',

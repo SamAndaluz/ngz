@@ -38,6 +38,10 @@ class OpActivityAnnouncement(models.Model):
         ('draft', 'Draft'),
         ('open', 'Open'),
         ('closed', 'Closed')], default='draft')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
     def set_draft(self):
         self.state = "draft"

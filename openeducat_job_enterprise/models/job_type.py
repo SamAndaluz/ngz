@@ -17,3 +17,7 @@ class OpJobType(models.Model):
 
     name = fields.Char('Employment Type', required=True)
     code = fields.Char('Code', size=64, required=True)
+    active = fields.Boolean(default=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)

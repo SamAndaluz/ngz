@@ -17,7 +17,7 @@ class OpBlogPost(models.Model):
     alumni_group_id = fields.Many2one('op.alumni.group', string='Alumni Group')
 
 
-class opalumni(models.Model):
+class Opalumni(models.Model):
     _inherit = "op.alumni.group"
 
     blog_post_ids = fields.One2many(

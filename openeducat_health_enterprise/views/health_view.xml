@@ -6,19 +6,13 @@
             <field name="model">op.student</field>
             <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@name='educational']" position="after">
-                    <page name="health_detail" string="Health Detail">
-                        <field name="health_lines" colspan="4" nolabel="1">
-                            <tree>
-                                <field name="height"/>
-                                <field name="weight"/>
-                                <field name="eyeglasses"/>
-                                <field name="physical_challenges"/>
-                                <field name="major_diseases"/>
-                                <field name="regular_checkup"/>
-                            </tree>
-                        </field>
-                    </page>
+                <xpath expr="//div[@name='smart_button']" position="inside">
+                    <button class="btn oe_stat_button" type="object"
+                            name="get_health"
+                            style="border-right: 1px solid;"
+                            icon="fa-medkit">
+                        <field string="Health" name="health_count" widget="statinfo"/>
+                    </button>
                 </xpath>
             </field>
         </record>
@@ -30,7 +24,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook/page[@name='subjects']" position="after">
                     <page name="health_detail" string="Health Detail">
-                        <field name="health_faculty_lines" context="{'default_type': 'faculty'}" colspan="4" nolabel="1">
+                        <field name="health_faculty_lines" context="{'default_type': 'faculty'}" colspan="4"
+                               nolabel="1">
                             <tree>
                                 <field name="height"/>
                                 <field name="weight"/>
@@ -48,7 +43,7 @@
         <record id="view_op_health_tree" model="ir.ui.view">
             <field name="name">op.health.tree</field>
             <field name="model">op.health</field>
-            <field name="priority" eval="8"/>
+            <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <tree string="Health">
                     <field name="type"/>
@@ -60,6 +55,7 @@
                     <field name="physical_challenges"/>
                     <field name="major_diseases"/>
                     <field name="regular_checkup"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -67,10 +63,13 @@
         <record id="view_op_health_form" model="ir.ui.view">
             <field name="name">op.health.form</field>
             <field name="model">op.health</field>
-            <field name="priority" eval="8"/>
+            <field name="priority" eval="2"/>
             <field name="arch" type="xml">
                 <form string="Health">
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <div class="oe_title">
                             <group>
                                 <field name="type"/>
@@ -80,9 +79,10 @@
                                        attrs="{'required':[('type','=','faculty')],'invisible':[('type','!=','faculty')]}"/>
                             </group>
                         </div>
-                        <group colspan="4" col="6">
+                        <group colspan="4" col="4">
                             <field name="height"/>
                             <field name="weight"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                         <separator colspan="4" string="Other Details"/>
                         <group colspan="4">
@@ -92,11 +92,13 @@
                             </group>
                             <group colspan="4" col="4">
                                 <field name="physical_challenges"/>
-                                <field name="physical_challenges_note" attrs="{'invisible': [('physical_challenges','!=',True)]}"/>
+                                <field name="physical_challenges_note"
+                                       attrs="{'invisible': [('physical_challenges','!=',True)]}"/>
                             </group>
                             <group colspan="4" col="4">
                                 <field name="major_diseases"/>
-                                <field name="major_diseases_note" attrs="{'invisible': [('major_diseases','!=',True)]}"/>
+                                <field name="major_diseases_note"
+                                       attrs="{'invisible': [('major_diseases','!=',True)]}"/>
                             </group>
                             <group col="4">
                                 <field name="regular_checkup" colspan="4"/>
@@ -135,6 +137,8 @@
                     <field name="physical_challenges"/>
                     <field name="major_diseases"/>
                     <field name="regular_checkup"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Student Name" name="group_by_health_student_id"

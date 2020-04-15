@@ -4,6 +4,7 @@
         <record id="view_op_media_unit_enterprise_form" model="ir.ui.view">
             <field name="name">op.media.unit.form</field>
             <field name="model">op.media.unit</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="openeducat_library.view_media_unit_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/header" position="replace">
@@ -22,8 +23,36 @@
                                 context="{'default_transaction_type':'return','default_media_unit_number': barcode}"
                                 class="oe_highlight"
                                 groups="openeducat_library.group_op_library"/>
-                        <field name="state" widget="statusbar" statusbar_visible="available,issue" statusbar_colors='{"r":"red"}'/>
+                        <field name="state" widget="statusbar" statusbar_visible="available,issue"
+                               statusbar_colors='{"r":"red"}'/>
                     </header>
+                </xpath>
+                <xpath expr="//field[@name='media_type_id']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_op_media_unit_inherited_tree_view" model="ir.ui.view">
+            <field name="name">op.media.unit_inherited.view</field>
+            <field name="model">op.media.unit</field>
+            <field name="priority">99</field>
+            <field name="inherit_id" ref="openeducat_library.view_media_unit_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_media_unit_inherited_search_view" model="ir.ui.view">
+            <field name="name">op.media.unit_inherited.search.view</field>
+            <field name="model">op.media.unit</field>
+            <field name="inherit_id" ref="openeducat_library.view_media_unit_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="media_id" icon="fa fa-file-video-o"/>
+                    </searchpanel>
                 </xpath>
             </field>
         </record>

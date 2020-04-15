@@ -67,9 +67,10 @@ class OpMediaType(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.user.company_id)
-    kanban_dashboard_graph = fields.Text(compute='_kanban_dashboard_graph')
+    kanban_dashboard_graph = fields.Text(
+        compute='_compute_kanban_dashboard_graph')
 
-    def _kanban_dashboard_graph(self):
+    def _compute_kanban_dashboard_graph(self):
         for value in self:
             value.kanban_dashboard_graph = json.dumps(
                 value.get_bar_graph_datas())

@@ -20,7 +20,7 @@
                 </t>
                 <a type="button" t-attf-class="btn btn-primary btn-md" t-if="post_ids"
                    t-attf-href="/forum/#{slug(course.forum_id)}/ask?post_type=#{course.forum_id.mode}">
-                    <t t-if="course.forum_id.mode == 'question'">Ask a Question</t>
+                    <t t-if="course.forum_id.mode == 'question'"/>Ask a Question
                 </a>
             </div>
         </xpath>

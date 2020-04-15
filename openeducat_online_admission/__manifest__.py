@@ -15,9 +15,6 @@
     "sequence": 3,
     'summary': 'Online Admission',
     'complexity': "easy",
-    'description': """
-        This module provide Online Admission Details
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
@@ -27,9 +24,11 @@
         'openeducat_core_enterprise'
     ],
     'data': [
+        'views/assets.xml',
         'views/admission_view.xml',
         'views/course_view.xml',
         'views/admission_website_view.xml',
+        'views/student_registration_details_portal.xml',
     ],
     'images': [
         'static/description/openeducat_online_admission_banner.jpg',
@@ -39,7 +38,9 @@
              'demo/admission_register_demo.xml'],
     'css': [],
     'qweb': [],
-    'js': [],
+    'js': [
+        'static/src/js/custome.js'
+    ],
     'installable': True,
     'auto_install': False,
     'application': True,

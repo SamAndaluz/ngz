@@ -8,11 +8,24 @@
 #
 ##############################################################################
 
-from odoo import models
+from odoo import models, fields
+import time
 
 
 class OpBatch(models.Model):
     _inherit = 'op.batch'
+
+    lectures_count = fields.Integer(
+        compute="_compute_session_count_dashboard_data", string='Lectures Count')
+
+    def _compute_session_count_dashboard_data(self):
+        for batch in self:
+            session_list = self.env['op.session'].search_count([
+                ('batch_id', 'in', [batch.id]),
+                ('start_datetime', '>=', time.strftime('%Y-%m-%d 00:00:00')),
+                ('end_datetime', '<=', time.strftime('%Y-%m-%d 23:59:59'))
+            ])
+            batch.lectures_count = session_list
 
     def open_generate_timetable(self):
         action = self.env.ref(

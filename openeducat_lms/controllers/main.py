@@ -11,15 +11,18 @@
 import base64
 import calendar
 import werkzeug
+import re
+
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
-from odoo import fields, tools
+from odoo import fields, tools, _, SUPERUSER_ID
 from odoo import http
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.openeducat_quiz.controllers.main import OpeneducatQuizRender
 from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.exceptions import AccessError
-from odoo.http import request
+from odoo.exceptions import AccessError, MissingError, UserError
+from odoo.tools import consteq
+from odoo.http import request, content_disposition
 
 PPG = 12  # Products Per Page
 PPR = 4  # Products Per Row
@@ -89,7 +92,6 @@ class OpenEduCatLms(http.Controller):
                 type='http', auth="user", website=True)
     def enroll_course(self, course, **kwargs):
         course_ref = request.env['op.course.enrollment']
-        student_ref = request.env['op.student']
         enrollment = course_ref.sudo().search(
             [('user_id', '=', request.env.user.id),
              ('course_id', '=', course.id)])
@@ -98,14 +100,16 @@ class OpenEduCatLms(http.Controller):
                 'user_id': request.env.user.id,
                 'course_id': course.id,
                 'enrollment_date': fields.Datetime.now(),
-                'state': 'in_progress'})
-        student = student_ref.sudo().search(
-            [('user_id', '=', request.env.uid)])
-        if not student:
-            student = request.env['op.student'].sudo().create(
-                {'name': request.env.user.name,
-                 'partner_id': request.env.user.partner_id.id,
-                 'user_id': request.env.uid})
+                'state': 'in_progress',
+            })
+        # student = student_ref.sudo().search(
+        #     [('user_id', '=', request.env.uid)])
+        # if not student:
+        #     student = request.env['op.student'].sudo().create(
+        #         {'name': request.env.user.name,
+        #          'first_name': request.env.user.name,
+        #          'partner_id': request.env.user.partner_id.id,
+        #          'user_id': request.env.uid})
         return request.redirect('/my-courses')
 
     @http.route([
@@ -246,14 +250,14 @@ class OpenEduCatLms(http.Controller):
                  "op.material"):material>''',
                  '''/course/<model("op.course"):course>/section/<model(\
                  "op.course.section"):section>/material/<model(\
-                 "op.material"):material>/<next>''',
+                 "op.material"):material>/<next_mat>''',
                  '''/course/<model("op.course"):course>/section/<model(\
                  "op.course.section"):section>/material/<model(\
                  "op.material"):material>/result/<model(\
                  "op.quiz.result"):result>'''],
                 type='http', auth="user", website=True)
     def get_course_material(self, course, section=None, material=None,
-                            result=None, next=None, **kwargs):
+                            result=None, next_mat=None, **kwargs):
         enrollment = request.env['op.course.enrollment'].sudo().search(
             [('course_id', '=', course.id),
              ('user_id', '=', request.env.user.id)], limit=1)
@@ -264,7 +268,7 @@ class OpenEduCatLms(http.Controller):
             'op.course.enrollment.material']
         if section:
             if material:
-                if next:
+                if next_mat:
                     next_material = False
                     for x, y in enumerate(section.section_material_ids):
                         if material == y.material_id and x + 1 != len(
@@ -396,8 +400,8 @@ class OpenEduCatLms(http.Controller):
         material = request.env['op.material'].sudo().browse([material.id])
         last_material = False
         if not self.get_next_section(course, section):
-            last_material = material == section.section_material_ids[
-                                        -1:].material_id and True or False
+            last_material = material == section.section_material_ids[-1:].\
+                material_id and True or False
         data = {
             'course': course,
             'section': section,
@@ -416,6 +420,7 @@ class OpenEduCatLms(http.Controller):
                 attempt_ids = request.env['op.quiz.result'].search([
                     ('user_id', '=', request.env.uid),
                     ('quiz_id', '=', material.sudo().quiz_id.id)])
+
                 for attempt in attempt_ids:
                     total_correct = attempt.total_correct
                     total_incorrect = attempt.total_incorrect
@@ -447,6 +452,7 @@ class OpenEduCatLms(http.Controller):
                     data.update({key: result_data[key]})
         data['is_result'] = is_result
         data['is_thanks'] = is_thanks
+
         return request.render('openeducat_lms.material_detail_view', data)
 
     def check_material_access(self, enrollment, material):
@@ -469,23 +475,23 @@ class OpenEduCatLms(http.Controller):
                     allowed = access_time < datetime.today() and True or False
                 elif material.wait_until_duration_period == 'hours':
                     access_time = enrollment_date + \
-                            relativedelta(hours=material.wait_until_duration)
+                        relativedelta(hours=material.wait_until_duration)
                     allowed = access_time < datetime.today() and True or False
                 elif material.wait_until_duration_period == 'days':
                     access_time = enrollment_date + \
-                            relativedelta(days=material.wait_until_duration)
+                        relativedelta(days=material.wait_until_duration)
                     allowed = access_time < datetime.today() and True or False
                 elif material.wait_until_duration_period == 'weeks':
                     access_time = enrollment_date + \
-                            relativedelta(weeks=material.wait_until_duration)
+                        relativedelta(weeks=material.wait_until_duration)
                     allowed = access_time < datetime.today() and True or False
                 elif material.wait_until_duration_period == 'months':
                     access_time = enrollment_date + \
-                            relativedelta(months=material.wait_until_duration)
+                        relativedelta(months=material.wait_until_duration)
                     allowed = access_time < datetime.today() and True or False
                 elif material.wait_until_duration_period == 'years':
                     access_time = enrollment_date + \
-                            relativedelta(years=material.wait_until_duration)
+                        relativedelta(years=material.wait_until_duration)
                     allowed = access_time < datetime.today() and True or False
                 return allowed and True or False
 
@@ -564,6 +570,82 @@ class OpenEduCatLms(http.Controller):
             template = 'openeducat_lms.embed_material_forbidden'
             material = request.env['op.material'].sudo().browse(material_id)
         return request.render(template, {'material': material})
+
+    def _document_check_access(self, model_name, document_id, access_token=None):
+        document = request.env[model_name].browse([document_id])
+        document_sudo = document.with_user(SUPERUSER_ID).exists()
+        if not document_sudo:
+            raise MissingError(_("This document does not exist."))
+        try:
+            document.check_access_rights('read')
+            document.check_access_rule('read')
+        except AccessError:
+            if not access_token or not document_sudo.access_token or not consteq(
+                    document_sudo.access_token, access_token):
+                raise
+        return document_sudo
+
+    def _show_report(self, model, report_type, report_ref, download=False):
+        if report_type not in ('html', 'pdf', 'text'):
+            raise UserError(_("Invalid report type: %s") % report_type)
+
+        report_sudo = request.env.ref(report_ref).sudo()
+
+        if not isinstance(report_sudo, type(request.env['ir.actions.report'])):
+            raise UserError(_("%s is not the reference of a report") % report_ref)
+
+        method_name = 'render_qweb_%s' % (report_type)
+        report = getattr(report_sudo, method_name)([model.id],
+                                                   data={'report_type': report_type})[0]
+        reporthttpheaders = [
+            ('Content-Type',
+             'application/pdf' if report_type == 'pdf' else 'text/html'),
+            ('Content-Length', len(report)),
+        ]
+        if report_type == 'pdf' and download:
+            filename = "%s.pdf" % (re.sub(r'\W+', '-',
+                                          model._get_report_base_filename()))
+            reporthttpheaders.append(('Content-Disposition',
+                                      content_disposition(filename)))
+        return request.make_response(report, headers=reporthttpheaders)
+
+    @http.route(['/certificate/<int:order_id>'], type='http', auth="user", website=True)
+    def portal_order_page(self, order_id, report_type=None, access_token=None,
+                          download=False, **kw):
+        try:
+            order_sudo = self._document_check_access('op.course.enrollment', order_id,
+                                                     access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/certificate')
+
+        if report_type in ('html', 'pdf', 'text'):
+            return self._show_report(model=order_sudo, report_type=report_type,
+                                     report_ref='openeducat_lms.certification_report',
+                                     download=download)
+        values = {
+            'token': access_token,
+            'partner_id': order_sudo.partner_id.id,
+            'report_type': 'html',
+        }
+
+        return request.render('openeducat_lms.certification_report_view', values)
+
+    @http.route('/certificate', type="http", auth="user", website=True)
+    def get_certificate_overview(self, **post):
+        certificate_result = request.env['op.course.enrollment'].sudo().search([
+            ('user_id', '=', request.env.uid), ('state', '=', 'done')])
+        data = []
+        for res in certificate_result:
+            data.append({
+                'id': res.id,
+                'index': res.index,
+                'name': res.course_id,
+                'enroll_date': res.enrollment_date,
+                'cmp_date': res.completion_date,
+                'certi': res.get_portal_url(report_type='pdf', download=True),
+            })
+        post['result_data'] = data
+        return http.request.render('openeducat_lms.certicate_portal_view', post)
 
     # Dashboard Controllers
 

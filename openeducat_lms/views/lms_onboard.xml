@@ -43,7 +43,6 @@
                         <group>
                             <field name="code" required="1"/>
                             <field name="confirm_date" readonly="1"/>
-                            <field name="section" required="1"/>
                             <field name="user_id" readonly="1"/>
                         </group>
                     </group>

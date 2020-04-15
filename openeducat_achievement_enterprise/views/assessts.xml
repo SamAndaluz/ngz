@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="skills_assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/openeducat_achievement_enterprise/static/src/css/hr_skills.scss"/>
+            <script type="text/javascript" src="/openeducat_achievement_enterprise/static/src/js/ach_widget.js"></script>
+        </xpath>
+    </template>
+</odoo>

@@ -9,7 +9,9 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="openeducat_library.view_op_media_movement_search"/>
-            <field name="domain">[('media_type_id', 'in', [active_id]), ('state', '=', 'issue'),('return_date','=',time.strftime('%Y-%m-%d'))]</field>
+            <field name="domain">[('media_type_id', 'in', [active_id]), ('state', '=',
+                'issue'),('return_date','=',time.strftime('%Y-%m-%d'))]
+            </field>
         </record>
 
         <!-- List VIEW of medias To be Due by This Week -->
@@ -27,9 +29,10 @@
         <record id="view_op_media_enterprise_form" model="ir.ui.view">
             <field name="name">op.media.form</field>
             <field name="model">op.media</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="openeducat_library.view_op_media_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//sheet/group/h1" position="after">
+                <xpath expr="//sheet/group" position="before">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button"
                                 name="%(openeducat_library.act_open_media_unit_view)d"
@@ -57,8 +60,35 @@
                         </button>
                     </div>
                 </xpath>
+                <xpath expr="//field[@name='media_type_id']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
                 <xpath expr="//notebook/page[@name='units']" position="replace"></xpath>
                 <xpath expr="//notebook/page[@name='movements']" position="replace"></xpath>
+            </field>
+        </record>
+        <record id="view_op_media_inherited_tree_view" model="ir.ui.view">
+            <field name="name">op.media.inherited.view</field>
+            <field name="model">op.media</field>
+            <field name="priority">99</field>
+            <field name="inherit_id" ref="openeducat_library.view_op_media_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='edition']" position="after">
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_op_media_inherited_search_view" model="ir.ui.view">
+            <field name="name">op.media.inherited.search.view</field>
+            <field name="model">op.media</field>
+            <field name="inherit_id" ref="openeducat_library.view_op_media_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="." position="inside">
+                    <searchpanel>
+                        <field name="media_type_id" icon="fa fa-file-video-o"/>
+                    </searchpanel>
+                </xpath>
             </field>
         </record>
     </data>

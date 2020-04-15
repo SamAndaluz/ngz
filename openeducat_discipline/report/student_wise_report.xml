@@ -6,33 +6,35 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <br/>
-                        <div class="text-center">
+                        <br/>
+                        <br/>
+                        <div class="text-center" style="font-size:16px;">
                             <h3>
-                                <strong>Student Wise Details</strong>
+                                <strong>Student Discipline Details</strong>
                             </h3>
                         </div>
                         <br/>
                         <div class="text-center">
                             <strong> Name : <span t-esc="get_data['student_id'][1]" /> </strong>
                             <br/>
-                            <strong>From Date : <span t-esc="get_data['from_date']" /> </strong>
+                            <strong>From Date : <span t-esc="get_data['from_date']" t-options="{'widget':'date'}"/> </strong>
                             to
-                            <strong>To Date : <span t-esc="get_data['to_date']" /> </strong>
+                            <strong>To Date : <span t-esc="get_data['to_date']" t-options="{'widget':'date'}"/> </strong>
                         </div>
-                        <br/><br/>
-                        <table width="100%" class="table">
-                            <thead>
+                        <br/>
+                        <table width="100%" class="table table-bordered">
+                            <thead style="background-color:#eeeeee; font-size:14px; font-weight:600;">
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Category</th>
                                 <th class="text-center">Action</th>
                                 <th class="text-center">State</th>
                             </thead>
-                            <tbody>
+                            <tbody style="font-size:12px;">
                                 <t t-foreach="get_object" t-as="obj">
                                     <tr t-foreach="obj['record']" t-as="l">
                                         <td class="text-center">
-                                            <t t-esc="l['date']" />
+                                            <t t-esc="l['date']" t-options="{'widget':'date'}"/>
                                         </td>
                                         <td class="text-center">
                                             <t t-esc="l['misbehaviour_type'].title()" />

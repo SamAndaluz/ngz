@@ -97,7 +97,7 @@ msgid ""
 "                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 msgstr ""
 "分配\n"
-"                                的<span style = “浮动：左;填充：20像素0 0 20像素;”> + </跨度>"
+"                                <span style=\"float:left;padding: 0 20px 0 20px;\">+</span>"
 
 #. module: openeducat_assignment_enterprise
 #: model_terms:ir.ui.view,arch_db:openeducat_assignment_enterprise.student_progression_assignment_portal_inherit

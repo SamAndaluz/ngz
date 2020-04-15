@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report id="certification_report"
+                string="Certifications"
+                model="op.course.enrollment"
+                report_type="qweb-html"
+                name="openeducat_lms.certification_report_view"
+                file="openeducat_lms.certification_report_view"/>
+        />
+
+        <record id="certification_report" model="ir.actions.report">
+            <field name="paperformat_id" ref="openeducat_lms.paperformat_certificate"/>
+        </record>
+    </data>
+</odoo>
+
+
+

@@ -11,7 +11,7 @@
                 <div class="row mt-3">
                     <section id="forms" class="col">
                         <form action="/form/submit" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" data-model_name="op.job.applicant" data-success_page="/placement-thanks">
-                            <input type='hidden' name="job_post" t-att-value="job_post_id.id"/>
+                            <input id="job_post_apply" type='hidden' name="job_post" t-att-value="job_post_id.id"/>
                             <div class="form-group row form-field o_website_form_custom">
                                 <div class="col-lg-3 col-md-4 text-right">
                                     <label class="col-form-label" for="Resume">Resume</label>

@@ -9,15 +9,19 @@
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
                     <page name="achievement" string="Achievement">
-                        <field name="achievement_line_ids" readonly="1">
-                            <tree string="Achievement Details">
-                                <field name="student_id"/>
-                                <field name="faculty_id"/>
-                                <field name="achievement_type_id"/>
-                                <field name="description"/>
-                                <field name="achievement_date"/>
-                            </tree>
-                        </field>
+                        <div class="row">
+                            <div class="o_group_resume col-md-12 d-flex">
+                                <field mode="tree" name="achievement_line_ids" readonly="1" widget="ach_page">
+                                    <tree string="Achievement Details">
+                                        <field name="student_id"/>
+                                        <field name="faculty_id"/>
+                                        <field name="achievement_type_id"/>
+                                        <field name="description"/>
+                                        <field name="achievement_date"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </div>
                     </page>
                 </xpath>
             </field>

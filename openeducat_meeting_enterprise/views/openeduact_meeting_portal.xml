@@ -50,7 +50,10 @@
                                     <span t-esc="meeting.stop" t-options="{'widget': 'datetime'}"/>
                                 </td>
                                 <td>
-                                    <span t-esc="meeting.partner_ids.name"/>
+                                    <t t-foreach="meeting.partner_ids" t-as="meet">
+                                        <span t-esc="meet.name"/>
+                                        <br></br>
+                                    </t>
                                 </td>
                                 <td>
                                     <span t-esc="meeting.location"/>
@@ -83,16 +86,19 @@
                             <div class="col-md-2">
                                 <strong>Meeting Subject:</strong>
                             </div>
-                            <div class="col-md-10" >
+                            <div class="col-md-10">
                                 <span t-esc="meeting_data.name"/>
                             </div>
                         </div>
-                        <div t-if="meeting_data.partner_ids.name" class="row col-md-12">
+                        <div t-if="meeting_data.partner_ids" class="row col-md-12">
                             <div class="col-md-2">
                                 <strong>Attendance:</strong>
                             </div>
-                            <div class="col-md-10" >
-                                <span t-esc="meeting_data.partner_ids.name"/>
+                            <div class="col-md-10">
+                                <t t-foreach="meeting_data.partner_ids" t-as="meet">
+                                    <span t-esc="meet.name"/>
+                                    <br></br>
+                                </t>
                             </div>
                         </div>
                         <div class="row mt16 col-md-12">

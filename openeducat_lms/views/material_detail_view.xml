@@ -45,7 +45,7 @@
                             <t t-raw="material.embed_code"/>
                         </div>
                         <div t-if="material.material_type == 'quiz'"
-                             class="embed-responsive embed-responsive-16by9 test-result embed-responsive-item mb8">
+                             class="embed-responsive test-result embed-responsive-item mb8">
                             <t t-if="quiz_limit == 1 and is_result == 0">
                                 <center>
                                     <h3>The maximum number of quiz attempts has been reached !</h3>
@@ -82,11 +82,11 @@
                                                                class="fa fa-question-circle fa-2x"></i>
                                                         </div>
                                                         <div class="col-md-10">
-                                                            <span>
+                                                            <span id="material_name">
                                                                 <t t-esc="x['material'].name"/>
-                                                                <p class="text-muted material-right">
+                                                                <span class="text-muted material-right">
                                                                     <i t-if="x['completed']" class="fa fa-check"></i>
-                                                                </p>
+                                                                </span>
                                                             </span>
                                                         </div>
                                                     </a>

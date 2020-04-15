@@ -15,12 +15,12 @@ class StudentProgression(models.Model):
     _inherit = ["op.student.progression"]
 
     @api.depends("discipline_lines")
-    def _calculate_total_discipline(self):
+    def _compute_total_discipline(self):
         self.total_discipline = len(self.discipline_lines)
 
     discipline_lines = fields.One2many('op.discipline',
                                        'progression_id',
                                        string='Progression Discipline')
     total_discipline = fields.Integer('Total Discipline',
-                                      compute="_calculate_total_discipline",
+                                      compute="_compute_total_discipline",
                                       store=True)

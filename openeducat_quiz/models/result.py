@@ -21,7 +21,10 @@ class OpQuizResult(models.Model):
         for line in self.line_ids:
             if line.given_answer:
                 attempt_ans += 1
-        return (attempt_ans * 100) / total
+        if attempt_ans != 0:
+            return '%.2f' % ((attempt_ans * 100) / total)
+        else:
+            return 0
 
     def get_quiz_grid_data(self, current_line):
         quiz = self.quiz_id
@@ -139,7 +142,7 @@ class OpQuizResult(models.Model):
         }
 
     @api.depends('quiz_id', 'quiz_id.categ_id')
-    def _get_category(self):
+    def _compute_get_category(self):
         for obj in self:
             categ_id = False
             if obj.quiz_id and obj.quiz_id.categ_id:
@@ -149,7 +152,7 @@ class OpQuizResult(models.Model):
 
     @api.depends('line_ids', 'line_ids.mark', 'line_ids.answer',
                  'line_ids.given_answer')
-    def _get_result(self):
+    def _compute_get_result(self):
         for obj in self:
             obj.total_question = len(obj.line_ids.ids)
             total_correct = 0
@@ -219,24 +222,27 @@ class OpQuizResult(models.Model):
             obj.score = (received_marks * 100) / total_marks
         return True
 
+    index = fields.Char(string='Index', required=True, copy=False,
+                        readonly=True, index=True,)
     name = fields.Char('Name')
     quiz_id = fields.Many2one('op.quiz', 'Quiz')
     categ_id = fields.Many2one(
-        'op.quiz.category', 'Quiz Category', compute="_get_category",
+        'op.quiz.category', 'Quiz Category', compute="_compute_get_category",
         store=True)
     finish_date = fields.Datetime('Finished On')
     user_id = fields.Many2one('res.users', 'user')
-    total_marks = fields.Float(compute="_get_result", store=True)
-    received_marks = fields.Float(compute="_get_result", store=True)
-    score = fields.Float('Score (%)', compute="_get_result", store=True)
+    total_marks = fields.Float(compute="_compute_get_result", store=True)
+    received_marks = fields.Float(compute="_compute_get_result", store=True)
+    score = fields.Float('Score (%)', compute="_compute_get_result",
+                         store=True)
     total_question = fields.Integer(
-        'Total Question', compute="_get_result", store=True)
+        'Total Question', compute="_compute_get_result", store=True)
     total_correct = fields.Integer(
-        'Total Correct', compute="_get_result", store=True)
+        'Total Correct', compute="_compute_get_result", store=True)
     total_incorrect = fields.Integer(
-        'Total Incorrect', compute="_get_result", store=True)
+        'Total Incorrect', compute="_compute_get_result", store=True)
     total_not_attempt = fields.Float(
-        'Total Not Attempt', compute="_get_result", store=True)
+        'Total Not Attempt', compute="_compute_get_result", store=True)
     line_ids = fields.One2many(
         'op.quiz.result.line', 'result_id', 'Result Line')
     state = fields.Selection([
@@ -245,12 +251,22 @@ class OpQuizResult(models.Model):
     time_spent_hr = fields.Integer('Spent Hours')
     time_spent_minute = fields.Integer('Spent Minutes')
     time_spent_second = fields.Integer('Spent Seconds')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     def get_action_done(self):
         for obj in self:
             obj.finish_date = fields.Datetime.now()
             obj.state = 'done'
         return True
+
+    @api.model
+    def create(self, vals):
+        if vals.get('index', '/') == '/':
+            vals['index'] = self.env['ir.sequence'] \
+                                .next_by_code('op.quiz.result') or '/'
+        return super(OpQuizResult, self).create(vals)
 
 
 class OpQuizResultLine(models.Model):
@@ -273,6 +289,12 @@ class OpQuizResultLine(models.Model):
     result_id = fields.Many2one('op.quiz.result', 'Result')
     line_ids = fields.One2many('op.quiz.result.line.answers',
                                'line_id', 'Answers')
+    bank_line = fields.Many2one(
+        'op.quiz.line', 'Question Reference')
+
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)
 
     def get_line_answer(self):
         given_answer_id = 0
@@ -296,3 +318,6 @@ class OpQuizResultLineAnswers(models.Model):
     name = fields.Char('Answer', required=True)
     grade_id = fields.Many2one('op.answer.grade', 'Grade')
     line_id = fields.Many2one('op.quiz.result.line', 'Question')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env.user.company_id)

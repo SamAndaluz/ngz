@@ -15,27 +15,22 @@
     "sequence": 1,
     'summary': 'Manage Students, Faculties and Education Institute',
     'complexity': "easy",
-    'description': """
-        This module provide core education management system.
-        Features includes managing
-            * Student
-            * Faculty
-            * Course
-            * Batch
-    """,
     'author': 'Tech Receptives',
     'website': 'http://www.openeducat.org',
     'depends': [
         'gamification',
         'openeducat_core',
         'openeducat_web',
+        'openeducat_rest'
     ],
     'data': [
         'security/op_security.xml',
         'security/ir.model.access.csv',
         'wizard/op_grant_badge_wizard_view.xml',
         'views/batch_view.xml',
+        'views/course_view.xml',
         'views/student_view.xml',
+        'views/faculty_view.xml',
         'views/subject_view.xml',
         'views/student_badge_view.xml',
         'views/openeducat_personal_info_portal.xml',

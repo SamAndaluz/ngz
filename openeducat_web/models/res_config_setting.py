@@ -38,10 +38,13 @@ class ResCompany(models.Model):
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    openeducat_instance_key = fields.Char(string="OpenEducat Instance Key", readonly=False,
-                                          related="company_id.openeducat_instance_key")
+    openeducat_instance_key = fields.Char(
+        string="OpenEducat Instance Key",
+        readonly=False,
+        related="company_id.openeducat_instance_key")
     openeducat_instance_hash_key = fields.Char(
-        "OpenEducat Instance Hash Key", readonly=False, related="company_id.openeducat_instance_hash_key",
+        "OpenEducat Instance Hash Key", readonly=False,
+        related="company_id.openeducat_instance_hash_key",
         help="Instance Hash key is correspondence to "
              "instance key which you get in mail.")
     is_mail_sent = fields.Boolean(related="company_id.is_mail_sent")
@@ -66,11 +69,29 @@ class ResConfigSettings(models.TransientModel):
             timeout=URLOPEN_TIMEOUT,
         )
         if r.status_code == 200:
-            self.env.ref('base.main_company').is_mail_sent = True
+            company = self.env['res.company'].search([])
+            for record in company:
+                record.write({
+                    "is_mail_sent": True,
+                    "openeducat_instance_key": self.openeducat_instance_key})
             return True
         else:
             return False
-        print("done with verify instance")
+
+    def request_verify_instance_controller(self, key):
+        r = requests.post(
+            REQUEST_REGISTER_CONTRACT,
+            data={'key': key},
+            timeout=URLOPEN_TIMEOUT,
+        )
+        if r.status_code == 200:
+            company = self.env['res.company'].search([])
+            for r in company:
+                r.write({
+                    "is_mail_sent": True})
+            return True
+        else:
+            return False
 
     def request_verify_hash(self, key):
         r = requests.post(
@@ -80,31 +101,33 @@ class ResConfigSettings(models.TransientModel):
         )
         if r.status_code == 200:
             data = r.json()
-            def_company = self.env.ref('base.main_company')
-            if data['contract_instance_key'] == \
-                    def_company.openeducat_instance_key:
-                conf_param = self.env['ir.config_parameter']
-                conf_param.set_param('database.openeducat_expire_date',
-                                     data['contract_expires'])
-                conf_param.set_param('database.hash_validated_date',
-                                     data['hash_validated_date'])
-                conf_param.set_param('database.openeducat_instance_key',
-                                     data['contract_instance_key'])
-                conf_param.set_param('database.openeducat_instance_hash_key',
-                                     self.openeducat_instance_hash_key)
+            company = self.env['res.company'].search([])
+            for record in company:
+                if data['contract_instance_key'] == \
+                        record.openeducat_instance_key:
+                    conf_param = self.env['ir.config_parameter']
+                    conf_param.set_param('database.openeducat_expire_date',
+                                         data['contract_expires'])
+                    conf_param.set_param('database.hash_validated_date',
+                                         data['hash_validated_date'])
+                    conf_param.set_param('database.openeducat_instance_key',
+                                         data['contract_instance_key'])
+                    conf_param. \
+                        set_param('database.openeducat_instance_hash_key',
+                                  self.openeducat_instance_hash_key)
 
-                self.write({
-                    "verify_date": data['contract_expires'],
-                    "openeducat_instance_hash_msg": 'Hash Key Verified!',
-                })
-                def_company.write({
-                    "openeducat_instance_hash_key": key,
-                    "verify_date": data['contract_expires'],
-                    "openeducat_instance_hash_msg": 'Hash Key Verified!',
-                    "is_hash_verified": True})
-                return True
-            else:
-                def_company.write({"is_hash_verified": False})
+                    self.write({
+                        "verify_date": data['contract_expires'],
+                        "openeducat_instance_hash_msg": 'Hash Key Verified!',
+                    })
+                    record.write({
+                        "openeducat_instance_hash_key": key,
+                        "verify_date": data['contract_expires'],
+                        "openeducat_instance_hash_msg": 'Hash Key Verified!',
+                        "is_hash_verified": True})
+                else:
+                    record.write({"is_hash_verified": False})
+            return True
         else:
             return False
 

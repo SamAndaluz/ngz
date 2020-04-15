@@ -12,6 +12,7 @@
                     <field name="product_id"/>
                     <field name="from_date"/>
                     <field name="to_date"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
                 </tree>
             </field>
         </record>
@@ -30,6 +31,9 @@
                                 class="oe_highlight"/>
                     </header>
                     <sheet>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
                         <div>
                             <h1>
                                 <field name="partner_id" placeholder="Person" style="width: 100%%"/>
@@ -37,11 +41,13 @@
                         </div>
                         <newline/>
                         <group col="4">
-                            <field name="facility_id" required="1" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="facility_id" required="1"
+                                   options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="product_id" required="1"/>
                             <field name="from_date" required="1"/>
                             <field name="to_date" required="1"/>
                             <field name="invoice_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="show"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -73,6 +79,8 @@
                 <search string="Facility Allocation">
                     <field name="facility_id"/>
                     <field name="from_date"/>
+                    <filter string="Archived" name="inactive"
+                            domain="[('active', '=', False)]"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Name" name="group_by_facility_allocation_partner_id"

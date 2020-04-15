@@ -8,10 +8,15 @@
             <field name="priority">10</field>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='address']" position="after">
-                        <group string="Attendance">
+                    <group string="Attendance">
+                        <field name="pin" string="PIN"/>
+                        <label for="barcode"/>
+                        <div class="o_row">
                             <field name="barcode"/>
-                            <field name="pin"/>
-                        </group>
+                            <button string="Generate" class="btn btn-link" type="object" name="generate_random_barcode"
+                                    attrs="{'invisible': [('barcode', '!=', False)]}"/>
+                        </div>
+                    </group>
                 </xpath>
             </field>
         </record>
@@ -25,22 +30,27 @@
                     <field name="id"/>
                     <templates>
                         <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <div class="o_kanban_image">
-                                <img t-att-src="kanban_image('op.student', 'image_1920', record.id.raw_value)" alt="Student"/>
-                            </div>
-                            <div class="oe_kanban_details">
-                                <div id="textbox">
-                                    <strong>
-                                        <field name="name"/>
-                                    </strong>
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('op.student', 'image_1920', record.id.raw_value)"
+                                         alt="Student"/>
                                 </div>
-                                <ul>
-                                    <li t-if="record.contact_address.raw_value"><field name="contact_address"/></li>
-                                    <li t-if="record.mobile.raw_value"><field name="mobile"/></li>
-                                </ul>
+                                <div class="oe_kanban_details">
+                                    <div id="textbox">
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <ul>
+                                        <li t-if="record.contact_address.raw_value">
+                                            <field name="contact_address"/>
+                                        </li>
+                                        <li t-if="record.mobile.raw_value">
+                                            <field name="mobile"/>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
                         </t>
                     </templates>
                 </kanban>

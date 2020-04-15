@@ -148,7 +148,7 @@
                                             </option>
                                             <t t-foreach="emp_type" t-as="ep">
                                                 <option t-att-value="ep.id">
-                                                    <span t-esc="ep.name"/>
+                                                    <span id="emp_type" t-esc="ep.name"/>
                                                 </option>
                                             </t>
                                         </select>
