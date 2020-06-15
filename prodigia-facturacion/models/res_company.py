@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
-from odoo.addons.l10n_mx_edi.hooks import _load_xsd_files
+# from odoo.addons.l10n_mx_edi.hooks import _load_xsd_files
 
 
 class ResCompany(models.Model):
