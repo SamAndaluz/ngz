@@ -46,33 +46,33 @@
                             24),(4 x 4 = 16), (4 x 6 = 24) ]
                         </span>
                     </div>
-                    <div class="col-12 col-lg-6 o_setting_box" title="Load Prev-Next Button">
-                        <div class="content-group"
-                             attrs="{'invisible': ['|', ('button_or_scroll', '=', 'automatic'),('is_load_more', '=', False)]}">
-                            <div class="o_setting_right_pane">
-                                <div>
-                                    <label string="Label for the Prev Button" for="website_domain"/>
-                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific."/>
-                                    <div class="text-muted">
-                                        Display button label for load prev product
-                                    </div>
-                                    <div class="mt8">
-                                        <field name="prev_button_label" placeholder="Load previous"/>
-                                    </div>
-                                </div>
-                                <div class="mt8">
-                                    <label string="Label for the Next Button" for="website_domain"/>
-                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific."/>
-                                    <div class="text-muted">
-                                        Display button label for load next product
-                                    </div>
-                                    <div class="mt8">
-                                        <field name="next_button_label" placeholder="Load next"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="col-12 col-lg-6 o_setting_box" title="Load Prev-Next Button">-->
+<!--                        <div class="content-group"-->
+<!--                             attrs="{'invisible': ['|', ('button_or_scroll', '=', 'automatic'),('is_load_more', '=', False)]}">-->
+<!--                            <div class="o_setting_right_pane">-->
+<!--                                <div>-->
+<!--                                    <label string="Label for the Prev Button" for="website_domain"/>-->
+<!--                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific."/>-->
+<!--                                    <div class="text-muted">-->
+<!--                                        Display button label for load prev product-->
+<!--                                    </div>-->
+<!--                                    <div class="mt8">-->
+<!--                                        <field name="prev_button_label" placeholder="Load previous"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="mt8">-->
+<!--                                    <label string="Label for the Next Button" for="website_domain"/>-->
+<!--                                    <span class="fa fa-lg fa-globe" title="Values set here are website-specific."/>-->
+<!--                                    <div class="text-muted">-->
+<!--                                        Display button label for load next product-->
+<!--                                    </div>-->
+<!--                                    <div class="mt8">-->
+<!--                                        <field name="next_button_label" placeholder="Load next"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <style type="text/css">
                     .o_form_view #clarico_vega_load_more .o_field_translate.btn.btn-link {
