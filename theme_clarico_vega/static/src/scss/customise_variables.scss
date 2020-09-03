@@ -3,7 +3,7 @@ $o-theme-color-palettes: (
     (
         'alpha': $theme_color,
         'beta': #868e96,
-        'gamma': yellow,
+        'gamma': #000000,
         'delta': $delta,
         'epsilon': $epsilon,
     ),
@@ -22,6 +22,8 @@ $o-color-palettes: (
 	    'h5':  null,
 	    'h6':  null,
 	    'product_label':  $theme_color,
+	    'footer_text_color' : null,
+	    'header_text_hover_color' : null,
     ),
 );
 /* ===================== State Colors ========================*/

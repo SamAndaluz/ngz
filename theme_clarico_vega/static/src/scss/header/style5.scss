@@ -26,8 +26,7 @@
 		{
 			>li > a.nav-link
 			{
-				text-transform: capitalize;
-				color:nth($f_color,3);
+				color : $theme-extra-color;
 				padding: 0.8rem;
 				margin: 0 2px;
 				min-height: $o-theme-navbar-logo-height;
@@ -36,13 +35,13 @@
 
 				&:hover
 				{
-					color:nth($f_color,19);
+					color:$header_text_hover_color;
 				}
 			}
 			>li > a.nav-link.active
 			{
 				border-radius: 25px 0 25px 0;
-				color:nth($f_color,19);
+				color:$header_text_hover_color;
 			}
 		}
 	@include media-breakpoint-down(md)
@@ -107,16 +106,6 @@
 					padding: 6px 15px;
 				}
 			}
-			.te_header_5_search
-			{
-				.te_search_form_5_page
-				{
-					button
-					{
-						right: 5%;
-					}
-				}
-			}
 		}
 		.te_header_social
 		{
@@ -131,8 +120,7 @@
 			display: inline-block;
 			margin: 0;
 			padding: 0.5rem 0 !important;
-			top: 4px;
-            position: relative;
+			@include position(relative,4px);
 		}
 		.te_header_before_left {
 		    width: auto;
@@ -202,12 +190,12 @@
         vertical-align: middle;
 		a,.btn-link
 		{
-			@include style(3,3);
+			font-size:nth($f_sizes,3);
+            color:$theme-extra-color;
 			margin-left: 0;
 		}
 		.dropdown-toggle
 		{
-			text-transform:capitalize;
 			padding: 0 0.375rem;
 			@include media-breakpoint-down(sm)
 			{
@@ -228,6 +216,11 @@
 				border-right:0 !important;
 			}
 		}
+	}
+	.h5_pricelist{
+	    > div .btn-link{
+	        color: $theme-extra-color;
+	    }
 	}
 	@include media-breakpoint-up(md)
 	{
@@ -293,7 +286,8 @@
 			padding: 0px 0px 0px 16px;
 			@include position(relative);
 			display:inline-block !important;
-			@include style(7,3);
+			font-size:nth($f_sizes,7);
+            color:$theme-extra-color;
 			sup
 			{
 				@include border-radius(12px);
@@ -319,7 +313,8 @@
 			a
 			{
 				padding: 0 12px;
-				@include style(7,3);
+				font-size:nth($f_sizes,7);
+                color:$theme-extra-color;
 			}
 		}
 		.te_search_5_form
@@ -341,7 +336,8 @@
 			}
 			.te_btn_5_close
 			{
-				@include style(12,6)
+				font-size:nth($f_sizes,12);
+                color:$theme-extra-color;
 				display: block;
 				@include position(absolute,18%,10%);
 				z-index: 5;
@@ -362,7 +358,7 @@
 
                 input.search-query.form-control.oe_search_box{
                     background: nth($f_color,27);
-                    @include style(19,6,inherit,unset,capitalize);
+                    @include style(19,6);
                     padding: 10px 0px;
                     outline: none;
                     width: 100%;
@@ -389,7 +385,12 @@
 						display: inline-block;
 						background: none;
 						border: none;
-						@include style(19,6);
+						font-size:nth($f_sizes,19);
+                        color:$theme-extra-color;
+                    }
+                    .form-control::placeholder{
+                        color:$theme-extra-color;
+                        opacity:0.5;
                     }
 
                 }
@@ -400,7 +401,7 @@
 				.te_5_text
 				{
 					text-align: left;
-					color: nth($f_color,6);
+					color:$theme-extra-color;
 				}
 				form
 				{
@@ -417,7 +418,8 @@
 			>a
 			{
 				padding: 0 12px;
-				@include style(7,3);
+				font-size:nth($f_sizes,7);
+                color:$theme-extra-color;
 
 				.te_user_account_icon
 				{
@@ -485,7 +487,7 @@
                 border-bottom: 0;
             }
             button.btn.btn-sm.btn-secondary.dropdown-toggle{
-                color: nth($f_color,3);
+                color: $theme-extra-color;
             }
         }
     }
@@ -495,5 +497,14 @@
     margin-top: 2px;
     @include media-breakpoint-down(sm){
         margin-top: -3px;
+    }
+}
+/* apply extra color*/
+.te_header_before_left .dropdown-menu.show a.dropdown-item{
+    color: $theme-extra-color;
+    opacity:0.5;
+    &:hover{
+        color: nth($f_color,19);
+        opacity:1;
     }
 }

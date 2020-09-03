@@ -44,7 +44,41 @@
             </div>
             <div class="te_time_main_div">
                 <div class="timer_data"/>
-                <div class="te_display_end_date"/>
+                <div class="te_time_main_div">
+                    <div class="timer_data">
+                        <div class="timer_input">
+
+                        </div>
+                    </div>
+                    <div id="timer_portion_content_ept" class="te_display_end_date d-none">
+                        <div class='product_offer_timer'>
+                            <span class='text-center d-inline-block'>
+                                <div class='rounded_digit_product'>
+                                    <span id='days' class='d-block  te_days_hr_min_sec'></span>
+                                    <div id='time_lbl' class='d-block'>Days</div>
+                                </div>
+                            </span>
+                            <span class='text-center d-inline-block'>
+                                <div class='rounded_digit_product'>
+                                    <span id='hours' class='d-block  te_days_hr_min_sec'></span>
+                                    <div id='time_lbl' class='d-block'>Hours</div>
+                                </div>
+                            </span>
+                            <span class='text-center d-inline-block'>
+                                <div class='rounded_digit_product'>
+                                    <span id='minutes' class='d-block te_days_hr_min_sec'></span>
+                                    <div id='time_lbl' class=' d-block'>Mins</div>
+                                </div>
+                            </span>
+                            <span class='text-center d-inline-block'>
+                                <div class='rounded_digit_product'>
+                                    <span id='seconds' class='d-block te_days_hr_min_sec'></span>
+                                    <div id='time_lbl' class='d-block'>Secs</div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </xpath>
         <xpath expr="//t[@t-call='website_sale.pricelist_list']"
@@ -102,6 +136,9 @@
             <t t-if="request.website.viewref('theme_clarico_vega.product_brand_container').active">
                 <t t-call="theme_clarico_vega.product_brand_container"/>
             </t>
+        </xpath>
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <t t-set="is_product" t-value="1"/>
         </xpath>
         <xpath expr="//div[@id='product_full_description']" position="after">
             <!--=========================== Alternative Products ===========================-->
@@ -213,7 +250,7 @@
             </t>
         </xpath>
     </template>
-    <template id="product_sticky_gallary" inherit_id="website_sale.product" name="sticky product gallary" priority="16">
+    <template id="product_sticky_gallary" inherit_id="website_sale.product" name="sticky product gallary" priority="17">
         <xpath expr="//div[hasclass('row')][2]" position="attributes">
             <attribute name="class">row te_row_main</attribute>
         </xpath>
@@ -302,11 +339,11 @@
                     <t t-foreach="product_images" t-as="product_image">
                         <div t-attf-class="#{' active' if product_image_first else ''}">
                             <div t-if="product_image._name == 'product.image' and product_image.embed_code"
-                                 class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+                                 class="">
                                 <t t-raw="product_image.embed_code"/>
                             </div>
                             <div t-else="" t-field="product_image.image_1920"
-                                 class="d-flex align-items-center justify-content-center h-100"
+                                 class=""
                                  t-options='{"widget": "image", "preview_image": "image_1024", "class": "product_detail_img mh-100", "alt-field": "name", "zoom": product_image.can_image_1024_be_zoomed and "image_1920"}'/>
                         </div>
                     </t>
@@ -419,6 +456,18 @@
                                             </a>
                                         </li>
                                     </t>
+                                    <t t-if="product.sudo().document_ids">
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               id="nav_tabs_link_doc"
+                                               data-toggle="tab"
+                                               href="#nav_tabs_content_doc"
+                                               role="tab"
+                                               aria-controls="nav_tabs_content_doc"
+                                               aria-selected="false">Documents
+                                            </a>
+                                        </li>
+                                    </t>
                                     <t t-if="request.website.viewref('website_sale.product_comment').active">
                                         <li class="nav-item">
                                             <a class="nav-link"
@@ -519,6 +568,44 @@
                                         </t>
                                     </section>
                                 </div>
+
+                                <t t-if="product.sudo().document_ids">
+                                    <div class="tab-pane fade py-3"
+                                         id="nav_tabs_content_doc"
+                                         role="tabpanel"
+                                         aria-labelledby="nav_tabs_link_doc">
+                                        <div itemprop="doc" id="product_documents">
+                                            <t t-foreach="product.sudo().document_ids" t-as="doc">
+                                                <t t-if="not user_id._is_public()">
+                                                    <ul>
+                                                        <li>
+                                                            <a t-att-href="doc.sudo().website_url" t-att-download="doc.name"><t t-esc="doc.name" /></a>
+                                                            <a t-att-href="doc.sudo().website_url"
+                                                               t-att-download="doc.name">
+                                                                <i class="o_image o_image_thumbnail"
+                                                                   t-att-data-mimetype="doc.sudo().mimetype"/>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-if="doc.public">
+                                                        <ul>
+                                                            <li>
+                                                                <a t-att-href="doc.sudo().website_url" t-att-download="doc.name"><t t-esc="doc.name" /></a>
+                                                                <a t-att-href="doc.sudo().website_url"
+                                                                   t-att-download="doc.name">
+                                                                    <i class="o_image o_image_thumbnail"
+                                                                       t-att-data-mimetype="doc.sudo().mimetype"/>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
                                 <t t-if="request.website.viewref('website_sale.product_comment').active">
                                     <div class="tab-pane fade o_not_editable py-3"
                                          id="nav_tabs_content_3"

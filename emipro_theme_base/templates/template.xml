@@ -3,6 +3,12 @@
     <template id="quick_view_container" name="Quick View Container">
         <div class="quick_view_content"/>
     </template>
+    <template id="ajax_cart_container" name="Ajax Cart Container">
+        <div class="ajax_cart_content"/>
+    </template>
+    <template id="ajax_cart_success_container" name="Ajax Cart Success Container">
+        <div class="ajax_cart_success_content"/>
+    </template>
     <template id="brand_slider_container" name="Brand Slider Container">
         <section class="brand_slider_content">
         </section>
@@ -33,6 +39,13 @@
                 <div class="s_title text-center pt32">
                     <h2>Contact Us</h2>
                 </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="slider_auto_play" inherit_id="website.layout">
+        <xpath expr="//header" position="before">
+            <div class="te_auto_play_value d-none">
+                <span t-if="website.is_auto_play" t-esc="website.is_auto_play"></span>
             </div>
         </xpath>
     </template>

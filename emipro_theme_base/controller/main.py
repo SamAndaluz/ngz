@@ -3,21 +3,161 @@
     This file is used for create and inherit the core controllers
 """
 import datetime
+import json
 from datetime import timedelta, date
-from odoo.http import request
+from odoo.http import request, Controller, route
 from odoo.tools.safe_eval import safe_eval
 from werkzeug.exceptions import NotFound
+from odoo.exceptions import UserError
+from odoo.addons.auth_signup.models.res_users import SignupError
+import werkzeug
 
 from odoo import http
+import odoo
+import logging
+from odoo.tools.translate import _
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.sale.controllers.variant import VariantController
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.addons.website_sale.controllers.main import TableCompute
 from odoo.addons.website_sale_wishlist.controllers.main import WebsiteSale
 from odoo.addons.website_sale_wishlist.controllers.main import WebsiteSaleWishlist
+from psycopg2 import Error
 
+
+_logger = logging.getLogger(__name__)
 
 class EmiproThemeBase(http.Controller):
+
+    @http.route('/get_test_homepage_data', type='json', auth="user")
+    def get_homepage_test_data(self):
+        response = http.Response(template="theme_clarico_vega.js_home_page_1_test")
+        return response.render()
+
+    @http.route('/web/login_custom', type='json', auth="none", methods=['GET', 'POST'],)
+    def web_login_custom(self, login, password, redirect=None, **kw):
+        values = {}
+        values['login_success'] = False
+        if not request.uid:
+            request.uid = odoo.SUPERUSER_ID
+
+        values = request.params.copy()
+        try:
+            values['databases'] = http.db_list()
+        except odoo.exceptions.AccessDenied:
+            values['databases'] = None
+
+        if request.httprequest.method == 'POST':
+            old_uid = request.uid
+            try:
+                uid = request.session.authenticate(request.session.db, login, password)
+                if uid:
+                    current_user = request.env['res.users'].sudo().search([('id', '=', uid)])
+                    if current_user.has_group('base.group_user'):
+                        values['user_type'] = 'internal'
+                    else:
+                        values['user_type'] = 'portal'
+                    values['login_success'] = True
+
+            except odoo.exceptions.AccessDenied as e:
+                request.uid = old_uid
+                if e.args == odoo.exceptions.AccessDenied().args:
+                    values['error'] = _("Wrong login/password")
+                else:
+                    values['error'] = e.args[0]
+        else:
+            if 'error' in request.params and request.params.get('error') == 'access':
+                values['error'] = _('Only employee can access this database. Please contact the administrator.')
+
+        if 'login' not in values and request.session.get('auth_login'):
+            values['login'] = request.session.get('auth_login')
+
+        if not odoo.tools.config['list_db']:
+            values['disable_database_manager'] = True
+        return values
+
+    @http.route('/web/signup_custom', type='json', auth='public', website=True, sitemap=False)
+    def web_auth_signup(self, *args, **kw):
+
+        qcontext = kw
+        result = {}
+
+        if 'error' not in qcontext and request.httprequest.method == 'POST':
+            try:
+                values = {key: qcontext.get(key) for key in ('login', 'name', 'password')}
+                if not values:
+                    result.update({'is_success':False,'error':'The form was not properly filled in.'})
+                    return result
+                if values.get('password') != qcontext.get('confirm_password'):
+                    result.update({'is_success': False, 'error': 'Passwords do not match; please retype them.'})
+                    return result
+
+                if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
+                    result.update({'is_success': False, 'error': 'Another user is already registered using this email address..'})
+                    return result
+
+                supported_lang_codes = [code for code, _ in request.env['res.lang'].get_installed()]
+                lang = request.context.get('lang', '').split('_')[0]
+                if lang in supported_lang_codes:
+                    values['lang'] = lang
+
+                db, login, password = request.env['res.users'].sudo().signup(values, token=None)
+                request.env.cr.commit()  # as authenticate will use its own cursor we need to commit the current transaction
+                uid = request.session.authenticate(db, login, password)
+
+                if not uid:
+                    result.update({'is_success': False, 'error': 'Authentication Failed.'
+                                   })
+                    return result
+                request.env.cr.commit()
+                result.update({'is_success': True})
+                return result
+
+            except Error as e:
+                result.update({'is_success': False, 'error': 'Could not create a new account.'})
+                return result
+
+    @http.route('/web/reset_password_custom', type='json', auth='public', website=True, sitemap=False)
+    def web_auth_reset_password(self, *args, **kw):
+        qcontext = kw
+
+        result = {}
+
+        if 'error' not in qcontext and request.httprequest.method == 'POST':
+            try:
+                values = {key: qcontext.get(key) for key in ('login', )}
+                if not values:
+                    result.update({'is_success': False, 'error': 'The form was not properly filled in.'})
+                    return result
+                if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
+                    login = qcontext.get('login')
+                    _logger.info(
+                        "Password reset attempt for <%s> by user <%s> from %s",
+                        login, request.env.user.login, request.httprequest.remote_addr)
+                    result.update({'is_success': True,
+                                   'message': 'An email has been sent with credentials to reset your password'})
+                    request.env['res.users'].sudo().reset_password(login)
+                    return result
+
+                if not request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
+                    result.update({'is_success': False,'error': 'Reset password: invalid username or email'})
+                    return result
+
+            except Error as e:
+                result.update({'is_success': False, 'error': 'error when resetting password'})
+                return result
+            except Exception as e:
+                result.update({'is_success': False, 'error': str(e)})
+                return result
+            except UserError as e:
+                result.update({'is_success': False, 'error': str(e.value or e.name)})
+                return result
+            except SignupError:
+                qcontext['error'] = _("Could not reset your password")
+                result.update({'is_success': False, 'error': "Could not reset your password"})
+                _logger.exception('error when resetting password')
+                return result
+
 
     @http.route(['/ajax_check_user_status'], type='json', auth="public", website=True)
     def ajax_check_user_status(self):
@@ -28,6 +168,16 @@ class EmiproThemeBase(http.Controller):
                 return 'internal'
             else:
                 return 'portal'
+
+    @http.route(['/mega_menu_content_dynamic'], type='json', auth="public", website=True)
+    def mega_menu_content_dynamic(self, menu_id):
+        response = http.Response(template="emipro_theme_base.website_dynamic_category")
+        current_menu = request.env['website.menu'].sudo().search([('id', '=', menu_id)])
+        if current_menu.is_dynamic_menu and current_menu.mega_menu_content_dynamic !=  response.render().decode():
+            current_menu.write({"mega_menu_content_dynamic": response.render().decode(), "is_dynamic_menu_json": False})
+            return response.render().decode()
+        else:
+            return False
 
     @http.route(['/quick_view_item_data'], type='json', auth="public", website=True)
     def get_quick_view_item(self, product_id=None):
@@ -73,9 +223,66 @@ class EmiproThemeBase(http.Controller):
         return http.Response(template="emipro_theme_base.slider_preview",
                              qcontext={'rec_id': rec_id}).render()
 
+    @http.route(['/shop/cart/update_custom'], type='json', auth="public", methods=['GET', 'POST'], website=True, csrf=False)
+    def cart_update(self, product_id, add_qty=1, set_qty=0, product_custom_attribute_values = None, **kw):
+        """This route is called when adding a product to cart (no options)."""
+        sale_order = request.website.sale_get_order(force_create=True)
+        if sale_order.state != 'draft':
+            request.session['sale_order_id'] = None
+            sale_order = request.website.sale_get_order(force_create=True)
+
+        # product_custom_attribute_values = None
+        if product_custom_attribute_values:
+            product_custom_attribute_values = json.loads(product_custom_attribute_values)
+
+        no_variant_attribute_values = None
+        if kw.get('no_variant_attribute_values'):
+            no_variant_attribute_values = json.loads(kw.get('no_variant_attribute_values'))
+
+        if sale_order:
+            sale_order._cart_update(
+                product_id=int(product_id),
+                add_qty=add_qty,
+                product_custom_attribute_values=product_custom_attribute_values,
+                set_qty=set_qty)
+            return True
+        else:
+            return False
+
+    @http.route(['/ajax_cart_item_data'], type='json', auth="public", website=True)
+    def get_ajax_cart_item(self, product_id=None):
+        """
+        This controller return the template for Ajax Add to Cart with product details
+        :param product_id: get product id
+        :return: ajax cart template html
+        """
+        if product_id:
+            product = request.env['product.template'].search([['id', '=', product_id]])
+            values = {
+                'product': product,
+            }
+            response = http.Response(template="emipro_theme_base.ajax_cart_container", qcontext=values)
+            return response.render()
+
+    @http.route(['/ajax_cart_sucess_data'], type='json', auth="public", website=True)
+    def get_ajax_cart_sucess(self, product_id=None):
+        """
+        This controller return the template for Ajax Add to Cart with product details
+        :param product_id: get product id
+        :return: ajax cart template html
+        """
+        if product_id:
+            product = request.env['product.template'].search([['id', '=', product_id]])
+            values = {
+                'product': product,
+            }
+            response = http.Response(template="emipro_theme_base.ajax_cart_success_container", qcontext=values)
+            return response.render()
+
     @http.route([
-        '/brand',
+        # '/brand',
         '/brand/<model("product.brand.ept"):brand>',
+        '/brand/page/<int:page>',
         '/brand/<model("product.brand.ept"):brand>/page/<int:page>',
     ], type='http', auth="public", website=True)
     def Brand(self, brand=None, page=0, category=None, search='', ppg=False, **post):
@@ -119,7 +326,9 @@ class EmiproThemeBase(http.Controller):
 
         request.context = dict(request.context, pricelist=pricelist.id, partner=request.env.user.partner_id)
 
-        url = "/shop"
+        url = "/brand"
+        if brand:
+            url = "/brand/%s" % slug(brand)
         if search:
             post["search"] = search
         if attrib_list:
@@ -208,7 +417,8 @@ class EmiproThemeBase(http.Controller):
                 vals = {
                     'slider_obj': slider_obj,
                     'filter_data': product,
-                    'active_filter_data': filter_id if filter_id else slider_obj.slider_filter_ids[0].filter_id.id,
+                    # 'active_filter_data': filter_id if filter_id else slider_obj.slider_filter_ids[0].filter_id.id,
+                    'active_filter_data': filter_id if filter_id else slider_obj.slider_filter_ids[0].id,
                     'is_default': False if filter_id else True,
                     'show_view_all': True
                 }
@@ -230,19 +440,28 @@ class EmiproThemeBase(http.Controller):
         sale_report_ids = [x[0] for x in request.env.cr.fetchall()]
         products = request.env['sale.report'].sudo().browse(sale_report_ids).mapped('product_tmpl_id')
         if products:
-            values = {
-                'filter_data': products,
-                'is_default': False,
-                'show_view_all': False,
-            }
-            html_slider_data = self.get_template_html(style_id, values)
-            return html_slider_data
+            domain = request.website.sale_product_domain()
+            domain.append(('website_published', '=', True))
+            domain.append(('type', '!=', 'service'))
+            domain.append(('id','in',products.ids))
+            products = request.env['product.template'].sudo().search(domain)
+            if products:
+                values = {
+                    'filter_data': products,
+                    'is_default': False,
+                    'show_view_all': False,
+                }
+                html_slider_data = self.get_template_html(style_id, values)
+                return html_slider_data
 
     @http.route(['/get_new_product_data'], type='json', auth="public", website=True)
     def get_new_product_data(self, **kwargs):
 
         style_id = kwargs.get('style_id', False)
-        products = request.env['product.template'].sudo().search([('website_published', '=', True)], order='id desc',
+        domain = request.website.sale_product_domain()
+        domain.append(('website_published', '=', True))
+        domain.append(('type', '!=', 'service'))
+        products = request.env['product.template'].sudo().search(domain, order='id desc',
                                                                  limit=10)
         if products:
             values = {
@@ -367,7 +586,6 @@ class EmiproThemeBase(http.Controller):
         pricelist_items = request.env['product.pricelist.item'].browse(item_ids)
         return pricelist_items
 
-
 class EmiproThemeBaseExtended(WebsiteSaleWishlist):
 
     def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
@@ -380,9 +598,10 @@ class EmiproThemeBaseExtended(WebsiteSaleWishlist):
         """
         filter_id = request.httprequest.values.get('filter_id', False)
         if filter_id:
-            curr_filter = request.env['ir.filters'].sudo().search([('id', '=', int(filter_id))])
-            if filter:
-                domain = safe_eval(curr_filter.domain)
+            # curr_filter = request.env['ir.filters'].sudo().search([('id', '=', int(filter_id))])
+            curr_filter = request.env['slider.filter'].sudo().search([('id', '=', int(filter_id))])
+            if curr_filter and curr_filter.filter_id and curr_filter.filter_id.domain:
+                domain = safe_eval(curr_filter.filter_id.domain)
                 slider_products = request.env['product.template'].sudo().search(domain)
                 if slider_products:
                     request.env['product.template'].sudo().search([('id', 'in', slider_products.ids)])
@@ -429,8 +648,14 @@ class EmiproThemeBaseExtended(WebsiteSaleWishlist):
         cust_max_val = request.httprequest.values.get('max_price', False)
 
         if cust_max_val and cust_min_val:
-            if not cust_max_val.isnumeric() and cust_min_val.isnumeric():
+            try:
+                cust_max_val = float(cust_max_val)
+                cust_min_val = float(cust_min_val)
+            except ValueError:
                 raise NotFound()
+
+            # if not cust_max_val.isunumeric() or not cust_min_val.isnumeric():
+            #     raise NotFound()
             products = request.env['product.template'].sudo().search(domain)
             new_prod_ids = []
             pricelist = request.website.pricelist_id
@@ -495,3 +720,87 @@ class EptWebsiteSaleVariantController(VariantController):
         except Exception as e:
             return res
         return res
+
+class PwaMain(http.Controller):
+
+    def get_asset_urls(self, asset_xml_id):
+        qweb = request.env['ir.qweb'].sudo()
+        assets = qweb._get_asset_nodes(asset_xml_id, {}, True, True)
+        urls = []
+        for asset in assets:
+            if asset[0] == 'link':
+                urls.append(asset[1]['href'])
+            if asset[0] == 'script':
+                urls.append(asset[1]['src'])
+        return urls
+
+    @route('/service_worker', type='http', auth="public")
+    def service_worker(self):
+        qweb = request.env['ir.qweb'].sudo()
+        urls = []
+        urls.extend(self.get_asset_urls("web.assets_common"))
+        urls.extend(self.get_asset_urls("web.assets_backend"))
+        version_list = []
+        website_id = request.env['website'].sudo().get_current_website().id
+        languages = request.env['website'].sudo().get_current_website().language_ids
+        lang_code = request.env.lang
+        current_lang = request.env['res.lang']._lang_get(lang_code)
+        for url in urls:
+            version_list.append(url.split('/')[3])
+        cache_version = '-'.join(version_list)
+        mimetype = 'text/javascript;charset=utf-8'
+        content = qweb.render('emipro_theme_base.service_worker', {
+            'pwa_cache_name': cache_version + '-pwa_cache-' + str(website_id),
+            'website_id': website_id,
+        })
+        return request.make_response(content, [('Content-Type', mimetype)])
+
+    @route('/pwa_ept/manifest/<int:website_id>', type='http', auth="public", website=True)
+    def manifest(self, website_id=None):
+        qweb = request.env['ir.qweb'].sudo()
+        website = request.env['website'].search([('id', '=', website_id)]) if website_id else request.website
+        pwa_name = website.pwa_name if website.pwa_name else 'PWA Website'
+        pwa_short_name = website.pwa_short_name if website.pwa_short_name else 'PWA Website'
+        pwa_bg_color = website.pwa_bg_color if website.pwa_bg_color else '#dddddd'
+        pwa_theme_color = website.pwa_theme_color if website.pwa_theme_color else '#dddddd'
+        pwa_start_url = website.pwa_start_url if website.pwa_start_url else '/'
+        app_image_48 = "/web/image/website/%s/app_image_512/48x48" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/48x48.png'
+        app_image_72 = "/web/image/website/%s/app_image_512/72x72" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/72x72.png'
+        app_image_96 = "/web/image/website/%s/app_image_512/96x96" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/96x96.png'
+        app_image_144 = "/web/image/website/%s/app_image_512/144x144" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/144x144.png'
+        app_image_152 = "/web/image/website/%s/app_image_512/152x152" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/152x152.png'
+        app_image_168 = "/web/image/website/%s/app_image_512/168x168" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/168x168.png'
+        app_image_192 = "/web/image/website/%s/app_image_512/192x192" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/192x192.png'
+        app_image_256 = "/web/image/website/%s/app_image_512/256x256" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/256x256.png'
+        app_image_384 = "/web/image/website/%s/app_image_512/384x384" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/384x384.png'
+        app_image_512 = "/web/image/website/%s/app_image_512/512x512" % (
+            website.id) if website.app_image_512 else '/pwa_ept/static/src/img/512x512.png'
+
+        mimetype = 'application/json;charset=utf-8'
+        content = qweb.render('emipro_theme_base.manifest', {
+            'pwa_name': pwa_name,
+            'pwa_short_name': pwa_short_name,
+            'pwa_start_url': pwa_start_url,
+            'app_image_48': app_image_48,
+            'app_image_72': app_image_72,
+            'app_image_96': app_image_96,
+            'app_image_144': app_image_144,
+            'app_image_152': app_image_152,
+            'app_image_168': app_image_168,
+            'app_image_192': app_image_192,
+            'app_image_256': app_image_256,
+            'app_image_384': app_image_384,
+            'app_image_512': app_image_512,
+            'background_color': pwa_bg_color,
+            'theme_color': pwa_theme_color,
+        })
+        return request.make_response(content, [('Content-Type', mimetype)])

@@ -3,59 +3,36 @@
 .te_footer_logo_title_socialicon
 {
 	background: darken(color('footer'), 5%);
-	>h5
+	>h5 span
 	{
-		span {
-			padding: 0 0.3125rem;
-		}
+        padding: 0 0.3125rem;
 	}
-}
-	.te_footer_logo
-	{
-		padding:0;
-		img
-		{
-		    height: $o-theme-navbar-logo-height;
-			@include media-breakpoint-down(sm) {
-                height: auto;
-                max-height: min($o-theme-navbar-logo-height, 5rem);
-            }
-		}
-	}
-.te_company_content {
-    color:nth($f_color,28);
 }
 /*---------- Multiple Language Selected ---------*/	
 .te_footer_language
 {
-	span
+	ul li
 	{
-		ul
-		{
-			li				
-			{
-				.btn-secondary 
-				{
-					    background-color: nth($f_color,27);
-					    font-size:nth($f_sizes,2);
-					    color: inherit;
-					    text-transform: capitalize;						
-				}		
-			a
-			{
-			  font-size:nth($f_sizes,2);
-			  color: inherit;	
-			  	&:hover{
-					color:nth($f_color,19);
-				}
-				&:active {
-                    color: nth($f_color,19);
-				    background-color: nth($f_color,28);
-				}
-			}
-			}	
-		}
+        .btn-secondary
+        {
+                background-color: nth($f_color,27);
+                font-size:nth($f_sizes,2);
+                color: inherit;
+        }
+        a
+        {
+            font-size:nth($f_sizes,2);
+            color: inherit;
+            &:hover{
+                color:nth($f_color,19);
+            }
+        }
 	}
+	.js_language_selector .dropdown-menu{
+        @include media-breakpoint-down(sm){
+            transform: translate3d(53px, -73px, 0px) !important;
+        }
+    }
  }
  /*--------- Social Icon ----------*/
 .te_footer_social_icon
@@ -73,8 +50,8 @@
 		padding:0;
 		span
 		{
-			display:inline-block;
 			padding: 0.625rem 0.3125rem;
+			color: inherit;
 		}
 		&:hover
 		{
@@ -88,76 +65,58 @@
 /*-------- Static Menu -----------*/
 .te_footer_info_ept 
 {
-		margin: 0;
-		padding: 0;
-	
-		 li
-		  {
-			font-size:nth($f_sizes,3);
-			padding: 10px 0;
-			list-style-type: none;
-			@include transition(padding,.5s,ease,0s)
-			cursor: pointer;
-			&:hover
-			{
-				color: nth($f_color,19);
-				padding-left: 10px;
-			}
-			a{
-				color: inherit;
-				display: block;
-			}
-	   }	
+    margin: 0;
+    padding: 0;
+	li{
+        font-size:nth($f_sizes,3);
+        padding: 10px 0;
+        list-style-type: none;
+        @include transition(padding,.5s,ease,0s)
+        cursor: pointer;
+        &:hover
+        {
+            color: nth($f_color,19);
+            padding-left: 10px;
+        }
+        a{
+            color: $footer_text_color;
+            display: block;
+        }
+    }
 }
 /*---------- Contact Info ----------*/
 .te_footer_info_text 
-	{
-		margin: 0;
-		padding: 0;
-		.te_footer_title_text
-		{
-			@include style(2,3,inherit,null,uppercase);
-			list-style-type: none;
-			margin-top:25px;
-		}
-		.te_ftr_add_info
-		{
-			list-style-type: none;	
-			padding-top: 12px;
-			a{
-			     color: inherit;
-                 > span {
-                    color: inherit;
-                 }
-			}
-			.te_footer_social_icon {
-			    > a {
-			        color: nth($f_color,5);
-			    }
-			}
-		}
-		.te_ftr_text_style
-		{
-			font-size:nth($f_sizes,3);
-			@include spacing(null,0.125rem);
-			width: calc(100% - 24px);
-			>span
-        	{
-        	    padding-right: 0.22rem;
-		    }
-		}
-		.te_footer_add_tel_email_text_ept
-		{
-			display: inline-block;
-			vertical-align: top;
-			padding-right: 5px;
-		}	
-	}
+{
+    margin: 0;
+    padding: 0;
+    .te_ftr_add_info
+    {
+        list-style-type: none;
+        padding-top: 12px;
+    }
+    .te_ftr_text_style
+    {
+        font-size:nth($f_sizes,3);
+        @include spacing(null,0.125rem);
+        width: calc(100% - 24px);
+        color: $footer_text_color;
+        >span
+        {
+            padding-right: 0.22rem;
+        }
+    }
+    .te_footer_add_tel_email_text_ept
+    {
+        display: inline-block;
+        vertical-align: top;
+        padding-right: 5px;
+        color: $footer_text_color;
+    }
+}
 .te_footer_menu_info
 {
 		font-size:nth($f_sizes,2);
-		color: inherit;
-		text-transform: capitalize;
+		color: $footer_text_color;
 		list-style-type: none;
 }
 @include media-breakpoint-down(sm)
@@ -171,6 +130,7 @@
 /*---------- Copyright And Payment Image ----------*/
 .te_copyright_add_language
 {
+    color: $footer_text_color;
 	@include media-breakpoint-down(md) {
 		font-size:nth($f_sizes,3);
 		margin-bottom: 8px;
@@ -183,7 +143,6 @@
 .te_footer_payment_img
 {
 	text-align:right;
-	
 	@include media-breakpoint-down(sm) {
 		text-align:left;
 	}

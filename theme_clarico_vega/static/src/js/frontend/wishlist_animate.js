@@ -60,6 +60,9 @@ odoo.define('theme_clarico_vega.wishlist_animate', function (require) {
         _addOrMoveWish: function (e) {
             var self = this;
             var $navButton = self.getCustomNavBarButton('.te_cart_icon_head');
+            if($navButton.length == 0) {
+                $navButton = $('#top_menu_collapse #my_cart');
+            }
             var tr = $(e.currentTarget).parents('tr');
             var product = tr.data('product-id');
             $('.te_cart_icon_head').removeClass('d-none');

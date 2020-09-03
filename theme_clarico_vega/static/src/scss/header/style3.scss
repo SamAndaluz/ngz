@@ -12,11 +12,11 @@
 
 		a,.btn-link
 		{
-			@include style(3,3);
+			font-size:nth($f_sizes,3);
+            color:$theme-extra-color;
 		}
 		.btn
 		{
-			text-transform:capitalize;
 			padding: 0.375rem;
 		}
 	}
@@ -127,7 +127,7 @@
                 border-bottom: 0;
             }
             button.btn.btn-sm.btn-secondary.dropdown-toggle{
-                color: nth($f_color,3);
+                color: $theme-extra-color;
                 padding: 0.375rem;
             }
             .dropdown-menu,
@@ -151,9 +151,9 @@
                     }
                 }
             }
-            li.list-inline-item{
+            /* li.list-inline-item{
                 margin-right: -1px;
-            }
+            } */
         }
     }
 }
@@ -171,7 +171,7 @@
 /*---------- Static Menu ----------*/
 .te_header_navbar
 {
-	background-color:nth($f_color,19) ;
+	background-color:nth($f_color,19);
 	padding: 0;
     min-height: 47px;
 	& .navbar-brand
@@ -188,16 +188,18 @@
 
 		>li > a.nav-link
 		{
-			color : nth($f_color,5);
+			color : $theme-extra-color;
 			font-family: inherit;
-            text-transform: capitalize;
 			padding: 0.8rem 0.8rem;
 			border-top: 2px solid nth($f_color,27);
+			&:hover{
+			    color:$header_text_hover_color;
+			}
 		}
 		>li > a.nav-link.active
 		{
 			background-color: nth($f_color,5);
-			color: nth($f_color,19);
+			color:$header_text_hover_color;
 			border-top: 2px solid nth($f_color,5);
 		}
 		.te_wish_icon_head, .te_cart_icon_head
@@ -212,7 +214,7 @@
 	sup.my_wish_quantity.o_animate_blink.badge.badge-primary{
 	    top: -9px;
 	    @include media-breakpoint-up(md){
-            color:nth($f_color,19);;
+            color:nth($f_color,19);
             background-color:nth($f_color,5);
         }
 	}
@@ -231,7 +233,6 @@
 			{
 				> a.nav-link
 				{
-					color : nth($f_color,3);
 					padding: 0.5rem !important;
 					border: 0;
 				}
@@ -255,7 +256,7 @@
 		padding-bottom: 8px;
 		> ul > li
 		{
-			color: nth($f_color,3);
+			color: $theme-extra-color;
 		}
 	}
 }
@@ -273,7 +274,7 @@
 			display:block;
 			a
 			{
-				color:nth($f_color,3);
+				color:$theme-extra-color;
 				outline: none;
 			}
 			i
@@ -301,8 +302,7 @@
 		    z-index: -1;
 		    content: '';
 		    @include position(absolute,-8px,calc(50% - 10px),auto,auto);
-		    @include transition(null,0.3s,null)
-	    	@include transition(transform,null,null)
+		    @include transition(transform,0.3s,null)
 		}
 		.te_srch_close
 		{
@@ -324,8 +324,7 @@
 		{
             .input-group-append
             {
-                position: absolute;
-                right: 0px;
+                @include position(absolute,null,0px);
             }
 		}
 	}
@@ -343,8 +342,12 @@
 	        }
 	        button.btn.btn-primary.oe_search_button
 	        {
-	            color: nth($f_color,3);
+	            color:$theme-extra-color;
 	        }
+	        & .form-control::placeholder{
+                color:$theme-extra-color;
+                opacity:0.5;
+            }
 	    }
 	}
 }
@@ -426,10 +429,24 @@
 					border: 0;
 				}
 				.js_language_selector{
-				    position: relative;
-                    left: 4px;
+				    @include position(relative,null,null,null,4px);
 				}
 			}
 		}
 	}
 }
+/* apply extra color*/
+.te_login_right .dropdown-menu.show a.dropdown-item{
+    color: $theme-extra-color;
+    opacity:0.5;
+    &:hover{
+        color: nth($f_color,19);
+        opacity:1;
+    }
+}
+// .te_header_navbar #top_menu_collapse #top_menu > li > a.nav-link:hover{
+//     color: $theme-extra-color;
+// }
+// .te_header_navbar #top_menu li.dropdown .dropdown-menu:not(.te_custom_submenu).o_mega_menu a:not(.te_menu_ctg_main):hover{
+//     color: nth($f_color,19);
+// }

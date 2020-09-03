@@ -18,7 +18,7 @@
                 </t>
             </div>
         </xpath>
-        <xpath expr="//header" position="before">
+        <xpath expr="//nav[hasclass('navbar-expand-md')]" position="before">
             <div class="te_header_before_overlay">
                 <div class="container">
                     <section class="te_header_offer_top">
@@ -64,13 +64,13 @@
                             </div>
                             <div class="te_header_search">
                                 <div class="te_srch_icon_header">
-                                    <a href="#" class="">
+                                    <a href="javascript:void(0);" class="">
                                         <i class="fa fa-search te_srch_icon"/>
                                         <i class="fa fa-times te_srch_close"/>
                                     </a>
                                 </div>
                                 <div class="te_search_popover" tabindex="-1">
-                                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                                 </div>
                             </div>
                             <t t-set="website_vertical_menu"
@@ -89,16 +89,24 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                     <a role="menuitem" class="dropdown-item te_user_name">
-                                        <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                        <span class="te_user_drop_item">Hello,
+                                            <span class="te_user_drop_item"
+                                                  t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                        </span>
                                     </a>
                                     <a href="/my/home" role="menuitem" class="dropdown-item">
-                                        <span class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                        <span class="fa fa-user"/>
+                                        <span class="te_user_drop_item">My Account</span>
                                     </a>
-                                    <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                            class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                    <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                        <span
+                                                class="fa fa-pie-chart"/>
+                                        <span class="te_user_drop_item">My orders</span>
                                     </a>
                                     <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/"
-                                       role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                       role="menuitem">
+                                        <span class="fa fa-sign-out"/>
+                                        <span class="te_user_drop_item">Logout</span>
                                     </a>
                                 </div>
                             </div>
@@ -191,17 +199,26 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                                     <a role="menuitem" class="dropdown-item te_user_name">
-                                                        <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                                        <span class="te_user_drop_item">Hello,
+                                                            <span class="te_user_drop_item"
+                                                                  t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                                        </span>
                                                     </a>
-                                                    <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                            class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                                    <a href="/my/home" role="menuitem" class="dropdown-item">
+                                                        <span
+                                                                class="fa fa-user"/>
+                                                        <span class="te_user_drop_item">My Account</span>
                                                     </a>
-                                                    <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                            class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                                    <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                                        <span
+                                                                class="fa fa-pie-chart"/>
+                                                        <span class="te_user_drop_item">My orders</span>
                                                     </a>
                                                     <a id="o_logout" class="dropdown-item"
                                                        t-attf-href="/web/session/logout?redirect=/"
-                                                       role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                                       role="menuitem">
+                                                        <span class="fa fa-sign-out"/>
+                                                        <span class="te_user_drop_item">Logout</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -258,7 +275,7 @@
                                         </a>
                                     </div>
                                     <div class="te_search_popover" tabindex="-1">
-                                        <t t-call="website_sale.website_sale_products_search_box"></t>
+                                        <t t-call="theme_clarico_vega.header_search_ept"></t>
                                     </div>
                                 </div>
                                 <t t-set="website_vertical_menu"
@@ -334,7 +351,7 @@
                                     </a>
                                 </div>
                                 <div class="te_search_popover" tabindex="-1">
-                                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                                 </div>
                             </div>
                         </div>
@@ -381,17 +398,26 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                         <a role="menuitem" class="dropdown-item te_user_name">
-                                            <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                            <span class="te_user_drop_item">Hello,
+                                                <span class="te_user_drop_item"
+                                                      t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                            </span>
                                         </a>
-                                        <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                        <a href="/my/home" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-user"/>
+                                            <span class="te_user_drop_item">My Account</span>
                                         </a>
-                                        <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                        <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-pie-chart"/>
+                                            <span class="te_user_drop_item">My orders</span>
                                         </a>
                                         <a id="o_logout" class="dropdown-item"
                                            t-attf-href="/web/session/logout?redirect=/"
-                                           role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                           role="menuitem">
+                                            <span class="fa fa-sign-out"/>
+                                            <span class="te_user_drop_item">Logout</span>
                                         </a>
                                     </div>
                                 </div>
@@ -431,22 +457,26 @@
         <xpath expr="//ul[@id='top_menu']/li[hasclass('dropdown')]"
                position="replace">
         </xpath>
-        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]" position="inside">
-            <a href="/shop/cart" id="my_cart" class="nav-link o_wsale_my_cart">
-                <i class="fa fa-shopping-cart"></i>
-                My Cart
-                <sup t-attf-class="my_cart_quantity badge badge-primary"
-                     t-esc="website_sale_order and website_sale_order.cart_quantity or ''"/>
-            </a>
+        <xpath expr="//li[contains(@t-attf-class, 'o_wsale_my_cart')]" position="replace">
+            <li t-attf-class="nav-item o_wsale_my_cart d-block">
+                <a href="/shop/cart" id="my_cart" class="nav-link o_wsale_my_cart">
+                    <i class="fa fa-shopping-cart"></i>
+                    My Cart
+                    <sup t-attf-class="my_cart_quantity badge badge-primary"
+                         t-esc="website_sale_order and website_sale_order.cart_quantity or ''"/>
+                </a>
+            </li>
         </xpath>
-        <xpath expr="//li[hasclass('o_wsale_my_wish')]" position="inside">
-            <a href="/shop/wishlist" class="nav-link te_wish_icon_head">
-                <i class="fa fa-heart"/>
-                Wishlist
-                <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary">
-                    <t t-esc='wishcount or "0"'/>
-                </sup>
-            </a>
+        <xpath expr="//li[hasclass('o_wsale_my_wish')]" position="replace">
+            <li class="nav-item o_wsale_my_wish te_wish_icon_head d-block" id="my_wish">
+                <a href="/shop/wishlist" class="nav-link te_wish_icon_head">
+                    <i class="fa fa-heart"/>
+                    Wishlist
+                    <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary">
+                        <t t-esc='wishcount or "0"'/>
+                    </sup>
+                </a>
+            </li>
         </xpath>
     </template>
     <!-- ======================= Header style option 4========================= -->
@@ -486,7 +516,7 @@
                                     </a>
                                 </div>
                                 <div class="te_search_popover" tabindex="-1">
-                                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                                 </div>
                             </div>
                         </div>
@@ -542,17 +572,26 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                         <a role="menuitem" class="dropdown-item te_user_name">
-                                            <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                            <span class="te_user_drop_item">Hello,
+                                                <span class="te_user_drop_item"
+                                                      t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                            </span>
                                         </a>
-                                        <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                        <a href="/my/home" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-user"/>
+                                            <span class="te_user_drop_item">My Account</span>
                                         </a>
-                                        <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                        <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-pie-chart"/>
+                                            <span class="te_user_drop_item">My orders</span>
                                         </a>
                                         <a id="o_logout" class="dropdown-item"
                                            t-attf-href="/web/session/logout?redirect=/"
-                                           role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                           role="menuitem">
+                                            <span class="fa fa-sign-out"/>
+                                            <span class="te_user_drop_item">Logout</span>
                                         </a>
                                     </div>
                                 </div>
@@ -625,15 +664,25 @@
                                         <p></p>
                                         <div t-attf-class="s_share te_header_w_share #{_classes or ''}">
                                             <a t-if="website.social_facebook" t-att-href="website.social_facebook"
-                                               class="btn btn-link"><i class="fa fa-facebook"/></a>
+                                               class="btn btn-link">
+                                                <i class="fa fa-facebook"/>
+                                            </a>
                                             <a t-if="website.social_twitter" t-att-href="website.social_twitter"
-                                               class="btn btn-link"><i class="fa fa-twitter"/></a>
+                                               class="btn btn-link">
+                                                <i class="fa fa-twitter"/>
+                                            </a>
                                             <a t-if="website.social_linkedin" t-att-href="website.social_linkedin"
-                                               class="btn btn-link"><i class="fa fa-linkedin"/></a>
+                                               class="btn btn-link">
+                                                <i class="fa fa-linkedin"/>
+                                            </a>
                                             <a t-if="website.social_youtube" t-att-href="website.social_youtube"
-                                               class="btn btn-link"><i class="fa fa-youtube-play"/></a>
+                                               class="btn btn-link">
+                                                <i class="fa fa-youtube-play"/>
+                                            </a>
                                             <a t-if="website.social_github" t-att-href="website.social_github"
-                                               class="btn btn-link"><i class="fa fa-github"/></a>
+                                               class="btn btn-link">
+                                                <i class="fa fa-github"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -662,7 +711,7 @@
                                     </a>
                                     <div class="te_search_form_5_page container">
                                         <div class="te_5_text">What are you Looking for ?</div>
-                                        <t t-call="website_sale.website_sale_products_search_box"></t>
+                                        <t t-call="theme_clarico_vega.header_search_ept"></t>
                                     </div>
                                 </div>
                             </div>
@@ -688,17 +737,26 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                         <a role="menuitem" class="dropdown-item te_user_name">
-                                            <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                            <span class="te_user_drop_item">Hello,
+                                                <span class="te_user_drop_item"
+                                                      t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                            </span>
                                         </a>
-                                        <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                        <a href="/my/home" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-user"/>
+                                            <span class="te_user_drop_item">My Account</span>
                                         </a>
-                                        <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                        <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                            <span
+                                                    class="fa fa-pie-chart"/>
+                                            <span class="te_user_drop_item">My orders</span>
                                         </a>
                                         <a id="o_logout" class="dropdown-item"
                                            t-attf-href="/web/session/logout?redirect=/"
-                                           role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                           role="menuitem">
+                                            <span class="fa fa-sign-out"/>
+                                            <span class="te_user_drop_item">Logout</span>
                                         </a>
                                     </div>
                                 </div>
@@ -770,15 +828,25 @@
                                             <p></p>
                                             <section t-attf-class="s_share te_header_w_share #{_classes or ''}">
                                                 <a t-if="website.social_facebook" t-att-href="website.social_facebook"
-                                                   class="btn btn-link"><i class="fa fa-facebook"/></a>
+                                                   class="btn btn-link">
+                                                    <i class="fa fa-facebook"/>
+                                                </a>
                                                 <a t-if="website.social_twitter" t-att-href="website.social_twitter"
-                                                   class="btn btn-link"><i class="fa fa-twitter"/></a>
+                                                   class="btn btn-link">
+                                                    <i class="fa fa-twitter"/>
+                                                </a>
                                                 <a t-if="website.social_linkedin" t-att-href="website.social_linkedin"
-                                                   class="btn btn-link"><i class="fa fa-linkedin"/></a>
+                                                   class="btn btn-link">
+                                                    <i class="fa fa-linkedin"/>
+                                                </a>
                                                 <a t-if="website.social_youtube" t-att-href="website.social_youtube"
-                                                   class="btn btn-link"><i class="fa fa-youtube-play"/></a>
+                                                   class="btn btn-link">
+                                                    <i class="fa fa-youtube-play"/>
+                                                </a>
                                                 <a t-if="website.social_github" t-att-href="website.social_github"
-                                                   class="btn btn-link"><i class="fa fa-github"/></a>
+                                                   class="btn btn-link">
+                                                    <i class="fa fa-github"/>
+                                                </a>
                                             </section>
                                         </section>
                                     </div>
@@ -828,17 +896,26 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                             <a role="menuitem" class="dropdown-item te_user_name">
-                                                <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                                <span class="te_user_drop_item">Hello,
+                                                    <span class="te_user_drop_item"
+                                                          t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                                </span>
                                             </a>
-                                            <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                    class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                            <a href="/my/home" role="menuitem" class="dropdown-item">
+                                                <span
+                                                        class="fa fa-user"/>
+                                                <span class="te_user_drop_item">My Account</span>
                                             </a>
-                                            <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                    class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                            <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                                <span
+                                                        class="fa fa-pie-chart"/>
+                                                <span class="te_user_drop_item">My orders</span>
                                             </a>
                                             <a id="o_logout" class="dropdown-item"
                                                t-attf-href="/web/session/logout?redirect=/"
-                                               role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                               role="menuitem">
+                                                <span class="fa fa-sign-out"/>
+                                                <span class="te_user_drop_item">Logout</span>
                                             </a>
                                         </div>
                                     </div>
@@ -867,7 +944,7 @@
                             <div class="col-lg-7 te_header_search">
                                 <div class="te_sub_search">
                                     <span class="te_header_search_close te_srch_close">x</span>
-                                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                                 </div>
                             </div>
                         </div>
@@ -946,7 +1023,7 @@
                                     </a>
                                     <div class="te_searchform__body te_header_style_7_main_search">
                                         <div class="te_text">Start typing and press Enter to search</div>
-                                        <t t-call="website_sale.website_sale_products_search_box"></t>
+                                        <t t-call="theme_clarico_vega.header_search_ept"></t>
                                     </div>
                                 </div>
                                 <div class="te_cart_icon_head">
@@ -971,17 +1048,26 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                             <a role="menuitem" class="dropdown-item te_user_name">
-                                                <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                                <span class="te_user_drop_item">Hello,
+                                                    <span class="te_user_drop_item"
+                                                          t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                                </span>
                                             </a>
-                                            <a href="/my/home" role="menuitem" class="dropdown-item"><span
-                                                    class="fa fa-user"/><span class="te_user_drop_item">My Account</span>
+                                            <a href="/my/home" role="menuitem" class="dropdown-item">
+                                                <span
+                                                        class="fa fa-user"/>
+                                                <span class="te_user_drop_item">My Account</span>
                                             </a>
-                                            <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                                    class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                            <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                                <span
+                                                        class="fa fa-pie-chart"/>
+                                                <span class="te_user_drop_item">My orders</span>
                                             </a>
                                             <a id="o_logout" class="dropdown-item"
                                                t-attf-href="/web/session/logout?redirect=/"
-                                               role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                               role="menuitem">
+                                                <span class="fa fa-sign-out"/>
+                                                <span class="te_user_drop_item">Logout</span>
                                             </a>
                                         </div>
                                     </div>
@@ -1052,15 +1138,25 @@
                                     <p></p>
                                     <div t-attf-class="s_share te_header_w_share #{_classes or ''}">
                                         <a t-if="website.social_facebook" t-att-href="website.social_facebook"
-                                           class="btn btn-link"><i class="fa fa-facebook"/></a>
+                                           class="btn btn-link">
+                                            <i class="fa fa-facebook"/>
+                                        </a>
                                         <a t-if="website.social_twitter" t-att-href="website.social_twitter"
-                                           class="btn btn-link"><i class="fa fa-twitter"/></a>
+                                           class="btn btn-link">
+                                            <i class="fa fa-twitter"/>
+                                        </a>
                                         <a t-if="website.social_linkedin" t-att-href="website.social_linkedin"
-                                           class="btn btn-link"><i class="fa fa-linkedin"/></a>
+                                           class="btn btn-link">
+                                            <i class="fa fa-linkedin"/>
+                                        </a>
                                         <a t-if="website.social_youtube" t-att-href="website.social_youtube"
-                                           class="btn btn-link"><i class="fa fa-youtube-play"/></a>
+                                           class="btn btn-link">
+                                            <i class="fa fa-youtube-play"/>
+                                        </a>
                                         <a t-if="website.social_github" t-att-href="website.social_github"
-                                           class="btn btn-link"><i class="fa fa-github"/></a>
+                                           class="btn btn-link">
+                                            <i class="fa fa-github"/>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -1069,7 +1165,7 @@
                     <div class="col-lg-9 te_header_before_right">
                         <div class="te_header_8_search te_header_search">
                             <div class="te_sub_search">
-                                <t t-call="website_sale.website_sale_products_search_box"></t>
+                                <t t-call="theme_clarico_vega.header_search_ept"></t>
                             </div>
                         </div>
                         <t t-set="website_sale_pricelists"
@@ -1121,16 +1217,27 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                             <a role="menuitem" class="dropdown-item te_user_name">
-                                <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                <span class="te_user_drop_item">Hello,
+                                    <span class="te_user_drop_item"
+                                          t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                </span>
                             </a>
-                            <a href="/my/home" role="menuitem" class="dropdown-item"><span class="fa fa-user"/><span class="te_user_drop_item">My
-                                Account</span>
+                            <a href="/my/home" role="menuitem" class="dropdown-item">
+                                <span class="fa fa-user"/>
+                                <span class="te_user_drop_item">My
+                                    Account
+                                </span>
                             </a>
-                            <a href="/my/orders" role="menuitem" class="dropdown-item"><span class="fa fa-pie-chart"/><span class="te_user_drop_item">My
-                                orders</span>
+                            <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                <span class="fa fa-pie-chart"/>
+                                <span class="te_user_drop_item">My
+                                    orders
+                                </span>
                             </a>
                             <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/"
-                               role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                               role="menuitem">
+                                <span class="fa fa-sign-out"/>
+                                <span class="te_user_drop_item">Logout</span>
                             </a>
                         </div>
                     </div>
@@ -1255,16 +1362,27 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                             <a role="menuitem" class="dropdown-item te_user_name">
-                                <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                <span class="te_user_drop_item">Hello,
+                                    <span class="te_user_drop_item"
+                                          t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                </span>
                             </a>
-                            <a href="/my/home" role="menuitem" class="dropdown-item"><span class="fa fa-user"/><span class="te_user_drop_item">My
-                                Account</span>
+                            <a href="/my/home" role="menuitem" class="dropdown-item">
+                                <span class="fa fa-user"/>
+                                <span class="te_user_drop_item">My
+                                    Account
+                                </span>
                             </a>
-                            <a href="/my/orders" role="menuitem" class="dropdown-item"><span class="fa fa-pie-chart"/><span class="te_user_drop_item">My
-                                orders</span>
+                            <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                <span class="fa fa-pie-chart"/>
+                                <span class="te_user_drop_item">My
+                                    orders
+                                </span>
                             </a>
                             <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/"
-                               role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                               role="menuitem">
+                                <span class="fa fa-sign-out"/>
+                                <span class="te_user_drop_item">Logout</span>
                             </a>
                         </div>
                     </div>
@@ -1290,7 +1408,7 @@
             </div>
             <div class="col-lg-12 te_header_search_popover">
                 <div class="te_sub_search">
-                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                 </div>
                 <div class="te_header_search_close te_srch_close">
                     <i class="fa fa-times search_btn_close"></i>
@@ -1346,7 +1464,7 @@
                 <div class="te_header_icon_left">
                     <div class="te_header_10_search te_header_search">
                         <div class="te_sub_search">
-                            <t t-call="website_sale.website_sale_products_search_box"></t>
+                            <t t-call="theme_clarico_vega.header_search_ept"></t>
                         </div>
                         <div class="te_srch_icon_mobile_header">
                             <i class="fa fa-search te_srch_icon"/>
@@ -1377,16 +1495,26 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                 <a role="menuitem" class="dropdown-item te_user_name">
-                                    <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                    <span class="te_user_drop_item">Hello,
+                                        <span class="te_user_drop_item"
+                                              t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                    </span>
                                 </a>
-                                <a href="/my/home" role="menuitem" class="dropdown-item"><span class="fa fa-user"/><span class="te_user_drop_item">My
-                                    Account</span>
+                                <a href="/my/home" role="menuitem" class="dropdown-item">
+                                    <span class="fa fa-user"/>
+                                    <span class="te_user_drop_item">My
+                                        Account
+                                    </span>
                                 </a>
-                                <a href="/my/orders" role="menuitem" class="dropdown-item"><span
-                                        class="fa fa-pie-chart"/><span class="te_user_drop_item">My orders</span>
+                                <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                    <span
+                                            class="fa fa-pie-chart"/>
+                                    <span class="te_user_drop_item">My orders</span>
                                 </a>
                                 <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/"
-                                   role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                   role="menuitem">
+                                    <span class="fa fa-sign-out"/>
+                                    <span class="te_user_drop_item">Logout</span>
                                 </a>
                             </div>
                         </div>
@@ -1486,7 +1614,8 @@
                          t-if="website_sale_pricelists and len(website_sale_pricelists)&gt;1">
                         <t t-call="website_sale.pricelist_list"/>
                     </div>
-                    <div class="px-1 te_language_selector" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+                    <div class="px-1 te_language_selector"
+                         t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
                         <t t-call="theme_clarico_vega.header_language_ept"></t>
                     </div>
                     <t t-set="website_vertical_menu"
@@ -1504,16 +1633,27 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right js_usermenu" role="menu">
                                 <a role="menuitem" class="dropdown-item te_user_name">
-                                    <span class="te_user_drop_item">Hello, <span class="te_user_drop_item" t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/></span>
+                                    <span class="te_user_drop_item">Hello,
+                                        <span class="te_user_drop_item"
+                                              t-esc="user_id.name[:15] + '...' if user_id.name and len(user_id.name) &gt; 16 else user_id.name"/>
+                                    </span>
                                 </a>
-                                <a href="/my/home" role="menuitem" class="dropdown-item"><span class="fa fa-user"/><span class="te_user_drop_item">My
-                                    Account</span>
+                                <a href="/my/home" role="menuitem" class="dropdown-item">
+                                    <span class="fa fa-user"/>
+                                    <span class="te_user_drop_item">My
+                                        Account
+                                    </span>
                                 </a>
-                                <a href="/my/orders" role="menuitem" class="dropdown-item"><span class="fa fa-pie-chart"/><span class="te_user_drop_item">My
-                                    orders</span>
+                                <a href="/my/orders" role="menuitem" class="dropdown-item">
+                                    <span class="fa fa-pie-chart"/>
+                                    <span class="te_user_drop_item">My
+                                        orders
+                                    </span>
                                 </a>
                                 <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/"
-                                   role="menuitem"><span class="fa fa-sign-out"/><span class="te_user_drop_item">Logout</span>
+                                   role="menuitem">
+                                    <span class="fa fa-sign-out"/>
+                                    <span class="te_user_drop_item">Logout</span>
                                 </a>
                             </div>
                         </div>
@@ -1540,7 +1680,7 @@
             </div>
             <div class="col-lg-12 te_header_search_popover">
                 <div class="te_sub_search">
-                    <t t-call="website_sale.website_sale_products_search_box"></t>
+                    <t t-call="theme_clarico_vega.header_search_ept"></t>
                 </div>
                 <div class="te_header_search_close te_srch_close">
                     <i class="fa fa-times search_btn_close"></i>
@@ -1635,12 +1775,50 @@
     <!-- To Repace Default Whishlist In Navbar -->
     <template id="header_ept_wishlist" inherit_id="website_sale_wishlist.header" name="Header Shop Wishlist Link">
         <xpath expr="//li[hasclass('o_wsale_my_wish')]" position="replace">
-            <li class="nav-item o_wsale_my_wish" t-att-style="not wishcount and 'display:none;'"></li>
+            <li class="nav-item o_wsale_my_wish"></li>
         </xpath>
     </template>
 
     <template id="login_popup_ept" name="Login Popup">
         <input type="hidden" class="login_popup_ept" value="True"/>
     </template>
-
+    <template id="header_search_ept" inherit_id="website.website_search_box">
+        <xpath expr="//input[@name='search']" position="attributes">
+            <attribute name="data-limit">5</attribute>
+            <attribute name="data-display-description">true</attribute>
+            <attribute name="data-display-price">true</attribute>
+            <attribute name="data-display-image">true</attribute>
+        </xpath>
+        <xpath expr="//div[@role='search']" position="attributes">
+            <attribute name="t-attf-class" remove="#{_classes}" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@role='search']" position="replace">
+            <t t-if="is_shop or is_product">
+                <t t-set="action"
+                   t-value="keep('/shop'+ ('/category/'+slug(category)) if category else None, search=0)"/>
+            </t>
+            <t t-if="attrib_values">
+                <t t-foreach="attrib_values" t-as="a">
+                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
+                </t>
+            </t>
+            <t t-if="is_shop or is_product">
+                <form t-attf-class="o_wsale_products_searchbar_form o_wait_lazy_js #{_classes}"
+                      t-att-action="action if action else '/shop'" method="get">
+                    <t>$0</t>
+                    <input name="order" type="hidden" class="o_wsale_search_order_by" value=""/>
+                    <t t-raw="0"/>
+                </form>
+            </t>
+            <t t-else="">
+                <form t-attf-class="o_wsale_products_searchbar_form o_wait_lazy_js #{_classes}" action="/shop"
+                      method="get">
+                    <t>$0</t>
+                    <input name="order" type="hidden" class="o_wsale_search_order_by" value=""/>
+                    <t t-raw="0"/>
+                </form>
+            </t>
+            <t t-set="search" t-value="False"/>
+        </xpath>
+    </template>
 </odoo>

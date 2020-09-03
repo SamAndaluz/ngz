@@ -86,7 +86,7 @@ odoo.define('website_slider.front_js', function (require) {
                 lazyLoad:true,
                 dots: false,
                 navText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
-                autoplay: true,
+                autoplay: $('.te_auto_play_value span').text() == "True" ? true : false,
                 autoplayTimeout: 4000,
                 autoplayHoverPause:true,
                 items: 4,
@@ -142,7 +142,7 @@ odoo.define('website_slider.front_js', function (require) {
                     $('.cus_theme_loader_layout').addClass('hidden');
                     current_filter.show()
                 }
-                else{
+                else {
                     ajax.jsonRpc('/slider/render', 'call', {'slider_id': slider_id,'filter_id':filter_id}).then(function (data) {
                         $('.cus_theme_loader_layout').addClass('d-none');
                         $('.cus_theme_loader_layout').addClass('hidden');

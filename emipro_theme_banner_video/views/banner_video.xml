@@ -17,7 +17,7 @@
                                     Video URL for the banner
                                 </div>
                                 <div class="mt8">
-                                    <field name="banner_video_url" />
+                                    <field name="banner_video_url" domain="[('mimetype', '=', 'video/mp4')]" />
                                 </div>
                             </div>
                         </div>
@@ -26,5 +26,16 @@
             </div>
         </field>
     </record>
-
+    <record id="view_banner_video_form" model="ir.ui.view">
+        <field name="name">view.banner.video.document.form</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//group/group[1]" position="inside">
+              <field name="public"/>
+          </xpath>
+          <xpath expr="//group/group[2]/field[@name='public']" position="replace">
+          </xpath>
+        </field>
+    </record>
 </odoo>

@@ -8,8 +8,8 @@
             <t t-snippet="theme_clarico_vega.banner_ept"
                t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/banner.jpg"/>
             <!-- Banner Style 3 -->
-            <t t-snippet="theme_clarico_vega.banner_video"
-               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/banner_with_video.jpg"/>
+            <t t-snippet="theme_clarico_vega.banner_style_3"
+               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Header-Section.jpg"/>
         </xpath>
         <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]/t[@t-snippet='website.s_text_image']"
                position="after">
@@ -44,15 +44,28 @@
                t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet5.jpg"/>
         </xpath>
         <!--==== Blog Post Style ===-->
-        <xpath expr="//t[@t-snippet='website_blog.s_latest_posts_big_picture']" position="after">
-            <t t-snippet="theme_clarico_vega.blog_post_style_2"
-               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet34.jpg"/>
-            <t t-snippet="theme_clarico_vega.blog_post_style_3"
-               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet35.jpg"/>
-            <t t-snippet="theme_clarico_vega.blog_post_style_4"
-               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet36.jpg"/>
-        </xpath>
-        <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]" position="after">
+        <!-- <xpath expr="//t[@t-snippet='website_blog.s_latest_posts_big_picture']" position="after">
+            
+        </xpath> -->
+        <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_header')]" position="before">
+            <!--==== Video ===-->
+            <div class="o_panel_header">
+                Video
+            </div>
+            <div class="o_panel_body">
+              <!-- Banner Video -->
+              <t t-snippet="theme_clarico_vega.banner_video"
+                 t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/banner_with_video.jpg"/>
+            </div>
+            <!--==== Map ===-->
+            <div class="o_panel_header">
+                Map
+            </div>
+            <div class="o_panel_body">
+              <!-- Generate Google Map -->
+                <t t-snippet="theme_clarico_vega.google_map_generate"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/google_map.jpeg"/>
+            </div>
             <!--==== Title style ===-->
             <div class="o_panel_header">
                 Title
@@ -90,6 +103,12 @@
                 <!-- 2 Column Style 5 -->
                 <t t-snippet="theme_clarico_vega.2_column_style5"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/2col_style5.jpg"/>
+                <t t-snippet="theme_clarico_vega.2_column_style6"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Menu.jpg" priority="2"/>
+                <t t-snippet="theme_clarico_vega.label_inner_snippet"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Labels.jpg" priority="2"/>
+                <t t-snippet="theme_clarico_vega.number_counter"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Number-Snippet.jpg"/>
             </div>
             <!--==== 3 Columns ===-->
             <div class="o_panel_header">
@@ -134,6 +153,8 @@
                 <!-- 3 Columns Style 13 -->
                 <t t-snippet="theme_clarico_vega.three_columns_icon_style_2"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/3_columns/icon-style-3.jpg"/>
+                <t t-snippet="theme_clarico_vega.three_columns_col_style_13"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Video_snippet.jpg"/>
                 <!-- 3 Columns Style 14 -->
                 <t t-snippet="website.s_features"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/features.jpg"/>
@@ -246,7 +267,13 @@
                 <!--Offer Style 10 -->
                 <t t-snippet="theme_clarico_vega.offer_style_10"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet27.jpg"/>
-                <!-- Offer Timer -->
+            </div>
+            <!--==== Offer Timer ===-->
+            <div class="o_panel_header">
+                Offer Timer
+            </div>
+            <div class="o_panel_body">
+              <!-- Offer Timer -->
                 <t t-snippet="theme_clarico_vega.offer_timer"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/offer_style/offer-timer.jpg"
                    name="Style 2" priority="2"/>
@@ -259,18 +286,6 @@
                 <t t-snippet="theme_clarico_vega.timer_snippet_body"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/offer_style/timer.jpg"
                    name="Style 2" priority="2"/>
-
-                <!-- Discount Category Carousel -->
-                <t t-snippet="theme_clarico_vega.category_discount"
-                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/category_discount.jpg"/>
-
-                <!-- Discount Product Carousel -->
-                <t t-snippet="theme_clarico_vega.product_discount"
-                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/product_discount.jpg"/>
-
-                <!-- Discount All Product Carousel -->
-                <t t-snippet="theme_clarico_vega.allproduct_discount"
-                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/all_discount.jpg"/>
             </div>
             <!--====== All Sliders Style ======-->
             <div class="o_panel_header">
@@ -320,6 +335,9 @@
                 <!-- Banner With Slider -->
                 <t t-snippet="theme_clarico_vega.banner_slider"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet37.jpg"/>
+                <!-- Slider Style 11 -->
+                <t t-snippet="theme_clarico_vega.slider_style_14"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet39.jpg"/>
                 <!-- Slider Style 7 -->
                 <t t-snippet="website.s_carousel"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet_7.jpg"/>
@@ -352,9 +370,17 @@
                 <t t-snippet="theme_clarico_vega.category_products"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/category_products.jpg"/>
 
-                <!-- Generate Google Map -->
-                <t t-snippet="theme_clarico_vega.google_map_generate"
-                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/google_map.jpeg"/>
+                <!-- Discount Category Carousel -->
+                <t t-snippet="theme_clarico_vega.category_discount"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/category_discount.jpg"/>
+
+                <!-- Discount Product Carousel -->
+                <t t-snippet="theme_clarico_vega.product_discount"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/product_discount.jpg"/>
+
+                <!-- Discount All Product Carousel -->
+                <t t-snippet="theme_clarico_vega.allproduct_discount"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/all_discount.jpg"/>
             </div>
             <!--==== Inner Snippets =======-->
             <div class="o_panel_header">
@@ -371,22 +397,22 @@
             </div>
             <div class="o_panel_body">
                 <t t-snippet="theme_clarico_vega.footer_snippet_style1"
-                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_1.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_1.jpg"/>
                 <t t-snippet="theme_clarico_vega.footer_snippet_style3"
-                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_3.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_3.jpg"/>
                 <t t-snippet="theme_clarico_vega.footer_snippet_style4"
-                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_4.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_4.jpg"/>
                 <t t-snippet="theme_clarico_vega.footer_snippet_style5"
-                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg"/>
                 <t t-snippet="theme_clarico_vega.footer_snippet_style6"
-                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg"/>
                 <t t-snippet="theme_clarico_vega.footer_snippet_style7"
-                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg" />
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/footer_rebuild_5.jpg"/>
             </div>
             <!-- === Employee And Customers Snippet === -->
             <div class="o_panel_header">
                 <i class="fa fa-users"></i>
-                Employee And Customers
+                Team
             </div>
             <div class="o_panel_body">
                 <!-- Team-1 -->
@@ -410,7 +436,13 @@
                 <!-- Team-7 -->
                 <t t-snippet="theme_clarico_vega.employee_team_7"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/team-snippet-7.jpg"/>
-                <!-- Customer-1 -->
+            </div>
+            <div class="o_panel_header">
+                <i class="fa fa-users"></i>
+                Customer Testimonial
+            </div>
+            <div class="o_panel_body">
+                  <!-- Customer-1 -->
                 <t t-snippet="theme_clarico_vega.customers_carousel_1"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/customer-1.jpg"/>
                 <!-- Customer-2 -->
@@ -422,6 +454,21 @@
                 <!-- Customer-4 -->
                 <t t-snippet="theme_clarico_vega.customers_4"
                    t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet33.jpg"/>
+                <!-- Customer-5 -->
+                <t t-snippet="theme_clarico_vega.customers_5"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/Content.jpg"/>
+            </div>
+            <!--==== Video ===-->
+            <div class="o_panel_header">
+                Blog
+            </div>
+            <div class="o_panel_body">
+                <t t-snippet="theme_clarico_vega.blog_post_style_2"
+               t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet34.jpg"/>
+                <t t-snippet="theme_clarico_vega.blog_post_style_3"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet35.jpg"/>
+                <t t-snippet="theme_clarico_vega.blog_post_style_4"
+                   t-thumbnail="/theme_clarico_vega/static/src/img/snippets/snippets_icon/snippet36.jpg"/>
             </div>
         </xpath>
     </template>
@@ -521,14 +568,14 @@
             <div class="container te_max_width_3_blocks">
                 <div class="row">
                     <section class="col-md-4 px-lg-4 te_menu_flip_box">
-                        <div>
+                        <div class="card">
                             <section class="te_service_icon te_menu_flip_box_inner pb48">
                                 <span
                                         class="te_three_blocks_icon bg-white rounded-circle text-center te_span_icon_block">
                                     <span class="fa fa-bicycle align-middle fa-2x te_icon_styling"></span>
                                 </span>
                             </section>
-                            <section class="text-center pt-4" style="background-color:#F7F7F7">
+                            <section class="text-center pt-4 card-body" style="background-color:#F7F7F7 !important">
                                 <section>
                                     <h4 class="te_three_blocks_heading m-4">
                                         My Heading 4
@@ -546,14 +593,14 @@
                         </div>
                     </section>
                     <section class="col-md-4 px-lg-4 te_menu_flip_box">
-                        <div>
+                        <div class="card">
                             <section class="te_service_icon te_menu_flip_box_inner pb48">
                                 <span
                                         class="te_three_blocks_icon bg-white rounded-circle text-center te_span_icon_block">
                                     <span class="fa fa-clone align-middle fa-2x te_icon_styling"></span>
                                 </span>
                             </section>
-                            <section class="text-center pt-4" style="background-color:#F7F7F7">
+                            <section class="text-center pt-4 card-body" style="background-color:#F7F7F7 !important">
                                 <section>
                                     <h4 class="te_three_blocks_heading m-4">
                                         My Heading 4
@@ -571,14 +618,14 @@
                         </div>
                     </section>
                     <section class="col-md-4 px-lg-4 te_menu_flip_box">
-                        <div>
+                        <div class="card">
                             <section class="te_service_icon te_menu_flip_box_inner pb48">
                                 <span
                                         class="te_three_blocks_icon bg-white rounded-circle text-center te_span_icon_block">
                                     <span class="fa fa-sort-amount-asc align-middle fa-2x te_icon_styling"></span>
                                 </span>
                             </section>
-                            <section class="text-center pt-4" style="background-color:#F7F7F7">
+                            <section class="text-center pt-4 card-body" style="background-color:#F7F7F7 !important">
                                 <section>
                                     <h4 class="te_three_blocks_heading m-4">
                                         My Heading 4
@@ -720,7 +767,7 @@
                  style="background-image: url('/theme_clarico_vega/static/src/img/snippets/structure/banner/1920_800.jpg');">
             <span class="s_parallax_filter"/>
             <div class="container">
-                <div class="s_nb_column_fixed row">
+                <div class="s_nb_column_fixed row te_banner_s2">
                     <div class="col-lg-7 jumbotron pt32 pb32" style="background-color: rgb(255, 255, 255);float: left;"
                          data-name="Box">
                         <div class="row pt32">
@@ -755,11 +802,11 @@
                     <div class="col-lg-5 p-0" style="float: right;">
                         <a href="#">
 
-                                <div class="t_img_hover_1">
-                                    <img class="img mt16 te_img_height img-responsive img-fluid mx-auto"
-                                         src="/theme_clarico_vega/static/src/img/snippets/structure/banner/500_475.png"
-                                         alt="Clarico-Banner"/>
-                                </div>
+                            <div class="t_img_hover_1">
+                                <img class="img mt16 te_img_height img-responsive img-fluid mx-auto"
+                                     src="/theme_clarico_vega/static/src/img/snippets/structure/banner/500_475.png"
+                                     alt="Clarico-Banner"/>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -796,24 +843,20 @@
                         <div class="col-lg-8 pt16">
                             <div class="row">
                                 <div class="col-lg-6 col-6 col-md-6">
-
-                                        <a href="#">
-                                            <div class="t_img_hover_1">
-                                                <img class="img-fluid d-block mx-auto" alt="Clarico-Text Two images"
-                                                     src="/theme_clarico_vega/static/src/img/snippets/structure/text_two_images/410_430.png"/>
-                                            </div>
-                                        </a>
-
+                                    <a href="#">
+                                        <div class="t_img_hover_1 te_txt_two_img">
+                                            <img class="img-fluid d-block mx-auto" alt="Clarico-Text Two images"
+                                                 src="/theme_clarico_vega/static/src/img/snippets/structure/text_two_images/410_430.png"/>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="col-lg-6 col-6 col-md-6">
-
-                                        <a href="#">
-                                            <div class="t_img_hover_1">
-                                                <img class="img-fluid d-block mx-auto" alt="Clarico-Text Two images"
-                                                     src="/theme_clarico_vega/static/src/img/snippets/structure/text_two_images/410_430.png"/>
-                                            </div>
-                                        </a>
-
+                                    <a href="#">
+                                        <div class="t_img_hover_1 te_txt_two_img">
+                                            <img class="img-fluid d-block mx-auto" alt="Clarico-Text Two images"
+                                                 src="/theme_clarico_vega/static/src/img/snippets/structure/text_two_images/410_430.png"/>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -1382,11 +1425,11 @@
                 <div class="carousel-item oe_custom_bg oe_img_bg pt16 pb16 active"
                      style="background-color:rgb(239,239,239);" data-name="Slide">
                     <div class="container">
-                        <h2 class="text-capitalize mb16 te_s8_title">My Heading 2</h2>
+                        <h2 class=" mb16 te_s8_title">My Heading 2</h2>
                         <div class="container">
                             <div class="row content">
                                 <section class=" col-lg-7 align-self-center">
-                                    <div class="t_img_hover_1">
+                                    <div class="t_img_hover_1 te_slider_s3_img">
                                         <img class="img img-responsive img-fluid d-block mx-auto"
                                              alt="Clarico-Slider Style 8"
                                              src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_8/740_660.jpg"/>
@@ -1402,7 +1445,7 @@
                                         </div>
                                     </div>
                                     <section>
-                                        <h5 class="text-black text-capitalize mb16">My Heading 5</h5>
+                                        <h5 class="text-black  mb16">My Heading 5</h5>
                                         <p>
                                             Lorem ipsum dolor sit amet, eam et reque justo quidam, te est audire
                                             persius. Duis meis quas vim ex, ius no oblique phaedrum pertinacia.
@@ -1422,11 +1465,11 @@
                 <div class="carousel-item oe_custom_bg oe_img_bg pt16 pb16"
                      style="background-color:rgb(239,239,239);" data-name="Slide">
                     <div class="container">
-                        <h2 class="text-capitalize mb16 te_s8_title">My Heading 2</h2>
+                        <h2 class=" mb16 te_s8_title">My Heading 2</h2>
                         <div class="container">
                             <div class="row content">
                                 <section class=" col-lg-7 align-self-center">
-                                    <div class="t_img_hover_1">
+                                    <div class="t_img_hover_1 te_slider_s3_img">
                                         <img class="img img-responsive img-fluid d-block mx-auto"
                                              alt="Clarico-Slider Style 8"
                                              src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_8/740_660.jpg"/>
@@ -1442,7 +1485,7 @@
                                         </div>
                                     </div>
                                     <section>
-                                        <h5 class="text-black text-capitalize mb16">My Heading 5</h5>
+                                        <h5 class="text-black  mb16">My Heading 5</h5>
                                         <p>
                                             Lorem ipsum dolor sit amet, eam et reque justo quidam, te est audire
                                             persius. Duis meis quas vim ex, ius no oblique phaedrum pertinacia.
@@ -1694,61 +1737,61 @@
                     <div class="row">
                         <section class="col-lg-4 col-md-4 col-sm-4 col-12">
                             <div class="te_category-heading-center">
-                                <a class="te_menu_category_heading" href="#">Lorem</a>
+                                <a class="te_menu_category_heading nav-link" href="#">Lorem</a>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum sit</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
-                                </p>
-                            </div>
-                        </section>
-                        <section class="col-lg-4 col-md-4 col-sm-4 col-12">
-                            <div class="te_category-heading-center">
-                                <a class="te_menu_category_heading" href="#">Lorem</a>
-                                <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum</a>
-                                </p>
-                                <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
-                                </p>
-                                <p>
-                                    <a href="#" class="te_menu_item">Lorem</a>
-                                </p>
-                                <p>
-                                    <a href="#" class="te_menu_item">Lorem</a>
-                                </p>
-                                <p>
-                                    <a href="#" class="te_menu_item">Lorem</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                             </div>
                         </section>
                         <section class="col-lg-4 col-md-4 col-sm-4 col-12">
                             <div class="te_category-heading-center">
-                                <a class="te_menu_category_heading" href="#">Lorem</a>
+                                <a class="te_menu_category_heading nav-link" href="#">Lorem</a>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem</a>
                                 </p>
                                 <p>
-                                    <a href="#" class="te_menu_item">Lorem ipsum dolor sit</a>
+                                    <a href="#" class="te_menu_item nav-link">Lorem</a>
+                                </p>
+                            </div>
+                        </section>
+                        <section class="col-lg-4 col-md-4 col-sm-4 col-12">
+                            <div class="te_category-heading-center">
+                                <a class="te_menu_category_heading nav-link" href="#">Lorem</a>
+                                <p>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
+                                </p>
+                                <p>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
+                                </p>
+                                <p>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum</a>
+                                </p>
+                                <p>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum sit</a>
+                                </p>
+                                <p>
+                                    <a href="#" class="te_menu_item nav-link">Lorem ipsum dolor sit</a>
                                 </p>
                             </div>
                         </section>
@@ -1773,7 +1816,7 @@
                              src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_2/340_500.jpg"/>
                         <section class="te_menu_content">
                             <h4>
-                                <a href="#">Lorem ipsum</a>
+                                <a href="#" class="nav-link">Lorem ipsum</a>
                             </h4>
                             <p>Lorem ipsum dolor sit</p>
                         </section>
@@ -1785,7 +1828,7 @@
                              src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_2/340_500.jpg"/>
                         <section class="te_menu_content">
                             <h4>
-                                <a href="#">Lorem ipsum</a>
+                                <a href="#" class="nav-link">Lorem ipsum</a>
                             </h4>
                             <p>Lorem ipsum dolor sit</p>
                         </section>
@@ -1797,7 +1840,7 @@
                              src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_2/340_500.jpg"/>
                         <section class="te_menu_content">
                             <h4>
-                                <a href="#">Lorem ipsum</a>
+                                <a href="#" class="nav-link">Lorem ipsum</a>
                             </h4>
                             <p>Lorem ipsum dolor sit</p>
                         </section>
@@ -1809,7 +1852,7 @@
                              src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_2/340_500.jpg"/>
                         <section class="te_menu_content">
                             <h4>
-                                <a href="#">Lorem ipsum</a>
+                                <a href="#" class="nav-link">Lorem ipsum</a>
                             </h4>
                             <p>Lorem ipsum dolor sit</p>
                         </section>
@@ -1870,35 +1913,35 @@
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum</a>
+                                            <a href="#" class="nav-link">Lorem ipsum</a>
                                         </p>
                                     </li>
                                 </section>
@@ -1909,35 +1952,35 @@
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
                                 <section>
                                     <li>
                                         <p>
-                                            <a href="#">Lorem ipsum dolor sit</a>
+                                            <a href="#" class="nav-link">Lorem ipsum dolor sit</a>
                                         </p>
                                     </li>
                                 </section>
@@ -1973,7 +2016,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -1987,7 +2030,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2001,7 +2044,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2015,7 +2058,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2029,7 +2072,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2043,7 +2086,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2057,7 +2100,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2071,7 +2114,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2085,7 +2128,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2099,7 +2142,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2113,7 +2156,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2127,7 +2170,7 @@
                                     </div>
                                 </section>
                                 <section class="py-3 text-center col-12 te_icon_text">
-                                    <a href="#">Lorem</a>
+                                    <a href="#" class="nav-link">Lorem</a>
                                 </section>
                             </div>
                         </section>
@@ -2156,18 +2199,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2181,18 +2240,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2206,18 +2281,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2231,18 +2322,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2256,18 +2363,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2281,18 +2404,34 @@
                     <section class="py-lg-3 py-md-3 py-sm-3 py-2">
                         <a class="te_menu_ctg_main" href="#">Lorem + ipsum</a>
                         <ul>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem ipsum</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
-                            <li>
-                                <a class="te_menu_sub" href="#">Lorem</a>
-                            </li>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
+                            <section>
+                                <li>
+                                    <p>
+                                        <a class="te_menu_sub nav-link" href="#">Lorem ipsum</a>
+                                    </p>
+                                </li>
+                            </section>
                         </ul>
                     </section>
                 </section>
@@ -2431,66 +2570,6 @@
                             </section>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-    </template>
-    <!--=====================  Expertise Snippet  ======================================-->
-    <template id="expertise_snippet" name="Expertise">
-        <div class="oe_structure"/>
-        <section>
-            <div class="container">
-                <div class="row align-items-center">
-                    <section class="col-md-6 align-self-center">
-                        <section class="about_content_sub">
-                            <h5 class="te_title_t">My Heading 5</h5>
-                            <h2 class="te_bold_text te_h_bottom_s">My Heading 2
-                            </h2>
-                            <p class="te_content_text">
-                                Lorem ipsum dolor s it amet, consectetur adipisicing elit, sed
-                                do
-                                eiusmod
-
-                                <br/>
-                                tempor incididunt ut labore et dolore magna ipsum dolor sit
-                                amet,
-
-                            </p>
-                            <p class="te_content_text mt16">
-                                Lorem ipsum dolor s it amet, consectetur adipisicing elit, sed
-                                do
-                                eiusmod
-
-                                <br/>
-                                tempor incididunt
-
-                            </p>
-                            <section>
-                                <a href="#" class="btn btn-primary te_theme_button mt16">
-                                    Know more
-                                </a>
-                            </section>
-                        </section>
-                    </section>
-                    <section class="col-md-6">
-                        <ul class='list-unstyled' id="te_progress">
-                            <t t-foreach="res_company.expertise_ids" t-as="expertise_data">
-                                <div class="progress ">
-                                    <div class="progress-bar" role="progressbar"
-                                         t-att-aria-valuenow="expertise_data.expertise" aria-valuemin="0"
-                                         t-att-aria-valuemax="expertise_data.expertise">
-                                        <span class="skill">
-                                            <span class="val te_reang">
-                                                <t t-esc="expertise_data.expertise"></t>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </t>
-                        </ul>
-                        <div class="oe_structure"/>
-                        <section></section>
-                    </section>
                 </div>
             </div>
         </section>
@@ -4027,8 +4106,8 @@
             <div class="container">
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_ts_img_hvr">
-                        <div class="te_3_column_left_heading">
-                            <section class="te_img_hover_overflow t_img_hover_1">
+                        <div class="te_3_column_left_heading card">
+                            <section class="te_img_hover_overflow">
                                 <img class="card-img-top img img-responsive te_feature_image"
                                      src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"
                                      alt="Clarico-3 Columns Style 2"/>
@@ -4053,8 +4132,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_ts_img_hvr">
-                        <div class="te_3_column_left_heading">
-                            <section class="te_img_hover_overflow t_img_hover_1">
+                        <div class="te_3_column_left_heading card">
+                            <section class="te_img_hover_overflow">
                                 <img class="card-img-top img img-responsive te_feature_image"
                                      src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"
                                      alt="Clarico-3 Columns Style 2"/>
@@ -4081,8 +4160,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_ts_img_hvr">
-                        <div class="te_3_column_left_heading">
-                            <section class="te_img_hover_overflow t_img_hover_1">
+                        <div class="te_3_column_left_heading card">
+                            <section class="te_img_hover_overflow">
                                 <img class="card-img-top img img-responsive te_feature_image"
                                      src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"
                                      alt="Clarico-3 Columns Style 2"/>
@@ -4119,7 +4198,7 @@
             <div class="container">
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor">
-                        <div class="te_slide_border te_3_column_center_heading">
+                        <div class="te_slide_border te_3_column_center_heading card">
                             <section class="card-body">
                                 <p class="card-title te_three_columns_heading">Lorem ipsum</p>
                                 <p
@@ -4140,7 +4219,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor">
-                        <div class="te_slide_border te_3_column_center_heading">
+                        <div class="te_slide_border te_3_column_center_heading card">
                             <section class="card-body">
                                 <p
                                         class="card-title te_3_column_center_heading te_three_columns_heading o_default_snippet_text">
@@ -4164,7 +4243,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor">
-                        <div class="te_slide_border te_3_column_center_heading">
+                        <div class="te_slide_border te_3_column_center_heading card">
                             <section class="card-body">
                                 <p
                                         class="card-title te_3_column_center_heading te_three_columns_heading o_default_snippet_text">
@@ -4286,52 +4365,52 @@
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_col_ind">
 
-                                <div class="te_image_overflow t_img_hover_1">
-                                    <img class="card-img-top img img-responsive te_feature_image"
-                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
-                                         alt="Clarico-3 Columns Style 5"/>
-                                </div>
-                                <div class="te_center_position">
-                                    <section class="text-center pb8 pt16 te_button_position">
-                                        <h6 class="mb0">
-                                            <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 6</a>
-                                        </h6>
-                                        <span>Lorem ipsum dolor sit amet, eam et req</span>
-                                    </section>
-                                </div>
+                        <div class="te_image_overflow t_img_hover_1">
+                            <img class="card-img-top img img-responsive te_feature_image"
+                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
+                                 alt="Clarico-3 Columns Style 5"/>
+                        </div>
+                        <div class="te_center_position">
+                            <section class="text-center pb8 pt16 te_button_position">
+                                <h6 class="mb0">
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 6</a>
+                                </h6>
+                                <span>Lorem ipsum dolor sit amet, eam et req</span>
+                            </section>
+                        </div>
 
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_col_ind">
 
-                                <div class="te_image_overflow t_img_hover_1">
-                                    <img class="card-img-top img img-responsive te_feature_image"
-                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
-                                         alt="Clarico-3 Columns Style 5"/>
-                                </div>
-                                <div class="te_center_position">
-                                    <section class="text-center pb8 pt16 te_button_position">
-                                        <h6 class="mb0">
-                                            <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 6</a>
-                                        </h6>
-                                        <span>Lorem ipsum dolor sit amet, eam et req</span>
-                                    </section>
-                                </div>
+                        <div class="te_image_overflow t_img_hover_1">
+                            <img class="card-img-top img img-responsive te_feature_image"
+                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
+                                 alt="Clarico-3 Columns Style 5"/>
+                        </div>
+                        <div class="te_center_position">
+                            <section class="text-center pb8 pt16 te_button_position">
+                                <h6 class="mb0">
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 6</a>
+                                </h6>
+                                <span>Lorem ipsum dolor sit amet, eam et req</span>
+                            </section>
+                        </div>
                     </div>
                     <div class="col-lg-4 col-md-4 s_col_no_bgcolor te_col_ind">
 
-                                <div class="te_image_overflow t_img_hover_1">
-                                    <img class="card-img-top img img-responsive te_feature_image"
-                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
-                                         alt="Clarico-3 Columns Style 5"/>
-                                </div>
-                                <div class="te_center_position">
-                                    <section class="text-center pb8 pt16 te_button_position">
-                                        <h6 class="mb0">
-                                            <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 6</a>
-                                        </h6>
-                                        <span>Lorem ipsum dolor sit amet, eam et req</span>
-                                    </section>
-                                </div>
+                        <div class="te_image_overflow t_img_hover_1">
+                            <img class="card-img-top img img-responsive te_feature_image"
+                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_5/436_424.jpg"
+                                 alt="Clarico-3 Columns Style 5"/>
+                        </div>
+                        <div class="te_center_position">
+                            <section class="text-center pb8 pt16 te_button_position">
+                                <h6 class="mb0">
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 6</a>
+                                </h6>
+                                <span>Lorem ipsum dolor sit amet, eam et req</span>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4420,7 +4499,7 @@
             <div class="container">
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-4 col-md-6 col-sm-6 s_col_no_bgcolor">
-                        <div>
+                        <div class="card" style="border:0;">
                             <section>
                                 <div class="card-body te_3_col_b_space te_3_col_t_space">
                                     <p
@@ -4442,7 +4521,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 s_col_no_bgcolor">
-                        <div>
+                        <div class="card" style="border:0;">
                             <section>
                                 <div class="card-body te_3_col_b_space te_3_col_t_space">
                                     <p
@@ -4464,7 +4543,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 s_col_no_bgcolor">
-                        <div>
+                        <div class="card" style="border:0;">
                             <section>
                                 <div class="card-body te_3_col_t_space">
                                     <p
@@ -4505,7 +4584,7 @@
                         <div class="te_3_col_block">
                             <section class="text-center pb16 pt16 te_3_col_content">
                                 <h5 class="mb0">
-                                    <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 5</a>
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 5</a>
                                 </h5>
                                 <span>Lorem ipsum dolor sit amet, eam et req</span>
                             </section>
@@ -4515,7 +4594,7 @@
                         <div class="te_3_col_block mb-2">
                             <section class="text-center pb16 pt16 te_3_col_content">
                                 <h5 class="mb0">
-                                    <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 5</a>
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 5</a>
                                 </h5>
                                 <span>Lorem ipsum dolor sit amet, eam et req</span>
                             </section>
@@ -4537,7 +4616,7 @@
                         <div class="te_3_col_block">
                             <section class="text-center pb16 pt16 te_3_col_content">
                                 <h5 class="mb0">
-                                    <a href="#" class="te_fix_content_h3 text-capitalize">My Heading 5</a>
+                                    <a href="#" class="te_fix_content_h3 ">My Heading 5</a>
                                 </h5>
                                 <span>Lorem ipsum dolor sit amet, eam et req</span>
                             </section>
@@ -4649,14 +4728,14 @@
         <section class="container te_max_width_4_column pt32 pb32">
             <div class="row">
                 <div class="col-lg-4">
-                    <section class="te_ts_img_hvr mb16 t_img_hover_1">
+                    <section class="te_ts_img_hvr mb16 t_img_hover_1 te_offer_s1_1img">
                         <a class="te_img_hover_overflow" href="#" style="display: block;">
                             <img alt="Clarico-Offer style 1"
                                  class="img img-responsive img-fluid mx-auto d-block te_img_hover_light"
                                  src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_1/385_500.jpg"></img>
                         </a>
                     </section>
-                    <section class="te_ts_img_hvr t_img_hover_1">
+                    <section class="te_ts_img_hvr t_img_hover_1 te_offer_s1_3img">
                         <a class="te_img_hover_overflow" href="#" style="display: block;">
                             <img alt="Clarico-Offer style 1"
                                  class="img img-responsive img-fluid mx-auto d-block te_img_hover_light"
@@ -4679,7 +4758,7 @@
                             </a>
                         </section>
                     </div>
-                    <section class="te_ts_img_hvr te_offer_middle_img t_img_hover_1">
+                    <section class="te_ts_img_hvr te_offer_middle_img t_img_hover_1 te_offer_s1_1img">
                         <a class="te_img_hover_overflow" href="#" style="display: block;">
                             <img alt="Clarico-Offer style 1"
                                  class="img img-responsive img-fluid mx-auto d-block te_img_hover_light"
@@ -4688,14 +4767,14 @@
                     </section>
                 </div>
                 <div class="col-lg-4">
-                    <section class="mb16 te_ts_img_hvr t_img_hover_1">
+                    <section class="mb16 te_ts_img_hvr t_img_hover_1 te_offer_s1_2img">
                         <a class="te_img_hover_overflow" href="#" style="display: block;">
                             <img alt="Clarico-Offer style 1"
                                  class="img img-responsive img-fluid mx-auto d-block te_img_hover_light"
                                  src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_1/385_385.jpg"></img>
                         </a>
                     </section>
-                    <section class="te_ts_img_hvr t_img_hover_1">
+                    <section class="te_ts_img_hvr t_img_hover_1 te_offer_s1_2img">
                         <a class="te_img_hover_overflow" href="#" style="display: block;">
                             <img alt="Clarico-Offer style 1"
                                  class="img img-responsive img-fluid mx-auto d-block te_img_hover_light"
@@ -5031,7 +5110,7 @@
     </template>
     <!--=================== Offer Timer ======================-->
     <template id="offer_timer" name="Offer Timer">
-        <section class="te_offer_bg" style="background-color: #f7f7f7;">
+        <section class="te_offer_bg te_offer_div" style="background-color: #f7f7f7;">
             <section class="container">
                 <div class="row py-5">
                     <div class="col-lg-4 align-self-center">
@@ -5071,13 +5150,13 @@
     <template id="timer_snippet_snippet_options" inherit_id="website.snippet_options">
         <xpath expr="." position="inside">
             <div data-js='js_timer' data-selector=".js_timer" data-drop-in=".js_timer_div">
-                <li data-date_configure="" data-no-preview="true">
+                <!--<li data-date_configure="" data-no-preview="true">
                     <a tabindex="-1" href="#" class="dropdown-item"
                        data-choose-image="true" data-no-preview="true">
                         <span class="fa fa-clock-o"/>
                         Modify Time
                     </a>
-                </li>
+                </li>-->
             </div>
         </xpath>
     </template>
@@ -5629,7 +5708,7 @@
                 <div class="row">
                     <div class="col-lg-6 te_bg_pattern_before">
                         <div class="te_text_img_content">
-                            <h2 class="text-capitalize te_s_it_heading">My Heading 2</h2>
+                            <h2 class=" te_s_it_heading">My Heading 2</h2>
                             <p class="mb16">Lorem ipsum dolor sit amet, eam et reque justo quidam, audire<br/>ius no
                                 oblique phaedrum pertinacia. Ornatus referrentur nec dicam<br/>Lorem ipsum
                             </p>
@@ -5822,7 +5901,7 @@
         <section class="container">
             <div class="row pt32 pb32">
                 <div class="col-lg-6 col-md-6 pb-lg-0 pb-2">
-                    <section class="te_img_effect5 t_img_hover_1">
+                    <section class="te_img_effect5 t_img_hover_1 te_2col_s2_img">
                         <img class="img img-fluid" src="/theme_clarico_vega/static/src/img/snippets/2_column/box2.jpg"/>
                         <section class="te_2_col_s2_section">
                             <div class="">
@@ -5839,7 +5918,7 @@
                     </section>
                 </div>
                 <div class="col-lg-6 col-md-6 pb-lg-0 pb-2">
-                    <section class="te_img_effect5 t_img_hover_1">
+                    <section class="te_img_effect5 t_img_hover_1 te_2col_s2_img">
                         <img class="img img-fluid" src="/theme_clarico_vega/static/src/img/snippets/2_column/box2.jpg"/>
                         <section class="te_2_col_s2_section">
                             <div class="">
@@ -5865,9 +5944,9 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 pb-3 pb-sm-0">
-                        <div class="t_img_hover_1">
+                        <div class="t_img_hover_1 te_offer_s6_img_big">
                             <img class="img img-fluid"
-                             src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_5/785_700.jpg"/>
+                                 src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_5/785_700.jpg"/>
                         </div>
                         <div class="te_offer_main_content">
                             <span>Lorem Ipsum</span>
@@ -5878,9 +5957,9 @@
                     <section class="col-lg-6">
                         <div class="row align-items-center pb-5 pb-sm-0">
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1">
-                                <img class="img img-fluid"
-                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
+                                <div class="t_img_hover_1 te_offer_s6_img_small">
+                                    <img class="img img-fluid"
+                                         src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-md-6 pt-4 pt-sm-0">
@@ -5900,9 +5979,9 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1">
-                                <img class="img img-fluid"
-                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
+                                <div class="t_img_hover_1 te_offer_s6_img_small">
+                                    <img class="img img-fluid"
+                                         src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
                             </div>
                         </div>
@@ -5918,7 +5997,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 pb-0 pb-sm-3 pb-lg-0">
-                        <div class="t_img_hover_1 te_img_effect2">
+                        <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_big">
                             <img class="img img-fluid"
                                  src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_5/785_700.jpg"/>
                             <div class="te_offer_big_img_content">
@@ -5928,7 +6007,7 @@
                         </div>
                         <div class="row align-items-center te_offer_s7_left">
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_small">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
@@ -5938,7 +6017,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_small">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
@@ -5952,7 +6031,7 @@
                     <section class="col-lg-6 pt-3 pt-lg-0">
                         <div class="row align-items-center te_offer_s7_right">
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_small">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
@@ -5962,7 +6041,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_small">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </div>
@@ -5972,7 +6051,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="t_img_hover_1 te_img_effect2">
+                        <div class="t_img_hover_1 te_img_effect2 te_offer_s7_img_big">
                             <img class="img img-fluid"
                                  src="/theme_clarico_vega/static/src/img/snippets/slider_styles/style_5/785_700.jpg"/>
                             <div class="te_offer_big_img2_content">
@@ -6026,7 +6105,7 @@
     </template>
     <!--=================== Offer Timer Style 2======================-->
     <template id="offer_timer_style_2" name="Offer Timer Style 2">
-        <section class="container">
+        <section class="container te_offer_div">
             <div class="row py-5">
                 <div class="col-lg-7 align-self-center text-center">
                     <div class="te_offer_s2_img">
@@ -6069,7 +6148,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <div class="t_img_hover_1 te_img_effect2">
+                        <div class="t_img_hover_1 te_img_effect2 te_offer_s8_big_img">
                             <img class="img img-fluid mx-auto"
                                  src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_7/657_654.png"/>
                         </div>
@@ -6081,7 +6160,7 @@
                     <section class="col-lg-6">
                         <div class="row align-items-center pt-2 pt-lg-0">
                             <div class="col-lg-12 col-sm-6 col-md-6">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s8_small_img">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_7/550_270.png"/>
                                 </div>
@@ -6091,7 +6170,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-6 col-md-6 pt-lg-2">
-                                <div class="t_img_hover_1 te_img_effect2">
+                                <div class="t_img_hover_1 te_img_effect2 te_offer_s8_small_img">
                                     <img class="img img-fluid"
                                          src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_7/550_270.png"/>
                                 </div>
@@ -6189,7 +6268,7 @@
                      data-name="Slide">
                     <div class="container">
                         <div class="row content">
-                            <div class="carousel-content col-lg-5 col-md-7 col-sm-8 col-8 te_slider_10">
+                            <div class="carousel-content col-lg-5 col-md-7 col-sm-8 col-10 te_slider_10">
                                 <div class="s_title" data-name="Title">
                                     <h3 class="te_slider_10_title mb-0">My Heading 3</h3>
                                 </div>
@@ -6209,7 +6288,7 @@
                      data-name="Slide">
                     <div class="container">
                         <div class="row content">
-                            <div class="carousel-content col-lg-5 col-md-7 col-sm-8 col-8 te_slider_10">
+                            <div class="carousel-content col-lg-5 col-md-7 col-sm-8 col-10 te_slider_10">
                                 <div class="s_title" data-name="Title">
                                     <h3 class="te_slider_10_title mb-0">My Heading 3</h3>
                                 </div>
@@ -6804,10 +6883,10 @@
     </template>
     <template id="s_latest_posts_options_ept" inherit_id="website_blog.s_latest_posts_options">
         <xpath expr="//div[@data-js='js_get_posts_selectBlog']" position="attributes">
-                <attribute name="data-selector" add=".te_blog_style_2, .te_blog_style_3, .te_blog_style_4" separator=","/>
+            <attribute name="data-selector" add=".te_blog_style_2, .te_blog_style_3, .te_blog_style_4" separator=","/>
         </xpath>
         <xpath expr="//div[@data-js='js_get_posts_limit']" position="attributes">
-                <attribute name="data-selector" add=".te_blog_style_2, .te_blog_style_3, .te_blog_style_4" separator=","/>
+            <attribute name="data-selector" add=".te_blog_style_2, .te_blog_style_3, .te_blog_style_4" separator=","/>
         </xpath>
     </template>
     <!--======================== Latest Blog snippet style 2 =====================-->
@@ -6955,7 +7034,7 @@
                         <section class="t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto d-block" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                             </a>
                         </section>
                         <section class="te_4_col_content">
@@ -6974,7 +7053,7 @@
                         <section class="t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto d-block" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                             </a>
                         </section>
                         <section class="te_4_col_content">
@@ -6993,7 +7072,7 @@
                         <section class="t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto d-block" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                             </a>
                         </section>
                         <section class="te_4_col_content">
@@ -7012,7 +7091,7 @@
                         <section class="t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto d-block" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                             </a>
                         </section>
                         <section class="te_4_col_content">
@@ -7042,7 +7121,7 @@
                         <section class="t_img_hover_1 te_img_effect3">
                             <a href="#">
                                 <img class="img img-responsive img-fluid d-block mx-auto" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
                             </a>
                         </section>
                         <section class="te_4_col2_content">
@@ -7057,7 +7136,7 @@
                         <section class="t_img_hover_1 te_img_effect3">
                             <a href="#">
                                 <img class="img img-responsive img-fluid d-block mx-auto" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
                             </a>
                         </section>
                         <section class="te_4_col2_content">
@@ -7072,7 +7151,7 @@
                         <section class="t_img_hover_1 te_img_effect3">
                             <a href="#">
                                 <img class="img img-responsive img-fluid d-block mx-auto" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
                             </a>
                         </section>
                         <section class="te_4_col2_content">
@@ -7087,7 +7166,7 @@
                         <section class="t_img_hover_1 te_img_effect3">
                             <a href="#">
                                 <img class="img img-responsive img-fluid d-block mx-auto" alt=""
-                                 src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_1/340_300.png"/>
                             </a>
                         </section>
                         <section class="te_4_col2_content">
@@ -7114,8 +7193,8 @@
                             <section>
                                 <a href="#">
                                     <img class="img img-responsive img-fluid d-block mx-auto"
-                                     alt="Clarico-Mega Menus Style 1"
-                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                         alt="Clarico-Mega Menus Style 1"
+                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                                 </a>
                             </section>
                             <section class="te_4_col3_content">
@@ -7135,8 +7214,8 @@
                             <section>
                                 <a href="#">
                                     <img class="img img-responsive img-fluid d-block mx-auto"
-                                     alt="Clarico-Mega Menus Style 1"
-                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                         alt="Clarico-Mega Menus Style 1"
+                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                                 </a>
                             </section>
                             <section class="te_4_col3_content">
@@ -7156,8 +7235,8 @@
                             <section>
                                 <a href="#">
                                     <img class="img img-responsive img-fluid d-block mx-auto"
-                                     alt="Clarico-Mega Menus Style 1"
-                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                         alt="Clarico-Mega Menus Style 1"
+                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                                 </a>
                             </section>
                             <section class="te_4_col3_content">
@@ -7177,8 +7256,8 @@
                             <section>
                                 <a href="#">
                                     <img class="img img-responsive img-fluid d-block mx-auto"
-                                     alt="Clarico-Mega Menus Style 1"
-                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
+                                         alt="Clarico-Mega Menus Style 1"
+                                         src="/theme_clarico_vega/static/src/img/snippets/3_column/style_2/437_500.jpg"/>
                                 </a>
                             </section>
                             <section class="te_4_col3_content">
@@ -7209,7 +7288,7 @@
                         <div class="te_s_4_img t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto"
-                                 src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_9/865_750.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_9/865_750.png"/>
                             </a>
                         </div>
                         <div class="te_main_content">
@@ -7226,7 +7305,7 @@
                             <div class="col-sm-6 col-6 t_img_hover_1">
                                 <a href="#">
                                     <img class="img img-responsive img-fluid mx-auto"
-                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
+                                         src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </a>
                             </div>
                             <div class="col-sm-6 col-6">
@@ -7244,7 +7323,7 @@
                             <div class="col-sm-6 col-6 t_img_hover_1">
                                 <a href="#">
                                     <img class="img img-responsive img-fluid mx-auto"
-                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
+                                         src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_6/470_451.png"/>
                                 </a>
                             </div>
                             <div class="col-sm-6 col-6">
@@ -7274,7 +7353,7 @@
                         <div class="te_s_5_img t_img_hover_1">
                             <a href="#">
                                 <img class="img img-responsive img-fluid mx-auto"
-                                 src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_9/865_750.png"/>
+                                     src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_9/865_750.png"/>
                             </a>
                         </div>
                         <div class="te_main_content">
@@ -7291,7 +7370,7 @@
                             <div class="col-sm-7 col-7 t_img_hover_1">
                                 <a href="#">
                                     <img class="img img-responsive img-fluid mx-auto"
-                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
+                                         src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
                                 </a>
                             </div>
                             <div class="col-sm-5 col-5">
@@ -7309,7 +7388,7 @@
                             <div class="col-sm-7 col-7 t_img_hover_1">
                                 <a href="#">
                                     <img class="img img-responsive img-fluid mx-auto"
-                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
+                                         src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
                                 </a>
                             </div>
                             <div class="col-sm-5 col-5">
@@ -7327,7 +7406,7 @@
                             <div class="col-sm-7 col-7 t_img_hover_1">
                                 <a href="#">
                                     <img class="img img-responsive img-fluid mx-auto"
-                                     src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
+                                         src="/theme_clarico_vega/static/src/img/snippets/menu_snippets/style_5/290_210.jpg"/>
                                 </a>
                             </div>
                             <div class="col-sm-5 col-5">
@@ -7390,7 +7469,7 @@
     </template>
     <!--=================== Offer Timer Style 3 ======================-->
     <template id="offer_timer_style_3" name="Offer Timer Style 3">
-        <section class="container">
+        <section class="container te_offer_div">
             <div class="row py-5">
                 <div class="col-lg-6 align-self-center text-center">
                     <div class="te_offer_s3_img">
@@ -7450,26 +7529,23 @@
     <template id="banner_video" name="Banner Video">
         <div class="oe_structure"/>
         <t t-if="not website">
-            <t t-set="website" t-value="request.env['website'].search([], limit=1)"/>
+            <t t-set="website" t-value="request.env['website'].sudo().get_current_website()"/>
         </t>
         <t t-set="banner_video_url" t-value="website.banner_video_url"/>
         <t t-if="banner_video_url">
             <section>
-                <!--<video width="100%" height="100%" autoplay="true" loop="infinite" muted="true">
-                    <source t-att-src="banner_video_url" />
-                </video>-->
-                <video width="100%" height="100%" autoplay="true" loop="infinite" muted="true">
-                    <source t-att-src="banner_video_url"/>
+                <video width="100%" height="100%" controls="" autoplay="" loop="">
+                    <source t-attf-src="/web/content/{{banner_video_url.id}}" type="video/mp4"/>
                 </video>
             </section>
         </t>
     </template>
     <!--================== Full Width =====================-->
     <template id="full_width_image_banner" name="Full Image Banner">
-       <section>
+        <section>
             <section class="t_img_hover_1 te_banner_img pb0 pt0">
                 <img class="img-fluid d-block mx-auto" alt="Clarico-Full Image"
-                             src="/theme_clarico_vega/static/src/img/shop/1920_110.jpg" />
+                     src="/theme_clarico_vega/static/src/img/shop/1920_110.jpg"/>
             </section>
         </section>
     </template>
@@ -7479,6 +7555,505 @@
                        add=".t_img_hover_1, .te_2_col_style_4 section, .te_2_col_style_5 section, .te_banner_offer_three_one, .te_full_screen3"
                        separator=","/>
         </xpath>
+    </template>
+    <!--======================== Slider Style 14 ===========================-->
+    <template id="slider_style_14" name="Full screen 11">
+        <div id="myCarousel" class="s_carousel s_carousel_default carousel slide"
+             data-interval="10000">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner te_arrow_small">
+                <div class="carousel-item oe_custom_bg oe_img_bg te_s14_banner_bg active"
+                     style="background-color:rgb(239,239,239);" data-name="Slide">
+                    <div class="container">
+                        <div class="row content">
+                            <section
+                                    class="carousel-content col-md-5 col-9 align-self-center text-center slider_14_content">
+                                <h4 class="te_s14_small_heading">Lorem Ipsum</h4>
+                                <div>Lorem ipsum dolor sit amet eam et reque justo quidam</div>
+                                <section class="s_btn pt32" data-name="Buttons">
+                                    <a href="#" class="btn btn-primary te_theme_button o_default_snippet_text">Know
+                                        more
+                                    </a>
+                                </section>
+                            </section>
+                            <section class=" col-md-7 align-self-center">
+                                <div class="t_img_hover_1 te_s14_img">
+                                    <img class="img img-responsive img-fluid d-block mt-4 mb-4"
+                                         src="/theme_clarico_vega/static/src/img/snippets/slider_styles/1000_850.png"/>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item oe_custom_bg oe_img_bg te_s14_banner_bg"
+                     style="background-color:rgb(239,239,239);" data-name="Slide">
+                    <div class="container">
+                        <div class="row content">
+                            <section
+                                    class="carousel-content col-md-5 col-9 align-self-center text-center slider_14_content">
+                                <h4 class="te_s14_small_heading">Lorem Ipsum</h4>
+                                <div>Lorem ipsum dolor sit amet eam et reque justo quidam</div>
+                                <section class="s_btn pt32" data-name="Buttons">
+                                    <a href="#" class="btn btn-primary te_theme_button o_default_snippet_text">Know
+                                        more
+                                    </a>
+                                </section>
+                            </section>
+                            <section class=" col-md-7 align-self-center">
+                                <div class="t_img_hover_1 te_s14_img">
+                                    <img class="img img-responsive img-fluid d-block mt-4 mb-4"
+                                         src="/theme_clarico_vega/static/src/img/snippets/slider_styles/1000_850.png"/>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- Controls -->
+                <div class="carousel-control-prev" data-target="#myCarousel"
+                     data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                    <span class="carousel-control-prev-icon"/>
+                    <span class="sr-only">Previous</span>
+                </div>
+                <div class="carousel-control-next" data-target="#myCarousel"
+                     data-slide="next" role="img" aria-label="Next" title="Next">
+                    <span class="carousel-control-next-icon"/>
+                    <span class="sr-only">Next</span>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!--======================================== 2 Column Style 6 ===================================-->
+    <template id="2_column_style6" name="Style 6">
+        <section class="pb32 pt32">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="te_2_col_main_heading_s6">Lorem Ipsum Dolor</div>
+                        <div class="te_2_col_sub_heading_s6">Lorem ipsum dolor sit amet eam et reque justo quidam</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-6">
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                        <section class="te_2_col_s6">
+                            <div class="">
+                                <a href="#">
+                                    <h3 class="te_offer_s6_name">My Heading 3</h3>
+                                </a>
+                                <section>
+                                    <div class="label_inner_snippet_drop"/>
+                                </section>
+                                <p>Lorem / ipsum / dolor / sit / amet</p>
+                                <div class="te_offer_s6_price">15 $</div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="label_inner_snippet" name="Label Snippet">
+        <div class="label_inner_div" data-date="nan">
+            <section>
+                <div class="p-1 te_offer_label_name"><i class="fa fa-tag"></i>Recommended
+                </div>
+            </section>
+        </div>
+    </template>
+    <template id="label_inner_snippet_options" inherit_id="website.snippet_options">
+        <xpath expr="." position="inside">
+            <div data-selector=".label_inner_div" data-drop-in=".label_inner_snippet_drop">
+            </div>
+        </xpath>
+    </template>
+    <!--====================== Customer 5 ===========================-->
+    <template id="customers_5" name="Customer Style 5">
+        <section class="te_customer_testimonial_s5 pt64">
+            <div class="row">
+                <div class="col-lg-5 col-9 mx-auto">
+                    <div class="te_customer_testimonial">Lorem Ipsum</div>
+                    <div class="te_what_customer_saying_s5">Lorem ipsum dolor sit amet</div>
+                    <div class="te_customer_caption_s5">Lorem ipsum dolor sit amet, eam et reque justo quidam, te
+                        est audire persius. Duis meis quas vim ex, ius no oblique. Lorem ipsum dolor sit
+                    </div>
+                </div>
+            </div>
+            <div class="container pt80 pb80">
+                <div class="row">
+                    <div class="col-lg-6 te_customer_testimonial_item">
+                        <div class="te_cutomer_item_bg">
+                            <div class="col-lg-3 col-3 d-inline-block p-0">
+                                <img class="img img-fluid mx-auto"
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_6/130_130.png"/>
+                            </div>
+                            <div class="col-lg-9 col-9 d-inline-block">
+                                <div class="">
+                                    <p>Lorem ipsum dolor sit amet, eam et reque justo quidam, te
+                                        est audire persius. Duis meis quas vim ex, ius no oblique. Lorem ipsum dolor sit
+                                        amet, eam
+                                        et reque justo quidam, te est audire persius. Duis meis quas vim ex, ius no
+                                        oblique.
+                                    </p>
+                                    <div class="te_customer_name_s5">Lorem Ipsum</div>
+                                    <div class="te_customer_position_s5">Lorem Ipsum Dolor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 te_customer_testimonial_item">
+                        <div class="te_cutomer_item_bg">
+                            <div class="col-lg-3 col-3 d-inline-block p-0">
+                                <img class="img img-fluid mx-auto"
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_6/130_130.png"/>
+                            </div>
+                            <div class="col-lg-9 col-9 d-inline-block">
+                                <div class="">
+                                    <p>Lorem ipsum dolor sit amet, eam et reque justo quidam, te
+                                        est audire persius. Duis meis quas vim ex, ius no oblique. Lorem ipsum dolor sit
+                                        amet, eam
+                                        et reque justo quidam, te est audire persius. Duis meis quas vim ex, ius no
+                                        oblique.
+                                    </p>
+                                    <div class="te_customer_name_s5">Lorem Ipsum</div>
+                                    <div class="te_customer_position_s5">Lorem Ipsum Dolor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 te_customer_testimonial_item">
+                        <div class="te_cutomer_item_bg">
+                            <div class="col-lg-3 col-3 d-inline-block p-0">
+                                <img class="img img-fluid mx-auto"
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_6/130_130.png"/>
+                            </div>
+                            <div class="col-lg-9 col-9 d-inline-block">
+                                <div class="">
+                                    <p>Lorem ipsum dolor sit amet, eam et reque justo quidam, te
+                                        est audire persius. Duis meis quas vim ex, ius no oblique. Lorem ipsum dolor sit
+                                        amet, eam
+                                        et reque justo quidam, te est audire persius. Duis meis quas vim ex, ius no
+                                        oblique.
+                                    </p>
+                                    <div class="te_customer_name_s5">Lorem Ipsum</div>
+                                    <div class="te_customer_position_s5">Lorem Ipsum Dolor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 te_customer_testimonial_item">
+                        <div class="te_cutomer_item_bg">
+                            <div class="col-lg-3 col-3 d-inline-block p-0">
+                                <img class="img img-fluid mx-auto"
+                                     src="/theme_clarico_vega/static/src/img/snippets/3_column/style_6/130_130.png"/>
+                            </div>
+                            <div class="col-lg-9 col-9 d-inline-block">
+                                <div class="">
+                                    <p>Lorem ipsum dolor sit amet, eam et reque justo quidam, te
+                                        est audire persius. Duis meis quas vim ex, ius no oblique. Lorem ipsum dolor sit
+                                        amet, eam
+                                        et reque justo quidam, te est audire persius. Duis meis quas vim ex, ius no
+                                        oblique.
+                                    </p>
+                                    <div class="te_customer_name_s5">Lorem Ipsum</div>
+                                    <div class="te_customer_position_s5">Lorem Ipsum Dolor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!--=================== Banner Style 3 =======================-->
+    <template id="banner_style_3" name="Banner Style 3">
+        <section class="te_banner_s3">
+            <section class="pt32 oe_img_bg oe_custom_bg"
+                     style="background-image: url('/theme_clarico_vega/static/src/img/snippets/structure/banner/1920_800.jpg'); background-position: center">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 te_banner_s3_content">
+                            <div class="te_banner_sub_heading">Lorem</div>
+                            <div class="te_banner_main_heading">Lorem Ipsum</div>
+                            <p class="">
+                                Lorem ipsum dolor s it amet, consectetur adipisicing elit, sed do
+                                eiusmod
+                                tempor incididunt ut labore et dolore magna ipsum dolor sit amet,
+                            </p>
+                            <section class="s_btn pt32 pb16" data-name="Buttons">
+                                <a href="#" class="btn btn-primary te_theme_button o_default_snippet_text">Read
+                                    More
+                                </a>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container">
+                <div class="te_category_banner_block">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 d-inline-block">
+                            <div class="te_banner_categ_block">
+                                <section class="te_categ_content">
+                                    <a href="#">
+                                        <img class="img img-fluid"
+                                             src="/theme_clarico_vega/static/src/img/snippets/structure/4_blocks/40_40.png"/>
+                                        <div class="te_banner_categ_name d-inline-block">
+                                            Lorem Ipsum
+                                        </div>
+                                    </a>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 d-inline-block">
+                            <div class="te_banner_categ_block">
+                                <section class="te_categ_content">
+                                    <a href="#">
+                                        <img class="img img-fluid"
+                                             src="/theme_clarico_vega/static/src/img/snippets/structure/4_blocks/40_40.png"/>
+                                        <div class="te_banner_categ_name d-inline-block">
+                                            Lorem Ipsum
+                                        </div>
+                                    </a>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 d-inline-block">
+                            <div class="te_banner_categ_block">
+                                <section class="te_categ_content">
+                                    <a href="#">
+                                        <img class="img img-fluid"
+                                             src="/theme_clarico_vega/static/src/img/snippets/structure/4_blocks/40_40.png"/>
+                                        <div class="te_banner_categ_name d-inline-block">
+                                            Lorem Ipsum
+                                        </div>
+                                    </a>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 d-inline-block">
+                            <div class="te_banner_categ_block">
+                                <section class="te_categ_content">
+                                    <a href="#">
+                                        <img class="img img-fluid"
+                                             src="/theme_clarico_vega/static/src/img/snippets/structure/4_blocks/40_40.png"/>
+                                        <div class="te_banner_categ_name d-inline-block">
+                                            Lorem Ipsum
+                                        </div>
+                                    </a>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!--=================== 3 Column Style 13 =======================-->
+    <template id="three_columns_col_style_13" name="Style 13">
+        <section class="te_3_col_s13">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-12">
+                        <div class=" te_left_img">
+                            <img class="img img-fluid"
+                                 src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_2/240_460.jpg"/>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-12 te_middle_img">
+                        <div class="te_middle_text_content">
+                            <div class="te_sub_heading_s13">Lorem Ipsum</div>
+                            <div class="te_main_heading_s13">Lorem ipsum dolor s it amet, consectetur adipisicing elit,
+                                sed do
+                                eiusmod
+                            </div>
+                            <p class="te_txt_content_s13">Lorem ipsum dolor s it amet, consectetur adipisicing elit, sed
+                                do
+                                eiusmod
+                                tempor incididunt ut labore et dolore magna ipsum dolor sit amet,
+                            </p>
+                            <section class="s_btn pt32 pb16" data-name="Buttons">
+                                <a href="https://www.youtube.com/watch?v=T9VdnCaiI2E"
+                                   class="btn btn-primary video-popup te_theme_button o_default_snippet_text"><i
+                                        class="fa fa-play te_play_icon"/>Play Video
+                                </a>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-12 ">
+                        <div class=" te_right_img">
+                            <img class="img img-fluid"
+                                 src="/theme_clarico_vega/static/src/img/snippets/offer_styles/style_2/240_460.jpg"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!--=================== Coming Soon Style 1 =======================-->
+    <template id="coming_soon_style_1" name="Style 1">
+        <section class="te_coming_soon_bg oe_img_bg pt96 pb96"
+                 style="background-image: url('/theme_clarico_vega/static/src/img/snippets/structure/banner/1920_800.jpg'); background-position: center;">
+            <div class="container">
+                <div class="row te_coming_soon_row">
+                    <div class="col-lg-6 offset-xl-6 te_coming_soon_txt">
+                        <div class="te_coming_soon_heading">Coming Soon</div>
+                        <p class="te_coming_soon_desc">Lorem ipsum dolor sit amet, eam viris essent dissentiet at, nec
+                            falli percipit petentium
+                            ut. Delenit molestie sententiae ea his
+                        </p>
+                        <section>
+                            <div class="js_timer_div"></div>
+                        </section>
+                        <!-- Social Icon -->
+                        <t t-set="website" t-value="request.env['website'].search([], limit=1)"/>
+                        <t t-if="website.social_facebook or website.social_twitter or website.social_linkedin or website.social_youtube or website.social_github">
+                            <section class="te_coming_soon_social_icon">
+                                <a t-if="website.social_facebook" t-att-href="website.social_facebook"
+                                   class="btn btn-sm btn-link">
+                                    <span class="fa fa-facebook-square"/>
+                                </a>
+                                <a t-if="website.social_twitter" t-att-href="website.social_twitter"
+                                   class="btn btn-sm btn-link">
+                                    <span class="fa fa-twitter"/>
+                                </a>
+                                <a t-if="website.social_linkedin" t-att-href="website.social_linkedin"
+                                   class="btn btn-sm btn-link">
+                                    <span class="fa fa-linkedin"/>
+                                </a>
+                                <a t-if="website.social_youtube" t-att-href="website.social_youtube"
+                                   class="btn btn-sm btn-link">
+                                    <span class="fa fa-youtube-play"/>
+                                </a>
+                                <a t-if="website.social_instagram" t-att-href="website.social_instagram"
+                                   class="btn btn-sm btn-link">
+                                    <span class="fa fa-instagram"/>
+                                </a>
+                            </section>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!--================== Number Count ======================-->
+    <template id="number_counter" name="Number Count">
+        <section class="te_numbers oe_img_bg"
+                 style="background-image: url('/theme_clarico_vega/static/src/img/snippets/structure/banner/1920_800.jpg'); background-position: center;">
+            <div class="container">
+                <dv class="row">
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">200</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">1000</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">853</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">154</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">10</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div id="te_counter" class="col-xl-2 col-md-4">
+                        <span class="te_count_value">87</span>
+                        <p>Lorem Ipsum</p>
+                    </div>
+                </dv>
+            </div>
+        </section>
     </template>
     <!--=================================== Snippets Animation Options =================================-->
     <template id="snippets_animation_option" name="Animaion Option"
@@ -7537,6 +8112,26 @@
                         <we-button data-toggle-class="te_img_effect5">Effect 5</we-button>
                         <we-button data-toggle-class="te_img_effect6">Effect 6</we-button>
                     </we-collapse>
+                </we-collapse-area>
+            </div>
+            <div data-selector="img">
+                <we-collapse-area>
+                    <we-toggler>Lazy Load</we-toggler>
+                    <we-collapse>
+                        <we-button data-toggle-class="lazyload">Enable</we-button>
+                    </we-collapse>
+                </we-collapse-area>
+            </div>
+            <div data-js="colorpicker"
+                 data-selector=".js_timer_div"
+                 data-color-prefix="text-"
+                 data-palette-title="Text color">
+                <we-collapse-area>
+                    <we-toggler>
+                        <i class="fa fa-fw fa-eyedropper"/>
+                        Timer Color
+                    </we-toggler>
+                    <we-collapse class="te_color"/>
                 </we-collapse-area>
             </div>
         </xpath>

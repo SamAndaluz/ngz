@@ -13,9 +13,7 @@
 /*================== 01. View all ======================*/
 .te_slider_view_all 
 {
-	//display: inline-block;
 	text-align: right;
-	//width: 100%;
 	padding-bottom: 10px;
 	float: right;
 	width: auto;
@@ -44,14 +42,13 @@
 			display: inline-block;
 			h4
 			{
-				@include style(7,23,inherit,null,capitalize)
+				@include style(7,23);
 				border-right: 1px solid nth($f_color,17);
 				padding: 0px 30px;
 				border-bottom: 0;
 				font-weight: bold;
 				margin: 0;
 				cursor: pointer;
-				
 				&.active
 				{
 					background-color: nth($f_color,27);
@@ -88,6 +85,30 @@
 			padding-bottom:16px;
 		}
 	}
+	.owl-nav
+    {
+        button.owl-prev {
+            @include position(absolute,50%,null,null,-12px);
+            transform: translateY(-50%);
+            .fa
+            {
+                font-size:nth($f_sizes,12);
+            }
+            @include media-breakpoint-down(sm)
+            {
+                left:-6px;
+            }
+        }
+        button.owl-next {
+            @extend button.owl-prev;
+            left:unset;
+            right:-12px;
+            @include media-breakpoint-down(sm)
+            {
+                right:-6px;
+            }
+        }
+    }
 }
 .te_prod_cart_wish
 {			
@@ -137,47 +158,34 @@ select#slider_category_option {
 		font-weight: 600;
 	}
 }
-.te_style_image_block.style-1 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_1.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
-}
-.te_style_image_block.style-2 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_2.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
-}
-.te_style_image_block.style-3 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_3.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
-}
-.te_style_image_block.style-4 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_4.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
-}
-.te_style_image_block.style-5 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_5.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
-}
-.te_style_image_block.style-6 {
-    background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_6.jpg);
-    height: 250px;
-    width: 80%;
-    background-size: 100%;
-    margin: 10px auto;
+.te_style_image_block{
+    &.style-1 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_1.jpg);
+        height: 250px;
+        width: 80%;
+        background-size: 100%;
+        margin: 10px auto;
+    }
+    &.style-2 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_2.jpg);
+        @extend .style-1;
+    }
+    &.style-3 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_3.jpg);
+        @extend .style-1;
+    }
+    &.style-4 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_4.jpg);
+        @extend .style-1;
+    }
+    &.style-5 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_5.jpg);
+        @extend .style-1;
+    }
+    &.style-6 {
+        background-image: url(/theme_clarico_vega/static/src/img/snippets/slider_styles/slider_6.jpg);
+        @extend .style-1;
+    }
 }
 .js_filter_data >section
 {
@@ -190,7 +198,6 @@ select#slider_category_option {
 	margin-bottom: 7px;
 	padding-bottom: 8px;
 	font-weight: 600;
-
 	&:before {
 		content: "";
 		@include position(absolute, auto, auto, 0, 0);
@@ -200,7 +207,7 @@ select#slider_category_option {
 		border-radius: 50px;
 	}
 }
-/*==================== 04. Slider Style 1 ==================================*/
+/*==================== 04. Slider Style 1 ===================*/
 .te_product_slider_1 
 {
 	.te_slider_1_content
@@ -213,14 +220,12 @@ select#slider_category_option {
 		{
 			margin-top: -55px;
 			overflow: hidden;
-		
 			.te_prod_info_sub
 			{
 				background-color:nth($f_color,18);
 				text-align: center;
 				@include transform(translateY(55px))
 				@include transition(all,.3s)
-
 				.product_name
 				{
 					max-width: 95%;
@@ -260,10 +265,6 @@ select#slider_category_option {
 					border-color: nth($f_color,19);
 				}
 			}
-			.te_quick_view
-			{
-				//color: nth($f_color,5);
-			}
 		}
 		.te_slider_img
 		{
@@ -289,30 +290,6 @@ select#slider_category_option {
 		            height: 31.8rem;
 		        }
 			}
-		}
-	}
-	.owl-nav button.owl-prev {
-	  	@include position(absolute,50%,null,null,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			left:-6px;
-		}
-	}
-	.owl-nav button.owl-next {
-		@include position(absolute,50%,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			right:-6px;
 		}
 	}
 }
@@ -396,7 +373,6 @@ select#slider_category_option {
 						cursor: not-allowed;
 					}
 				}
-				
 				.btn
 				{
 					background:nth($f_color,5);
@@ -448,32 +424,6 @@ select#slider_category_option {
 					transform: unset;
 				}
 			}
-		}
-	}
-}
-.te_slider_style_2_right_pannel{
-	.owl-nav button.owl-prev {
-	  	@include position(absolute,50%,null,null,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			left:-6px;
-		}
-	}
-	.owl-nav button.owl-next {
-		@include position(absolute,50%,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			right:-6px;
 		}
 	}
 }
@@ -604,15 +554,11 @@ select#slider_category_option {
 		.te_slider_4_desc
 		{
 			margin-bottom: 8px;
-			max-height: 10em;
-			overflow: hidden;
-			display: -webkit-box;
-			-webkit-line-clamp: 4;
-			-webkit-box-orient: vertical;
+			@include line-clamp(4,110px);
 			@include media-breakpoint-down(md)
 			{
 				-webkit-line-clamp: 3;
-				max-height: 6em;
+				height: 70px;
 			}
 			.te_slider_4_p
 			{
@@ -643,30 +589,7 @@ select#slider_category_option {
 	{
 		margin: 0;
 	}
-	.owl-nav button.owl-prev {
-	  	@include position(absolute,50%,null,null,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			left:-6px;
-		}
-	}
-	.owl-nav button.owl-next {
-		@include position(absolute,50%,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			right:-6px;
-		}
-	}
+
 }
 .te_prod_cart_wish_4
 {
@@ -730,33 +653,6 @@ select#slider_category_option {
 		}
 	}
 }
-.te_product_slider_5
-{
-	.owl-nav button.owl-prev {
-	  	@include position(absolute,50%,null,null,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			left:-6px;
-		}
-	}
-	.owl-nav button.owl-next {
-		@include position(absolute,50%,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			right:-6px;
-		}
-	}
-}
 /*================= 09. Slider Style 6 ====================*/
 .te_slider_style_6 .te_product_ind
 {
@@ -794,7 +690,7 @@ select#slider_category_option {
 			.o_add_wishlist.disabled
 			{
 				cursor: not-allowed;
-				color:#fff;
+				color:nth($f_color,5);
 				background: rgba(nth($f_color,19),0.6);
 			}
 			.te_quick_view
@@ -814,18 +710,13 @@ select#slider_category_option {
 		{
 			@include position(absolute,unset,unset,-10%,0);
 			width: 100%;
-			transition-property: all;
-			transition-duration: 400ms;
-			font-size: 0.8125rem;
-			color: #ffffff;
-			font-family: inherit;
-			line-height: unset;
+			@include transition(all,400ms);
+			@include style(6,5,inherit,unset);
 			opacity: 0;
 			.fa
 			{
 				padding-right: 5px;
 			}
-
 			@include media-breakpoint-down(lg)
 			{
 				opacity: 1;
@@ -835,7 +726,7 @@ select#slider_category_option {
 	}
 	.te_prod_info_sub
 	{
-		background-color: #ffffff;
+		background-color: nth($f_color,5);
 		overflow: hidden;
 	}
 	&:hover
@@ -859,42 +750,11 @@ select#slider_category_option {
 		}
 	}
 }
-.te_slider_style_6
-{
-	.owl-nav button.owl-prev {
-	  	@include position(absolute,50%,null,null,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			left:-6px;
-		}
-	}
-	.owl-nav button.owl-next {
-		@include position(absolute,50%,-12px);
-		transform: translateY(-50%);
-		.fa
-		{
-			font-size:nth($f_sizes,12);
-		}
-		@include media-breakpoint-down(sm)
-		{
-			right:-6px;
-		}
-	}
-}
 .te_prod_info_sub
 {
 	.product_name
 	{
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-		height: 23px;
+	    @include line-clamp(1,23px);
 		margin-bottom: 3px;
 	}
 	.te_2_line

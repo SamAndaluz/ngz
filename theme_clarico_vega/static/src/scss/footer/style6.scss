@@ -20,22 +20,19 @@ footer.o_footer
             margin-top: 1rem;
         }
     }
-	.te_footer_logo img
-	{
-		max-width: 100px;
-	}
     .te_copyright_add_language {
-        color:nth($f_color,28);
+        color: $footer_text_color;
     }
 }
 #footer
 {
     .te_block_title
     {
-        @include style(8,28,inherit,unset,capitalize);
+        font-size:nth($f_sizes,8);
         font-weight: 600;
         margin-bottom: 20px;
         display: inline-block;
+        color: $footer_text_color;
     }
     ul
     {
@@ -45,15 +42,8 @@ footer.o_footer
         li
         {
             padding: 12px 0;
-            &:first-child
-            {
-                //padding-top:0;
-            }
+            color: $footer_text_color;
         }
-    }
-    .te_logo_text
-    {
-        color:nth($f_color,28);
     }
     .te_end_ftr_container
     {
@@ -70,14 +60,10 @@ footer.o_footer
             {
                 padding-top:0;
             }
-            .te_footer_add_tel_email_text_ept
+            .te_footer_add_tel_email_text_ept span
             {
                 vertical-align: top;
-                span
-                {
-                    vertical-align: top;
-                    color:nth($f_color,28);
-                }
+                color:nth($f_color,28);
             }
             .te_ftr_text_style
             {
@@ -98,10 +84,7 @@ footer.o_footer
     }
     .te_footer_social_icon > a
     {
-        color:nth($f_color,3);
-        padding: 5px 9px;
-        background-color:nth($f_color,5);
-        @include border-radius(50%);
+        color: $footer_text_color;
         margin: 10px 3px 8px 0;
 		padding:0;
 		span
@@ -131,6 +114,11 @@ footer.o_footer
             }
         }
     }
+    .te_footer_add_tel_email .js_language_selector .dropdown-menu{
+        @include media-breakpoint-down(sm){
+            transform: translate3d(65px, -73px, 0px) !important;
+        }
+    }
     @include media-breakpoint-down(md)
     {
         padding-top:0;
@@ -151,14 +139,6 @@ footer.o_footer
         {
             border-top: 1px solid nth($f_color,8);
             padding-top: 30px;
-        }
-    }
-    @include media-breakpoint-down(xs)
-    {
-        .te_account_info
-        {
-            //border-bottom: 1px solid nth($f_color,8);
-            //margin-bottom: 30px;
         }
     }
 }

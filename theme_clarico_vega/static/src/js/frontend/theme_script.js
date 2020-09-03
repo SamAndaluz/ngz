@@ -33,9 +33,17 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
             this.scrollbarCallbacks();
             if ($(window).innerWidth() > 1200) {
                 $("#top_menu > .dropdown").each(function() {
+                     $(this).find("a.o_mega_menu_toggle").click(function() {
+                        if(!$('.editor_enable').length == 1){
+                            var get_href = $(this).attr('href');
+                            document.location.href = get_href;
+                            $(this).removeAttr('aria-expanded');
+                            return false;
+                        }
+                    });
                     if (!$(this).closest(".o_extra_menu_items").length) {
                         $(this).closest("a").click(function() {
-                            return false;
+                            $(this).removeAttr('aria-expanded');
                         });
                         $(this).hover(function() {
                             $(this).toggleClass('open');
@@ -52,10 +60,11 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                 });
             }
 
-            $('.variant_attribute  .list-inline-item').first().addClass('active_li');
-            $( ".list-inline-item .css_attribute_color" ).change(function() {
-                $('.list-inline-item').removeClass('active_li');
-                $(this).parent('.list-inline-item').addClass('active_li');
+            $('.variant_attribute  .list-inline-item').find('.active').parent().addClass('active_li');
+            $( ".list-inline-item .css_attribute_color" ).change(function(ev) {
+                var $parent = $(ev.target).closest('.js_product');
+                $parent.find('.css_attribute_color').parent('.list-inline-item').removeClass("active_li");
+                $parent.find('.css_attribute_color').filter(':has(input:checked)').parent('.list-inline-item').addClass("active_li");
             });
 
              /*Ipad/Mobile Hamburger Menu*/
@@ -64,10 +73,16 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
         },
         /* Custom jquery scrollbar*/
         scrollbarCallbacks: function(){
-            $(".js_attributes .nav-item ul.nav.nav-pills").mCustomScrollbar({
-               axis:"y",
-               theme:"dark-thin",
-               alwaysShowScrollbar: 2
+            $('.te_attr_title').click(function(ev) {
+                var ul_height = $(this).siblings("ul").height();
+                if(ul_height > 141)
+                {
+                    $(this).siblings("ul").mCustomScrollbar({
+                        axis:"y",
+                        theme:"dark-thin",
+                        alwaysShowScrollbar: 1,
+                    });
+                }
             });
         },
         _onSearchClickOpen: function(ev) {
@@ -284,8 +299,6 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
         selector: '.oe_website_sale',
         read_events: {
             'click .te_attr_title': '_onAttribSection',
-            'click .te_view_more_attr': '_onViewMore',
-            'click .te_view_less_attr': '_onViewLess',
             'click .te_shop_filter_resp': '_onRespFilter',
             'click .te_filter_close': '_onFilterClose',
             'click .te_color-name':'_oncolorattr',
@@ -350,7 +363,19 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                     $(".te_clear_all_form_selection").css("display", "inline-block");
                     $(".te_view_all_filter_div").css("display", "inline-block");
                     if (target_select) {
-                        $(".te_view_all_filter_inner").append("<div class='attribute'>" + attr_value + "<a data-id='" + type_value + "' class='te_clear_attr_a "+attr_name+" "+attr_value_str+" '>x</a></div>");
+                    var temp_attr_value = attr_value.toString().split('(');
+                    var cust_attr_value = '';
+                        switch(parseInt(temp_attr_value.length)) {
+                          case 4:
+                            cust_attr_value += temp_attr_value[0] +' ('+ temp_attr_value[1] +' ('+temp_attr_value[2];
+                            break;
+                          case 3:
+                            cust_attr_value += temp_attr_value[0] +'('+ temp_attr_value[1];
+                            break;
+                          default:
+                            cust_attr_value += temp_attr_value[0];
+                        }
+                        $(".te_view_all_filter_inner").append("<div class='attribute'>" + cust_attr_value + "<a data-id='" + type_value + "' class='te_clear_attr_a "+attr_name+" "+attr_value_str+" '>x</a></div>");
                     }
                 }
             });
@@ -453,49 +478,18 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                 $(main_ul).parent('.nav-item').find(".te_attr_title").removeClass('te_fa-minus');
                 main_ul.toggle('slow');
 
-                main_li.find('.te_view_more_attr').removeClass('active');
-                main_li.find('.te_view_more_attr').css("display", "none");
             } else {
                 main_ul.addClass("open_ul");
                 $(main_ul).parent('.nav-item').find(".te_attr_title").addClass('te_fa-minus');
                 main_ul.toggle('slow');
-
-                if (ul_H >= 190) {
-                    main_li.find('.te_view_more_attr').addClass('active');
-                    main_li.find('.te_view_more_attr').css("display", "inline-block");
-                }
             }
-        },
-        _onViewMore: function(ev) {
-            var self = ev.currentTarget;
-            var clicks = $(self).data('clicks');
-            $(self).parent('li.nav-item').find('ul').css({
-                "overflow": "auto"
-            });
-            $(self).addClass('d-none').removeClass('active').hide();
-            $(self).siblings('.te_view_less_attr').removeClass('d-none').addClass('active').css('display','inline-block');
-            $(self).data("clicks", !clicks);
-        },
-        /* Added for show less attribute */
-        _onViewLess: function(ev) {
-            var self = ev.currentTarget;
-            var clicks = $(self).data('clicks');
-            $(self).parent('li.nav-item').find("ul").css({
-                "overflow": "hidden"
-            });
-            $(self).addClass('d-none').removeClass('active').hide();
-            $(self).siblings('.te_view_more_attr').removeClass('d-none').addClass('active').css('display','inline-block');
-            $(self).data("clicks", !clicks);
-            $(self).parent('li.nav-item').find('.nav-pills').animate({
-                scrollTop: 0
-            }, 'slow');
         },
         _onRespFilter: function(ev) {
             $("#products_grid_before").toggleClass("te_filter_slide");
             $("#products_grid_before").mCustomScrollbar({
                axis:"y",
                theme:"dark-thin",
-               alwaysShowScrollbar: 2
+               alwaysShowScrollbar: 1
             });
             $("#wrapwrap").toggleClass("wrapwrap_trans");
             $('body').css("overflow-x", "hidden");
@@ -549,7 +543,7 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                                     $("#products_grid_before").mCustomScrollbar({
                                        axis:"y",
                                        theme:"dark-thin",
-                                       alwaysShowScrollbar: 2
+                                       alwaysShowScrollbar: 1
                                     });
                                 } else {
                                     $stickySidebar.css({ position: 'unset', top: 'initial', height: 'auto'});
@@ -737,6 +731,34 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
     //------------------------------------------
 
     $(document).ready(function($) {
+        $(document).on('click',".te_quick_filter_dropdown",function(ev) {
+            $(".te_quick_filter_dropdown_menu .te_quick_filter_ul >li").each(function() {
+                var ul_H = $(this).find("ul").height();
+                if (ul_H >= 177) {
+
+                    $(this).find("ul").mCustomScrollbar({
+                        axis:"y",
+                        theme:"dark-thin",
+                        alwaysShowScrollbar: 1,
+                    });
+                }
+            });
+        });
+        $(document).on('click',".quick_close",function(ev) {
+            $('.modal-backdrop').remove();
+            $('body').css("padding-right","0");
+        });
+        $(document).mouseup(function(ev)
+		{
+		    var container = $(".quick_view_modal");
+		    if (!container.is(ev.target) && container.has(ev.target).length === 0)
+		    {
+		        if($('#quick_view_model_shop').hasClass("show")){
+		            $('.modal-backdrop').remove();
+                    $('body').css("padding-right","0");
+                }
+		    }
+		});
         if($(document).find('.te_recently_viewed'))
         {
             var r_name = $("#te_rect_cnt").text();
@@ -778,118 +800,131 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
             $(".o_header_affix.affix").removeClass("transparent_top")
         }
         //Category mega menu
-        var li_pos = $('.te_dynamic_ept').index()
-        if(li_pos<3) {
-            $('#custom_menu').css("left","-20%");
-        }
-        else if(li_pos>=3 && li_pos<6)
-        {
-            $('#custom_menu').css({"left":"auto", "right": "-70%"});
-        }
-        else {
-            $('#custom_menu').css({"left":"auto", "right": "-20%"});
-        }
-        if($(document).find('#wrapwrap').hasClass('o_rtl'))
-        {
-            $('#custom_menu').css({"left":"-20%", "right": "auto"});
-        }
+        if($('.te_dynamic_ept'))
+		{
+		    setTimeout(function(){
+			$('.te_dynamic_ept >.dropdown-toggle').removeAttr('data-toggle');
+			$('.te_dynamic_ept >.dropdown-toggle').removeAttr('aria-expanded');
+			},100);
+		}
+		var li_count = $("#top_menu_collapse >#top_menu >li").length;
+        var li_pos = $('.te_dynamic_ept').index()+1;
         $("#custom_menu li").each(function() {
             var has_ctg = $(this).find("ul.t_custom_subctg").length > 0
             if (has_ctg) {
                 $(this).append("<span class='ctg_arrow fa fa-angle-right' />")
-                 var ul_index = 0;
-                $(document).on('click',".ctg_arrow",function(ev) {
-                    var $this = $(this),
-                    $lst = $('<div class="te_list_ctg_name"></div>');
-                    $this.parents('li#custom_menu_li').each(function(n, li) {
-                          var $a = $(li).children('a').clone();
-                          $a.attr("href", "#");
-                          $lst.prepend(' <span class="te_main_a">/ </span> ', $a);
+                var ul_index = 0;
+                if(li_pos > li_count/2)
+                {
+                    $(this).children("#custom_recursive").css({
+                        "transform": "translateX(-20px)",
                     });
-                    $('.te_breadcrumb_ctg').html( $lst.prepend('<a href="/shop">Shop</a>') );
-
-                    var self = $(this).siblings("ul.t_custom_subctg");
-                    ul_index = $(self).parents("ul").length == 0 ? $(self).parents("ul").length : ul_index + 1;
-                    $(self).stop().animate({
-                        width: "100%"
-                    });
-                    $('.te_main_a').parent().removeClass("te_active");
-                    $(this).siblings('.te_main_a').parent().addClass("te_active");
-                    $(this).siblings('#custom_recursive').find('.t_custom_subctg').css({
-                        "display": "none",
-                        "transition": "0.3s easeout",
-                        "left": "unset",
-                        "z-index": 'auto'
-                    });
-                    $(self).css({
-                        "display": "block",
-                        "transition": "0.3s easeout",
-                        "left": "auto",
-                        "right": "0",
-                        "z-index": ul_index
-                    });
-                    if($(document).find('#wrapwrap').hasClass('o_rtl')){
-                        $(self).css({
-                            "right": "auto",
-                            "left": "0",
-                        });
-                        $(this).parents('#te_main_ul').children('li').children('ul').css({
-                            "left":"0",
-                            "right": "100%",
+                }
+                if($(document).find('#wrapwrap').hasClass('o_rtl')){
+                    if(li_pos > li_count/2)
+                    {
+                        $(this).children("#custom_recursive").css({
+                            "transform": "translateX(20px)",
                         });
                     }
-                    $(this).parents('#te_main_ul').children('li').children('ul').css("left", "100%");
-                    $(self).parent().parent(".t_custom_subctg").css("overflow-y", "hidden");
-                    $(self).parent().parent(".t_custom_subctg").scrollTop(0);
-                    $(this).parents("#custom_menu").scrollTop(0);
-                    $(this).parents("#custom_menu").css("overflow-y", "hidden");
-                })
-                $(document).on('click',".te_prent_ctg_heading",function(ev) {
-                    $(this).parent("ul#custom_recursive").stop().animate({
-                        width: "0"
-                    }, function() {
-
-                        var $this = $(this),
-                        $lst = $('<div class="te_list_ctg_name"></div>');
-                        $this.parents('li#custom_menu_li').each(function(n, li) {
-                              var $a = $(li).children('a').clone();
-                              $a.attr("href", "#");
-                              if(n != 0)
-                                $lst.prepend(' <span class="te_main_a">/ </span> ', $a);
+                    else
+                    {
+                        $(this).children("#custom_recursive").css({
+                            "transform": "translateX(-20px)",
                         });
-                        $('.te_breadcrumb_ctg').html( $lst.prepend('<a href="/shop">Shop</a>') );
-                        $(this).css("display", "none")
-                        $(this).parent().parent(".t_custom_subctg").css("overflow-y", "auto");
+                    }
+                }
+                if ($(window).width() > 1200) {
+                    $(document).on('mouseenter',"#custom_menu_li",function(ev) {
+                        var li_place = $(this).position().top;
+                        $(this).children("#custom_recursive").css("top", li_place);
+                        var self = $(this).children("#custom_recursive");
+                        if($(this).children("#custom_recursive").length > 0)
+                        {
+                            ul_index = $(self).parents("ul").length == 0 ? $(self).parents("ul").length : ul_index + 1;
+                            $(self).css({
+                                    "opacity":"1",
+                                    "visibility": "visible",
+                                    "transform": "translateX(-10px)",
+                                    "transition": "all 0.2s",
+                            });
+                            if(li_pos > li_count/2) {
+                                $(self).css({
+                                    "right": "100%",
+                                    "left": "auto",
+                                    "transform": "translateX(10px)",
+                                });
+                            }
+                            if($(document).find('#wrapwrap').hasClass('o_rtl')){
+                                $(self).css({
+                                    "transform": "translateX(12px)",
+                                });
+                                if(li_pos > li_count/2) {
+                                    $(self).css({
+                                        "left": "100%",
+                                        "right": "auto",
+                                        "transform": "translateX(-12px)",
+                                    });
+                                }
+                            }
+                        }
                     });
-                })
+                    $(document).on('mouseleave',"#custom_menu_li",function(ev) {
+                        $(this).children("ul#custom_recursive").css({
+                            "opacity":"0",
+                            "visibility": "hidden",
+                            "transform": "translateX(20px)",
+                        });
+                        if(li_pos > li_count/2) {
+                            $(this).children("ul#custom_recursive").css({
+                                "transform": "translateX(-20px)",
+                            });
+                        }
+                    });
+                }
             }
         })
-        $(document).on('click',".ctg_arrow",function(ev) {
-            $(this).parents("#custom_menu").animate({
-                width: "500px",
-            });
-        });
-        $(document).on('click',"#te_main_ul >#custom_menu_li >#custom_recursive >.te_prent_ctg_heading", function(ev) {
-            $(this).parents("#custom_menu").stop().animate({
-                width: "250px",
-            });
-        });
-        $(document).on('click',"#custom_menu > li > ul.t_custom_subctg > .te_prent_ctg_heading",function() {
-            $(this).parents("#custom_menu").css("overflow-y", "auto");
-        })
         if ($(window).width() <= 1200) {
-            $("#custom_menu li").each(function() {
-                $('.ctg_arrow').css("display","none");
-                $('.te_main_a').css("width","100%");
-            });
-        }
-        if($(window).width() < 768){
-            $("#te_main_ul").css("max-width","100%");
-            $("#custom_menu").css({
-                "left": "0",
-                "right": "0",
-                "width": "100%",
-            });
+            $(".te_dynamic_ept >a").append('<span class = "fa fa-chevron-down te_icon" />');
+	        $('.te_icon').attr('data-toggle', 'true');
+            $('.te_icon').attr('aria-expanded', 'true');
+	        $(document).on('click',"span.te_icon",function(ev) {
+	        	if( $(ev.target).is('.te_icon') ) {
+			       	ev.preventDefault();
+					$(this).parent("a").siblings('.te_custom_submenu').slideDown('slow');
+					$(this).addClass('te_icon_ctg');
+	        	}
+	        });
+	        $(document).mouseup(function(e)
+			{
+			    var container = $(".te_dynamic_ept");
+			    if (!container.is(e.target) && container.has(e.target).length === 0)
+			    {
+			        $('.te_icon').parent("a").siblings('.te_custom_submenu').slideUp('slow');
+			    }
+			});
+            $(document).keyup(function(e) {
+                 if (e.keyCode == 27) {
+                    $('.te_icon').parent("a").siblings('.te_custom_submenu').slideUp('slow');
+                 }
+            })
+        	$(document).on('click',"span.te_icon_ctg",function(ev) {
+        		$(this).parent("a").siblings('.te_custom_submenu').slideUp('slow');
+        		$(this).removeClass('te_icon_ctg');
+        	});
+        	$(document).on('click',".ctg_arrow",function(ev) {
+		        $(this).toggleClass('te_down_ctg_icon');
+				if($(this).hasClass('te_down_ctg_icon'))
+				{
+				    ev.preventDefault();
+				    $(this).siblings("ul#custom_recursive").slideDown('slow');
+				    return false;
+				}
+				else
+				{
+		            $(this).siblings("ul#custom_recursive").slideUp('slow');
+			    }
+			});
         }
         //Changed search form action in theme's search when website search is installed
         if ($("body").find(".website_search_form_main").length > 0) {
@@ -995,6 +1030,39 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                 $(this).html(html);
             }
         });
+
+        /* Slider 14 animation on mouse hover */
+        var lFollowX = 0,
+         lFollowY = 0,
+         x = 0,
+         y = 0,
+        friction = 1 / 30;
+
+        function moveBackground(e) {
+          x += (lFollowX - x) * friction;
+          y += (lFollowY - y) * friction;
+
+          var translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
+
+          $('.te_s14_img').css({
+            '-webit-transform': translate,
+            '-moz-transform': translate,
+            'transform': translate
+          });
+
+          window.requestAnimationFrame(moveBackground);
+        }
+
+        $(window).on('mousemove click', function(e) {
+
+          var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+          var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+          lFollowX = (20 * lMouseX) / 100;
+          lFollowY = (10 * lMouseY) / 100;
+
+        });
+
+        moveBackground();
 
         $("#myCarousel_banner_prod_slider").find(".a-submit").click(function (event) {
             sale._onClickSubmit(event)
@@ -1129,27 +1197,18 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
             $("#loginRegisterPopup .oe_login_form").submit(function(e) {
                 var $form = $('#loginRegisterPopup .oe_login_form');
                 e.preventDefault();
-                var url = location.origin + '/web/login?'+$form.serialize();
-                    $.ajax({
-                    url: url,
-                    type: 'POST',
-                    success: function(data) {
-                        var oe_reset_password_form_error = $(data).find('.oe_login_form').find('.alert.alert-danger').html();
-                        if($(data).find('.oe_login_form').find('.alert.alert-danger').length) {
-                            $("#loginRegisterPopup .oe_login_form .te_error-success").replaceWith("<div class='te_error-success alert alert-danger'>" + oe_reset_password_form_error + "</div>");
+                var email = $form.find('#login').val();
+                var pass = $form.find('#password').val();
+                ajax.jsonRpc('/web/login_custom', 'call', {'login':email,'password':pass}).then(function(data) {
+                    if(!data.login_success){
+                        $("#loginRegisterPopup .oe_login_form .te_error-success").replaceWith("<div class='te_error-success alert alert-danger'>" + data.error + "</div>");
+                    }
+                    else{
+                        if (data.user_type == 'internal') {
+                            $(location).attr('href', '/web');
                         } else {
-                            if (data.includes('"is_admin": true')) {
-                                $(location).attr('href', '/web');
-                            } else {
-                                $(location).attr('href', '/my');
-                            }
+                            $(location).attr('href', '/my');
                         }
-                    },
-                    error: function(err) {
-                        ajax.jsonRpc('/ajax_check_user_status', 'call', {}).then(function(data) {
-                         window.location.href = data == 'internal' ? '/web': '/my';
-                        });
-
                     }
                 });
             });
@@ -1159,27 +1218,20 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
             $("#loginRegisterPopup .oe_signup_form_ept").submit(function(e) {
                 var $form = $('#loginRegisterPopup .oe_signup_form_ept');
                 e.preventDefault();
-                var url = location.origin + '/web/signup?'+$form.serialize();
-                    $.ajax({
-                    url: url,
-                    type: 'POST',
-                    success: function(data) {
-                        var oe_reset_password_form_error = $(data).find('.oe_signup_form').find('.alert.alert-danger').html();
-                        if($(data).find('.oe_signup_form').find('.alert.alert-danger').length) {
-                            $("#loginRegisterPopup .oe_signup_form_ept .te_error-success").replaceWith("<div class='te_error-success alert alert-danger'>" + oe_reset_password_form_error + "</div>");
-                        } else {
-                            $(location).attr('href', '/my')
-                        }
-                    },
-                    error: function(err) {
-                        ajax.jsonRpc('/ajax_check_user_status', 'call', {}).then(function(data) {
-                         window.location.href = data == 'internal' ? '/web': '/my';
-                        });
-
+                var email = $form.find('#login').val();
+                var name = $form.find('#name').val();
+                var password = $form.find('#password').val();
+                var confirm_password = $form.find('#confirm_password').val();
+                ajax.jsonRpc('/web/signup_custom', 'call', {'login':email,'name':name,'password':password,'confirm_password':confirm_password,'redirect':'','token':''}).then(function(data) {
+                    if(!data.is_success){
+                        $("#loginRegisterPopup .oe_signup_form_ept .te_error-success").replaceWith("<div class='te_error-success alert alert-danger'>" + data.error + "</div>");
+                    } else {
+                        $(location).attr('href', '/my');
                     }
                 });
             });
         },
+
 
         selectProductTab: function(){
             $('#te_product_tabs').find('li:first-child').find('.nav-link').addClass('active');
@@ -1207,6 +1259,45 @@ odoo.define('theme_clarico_vega.theme_script', function(require) {
                 items: 1,
             },
         },
+    });
+
+    /* For counting number */
+
+    $(window).scroll(testScroll);
+    var viewed = false;
+
+    function isScrolledIntoView(elem) {
+        if($('.te_numbers').length){
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+    }
+
+    function testScroll() {
+        if (isScrolledIntoView($(".te_numbers")) && !viewed) {
+            viewed = true;
+            $('.te_count_value').each(function () {
+                $(this).prop('Counter',0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 4000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            });
+        }
+    }
+    /**/
+
+    $(window).on("orientationchange",function(){
+      location.reload();
     });
 
 });

@@ -102,18 +102,15 @@
         @include media-breakpoint-down(md)
         {
             .dropdown-menu{
-                &:before{
-                    right: 20px;
-                }
-                &:after{
+                &:before, &:after{
                     right: 20px;
                 }
             }
         }
     }
-    .te_cart_icon_head{
+    .te_cart_icon_head, .te_wish_icon_head{
         padding: 0px;
-        a.nav-link.o_wsale_my_cart{
+        a.nav-link.o_wsale_my_cart, a.nav-link.te_wish_icon_head{
            padding: 22px;
            width: 65px;
            @include media-breakpoint-down(sm){
@@ -127,17 +124,6 @@
         @include media-breakpoint-down(sm){
             width:40px;
             text-align:center;
-        }
-    }
-    .te_wish_icon_head{
-        padding: 0px;
-        a.nav-link.te_wish_icon_head{
-           padding: 22px;
-           width: 65px;
-           @include media-breakpoint-down(sm){
-              padding: 10px 0px 10px 14px;
-              width:45px;
-           }
         }
     }
 }
@@ -161,7 +147,7 @@
     width: auto;
     display: inline-block;
     vertical-align: middle;
-    color:#868e96;
+    color:$theme-extra-color;
     & :hover{
         color:nth($f_color,19);
     }
@@ -183,7 +169,7 @@
         a.te_search_link {
             .fa-search{
                 font-size:nth($f_sizes,8);
-                color:theme-color('secondary');
+                color:$theme-extra-color;
             }
             & :hover{
                 color:nth($f_color,19);
@@ -194,6 +180,10 @@
         .te_bar_icon .fa-sliders,
         .te_header_account .fa-user-circle-o{
             font-size:nth($f_sizes,7);
+            color:$theme-extra-color;
+        }
+        .dropdown-toggle::after{
+            color:$theme-extra-color;
         }
         .dropdown.te_user_account .dropdown-menu,
         .dropdown.te_user_account.show .dropdown-menu.show {
@@ -223,8 +213,7 @@
     }
     .te_header_search_popover {
         display: none;
-        -webkit-transition: width 0.3s ease-in-out;
-        transition: width 0.3s ease-in-out;
+        @include transition(width,0.3s,ease-in-out)
     }
     .te_header_search_close.te_srch_close .fa-times {
         cursor: pointer;
@@ -249,9 +238,9 @@
 .te_header_search_popover {
     input.search-query.form-control.oe_search_box{
         border: 0;
-		border-bottom: 2px solid #868e96;
+		border-bottom: 2px solid $theme-extra-color;;
 		font-size: nth($f_sizes,8);
-        color: #868e96;
+        color:$theme-extra-color;
 		background-color:nth($f_color,27);
 		@include transition(all, 0.3s, ease-out);
 		font-weight: 300;
@@ -269,7 +258,7 @@
 		background-color:nth($f_color,27);
 		border: 0;
 		font-size: nth($f_sizes,10);
-		color:$carousel-control-color;
+		color:$theme-extra-color;
 		@include position(absolute,50%,0);
 		transform: translateY(-50%);
 		& i.fa.fa-search:before{
@@ -281,6 +270,10 @@
 		@include media-breakpoint-down(sm){
 		    font-size: nth($f_sizes,1);
 		}
+    }
+    .form-control::placeholder{
+        color:$theme-extra-color;
+        opacity:0.5;
     }
     .btn-primary:not(:disabled):not(.disabled):active {
         background-color: transparent;
@@ -332,23 +325,19 @@ search_animate{
     padding-top: 0px !important;
 }
 #wrapwrap.homepage > header:not(.o_header_affix) {
-    position: absolute;
-    top: auto;
-    left: 0;
-    bottom: auto;
-    right: 0;
+    @include position(absolute,auto,0,auto,0);
     z-index: 1000;
 }
 .homepage{
     .te_language_selector button.btn.btn-sm.btn-secondary.dropdown-toggle,
     .te_price_lang_right .te_pricelist .dropdown-toggle{
-        color:nth($f_color,5) !important;
+        color: $theme-extra-color !important;
         font-size:nth($f_sizes,2) !important;
     }
 }
 .te_language_selector button.btn.btn-sm.btn-secondary.dropdown-toggle,
 .te_price_lang_right .te_pricelist .dropdown-toggle{
-    color:nth($f_color,3) !important;
+    color: $theme-extra-color !important;
 }
 .navbar-expand-md .navbar-toggler input.menu_checkbox {
     @include media-breakpoint-down(sm){
@@ -385,7 +374,7 @@ search_animate{
     #top_menu_collapse #top_menu > li {
         > a.nav-link:hover,
         > a.nav-link:active{
-            color: nth($f_color,19);
+            color:$header_text_hover_color;
         }
     }
     #top_menu > li > a.nav-link {
@@ -422,13 +411,9 @@ header.o_header_affix.affix.affixed .te_header_navbar {
     padding: 15px 0px !important;
     @include media-breakpoint-down(sm){
         padding: 5px 0px !important;
-        .te_logo_left {
+        .te_logo_left, .te_price_lang_right {
             width: 50%;
             display: inline-block;
-        }
-        .te_price_lang_right {
-            display: inline-block;
-            width: 50%;
         }
     }
 }
@@ -468,9 +453,7 @@ li.nav-item.dropdown.o_extra_menu_items.show ul.dropdown-menu.te_custom_submenu.
         max-height: calc(100vh - 105px);
         overflow: scroll;
         width: 100%;
-        position: absolute;
-        top: 58px;
-        left: 0px;
+        @include position(absolute,58px,null,null,0px);
     }
     @include media-breakpoint-down(sm){
         top: 35px;
@@ -535,27 +518,20 @@ li.nav-item.dropdown.o_extra_menu_items.show ul.dropdown-menu.te_custom_submenu.
     }
 }
 #top_menu > li.o_extra_menu_items > ul.dropdown-menu > li > a.dropdown-item span#menu_label_tx_span {
-    position: absolute;
-    left: auto;
-    right: 0px;
+    @include position(absolute,null,0px,null,auto);
 }
 #top_menu > li.o_extra_menu_items > ul li.dropdown ul.dropdown-menu li > a > span#menu_label_tx_span {
-    top: auto;
     margin-left: 25px;
-    position: relative;
-    left: auto;
-    right: 0px;
+    @include position(relative,auto,0px,null,auto);
     display: inline-block;
     width: 100px;
 }
 #top_menu > li.o_extra_menu_items > ul li.dropdown ul.dropdown-menu li > a > span#menu_label_tx_span span.te_custom_menu_label {
-    position: absolute;
-    right: 4px;
-    left: auto;
+    @include position(absolute,null,4px,null,auto);
     &:before {
         width: 4px;
         height: 4px;
-        border: 4px solid transparent;
+        @include border(4px,27,solid);
         left: -8px;
         top: auto;
         bottom: 6px;
@@ -616,35 +592,25 @@ li.nav-item.dropdown.o_extra_menu_items.show ul.dropdown-menu.te_custom_submenu.
 }
 #wrapwrap .o_header_affix {
     @include media-breakpoint-up(md){
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: auto;
-        right: 0;
-        position: fixed;
+        @include position(fixed,0,0,auto,0);
         z-index: 99 !important;
         background: #f6f9f9;
         margin-top: -200px;
-        transition: margin-top 500ms ease-out 0s;
+        @include transition(margin-top,500ms,ease-out);
     }
 }
 #wrapwrap > header.affixed .navbar-expand-md {
     @include media-breakpoint-up(md){
-        background: #FFFFFF;
-        position: fixed;
+        background: nth($f_color,5);
+        @include position(fixed,null,0,null,0);
         padding: 0;
-        left: 0;
-        right: 0;
         z-index: 9;
         box-shadow: 0 15px 45px -8px rgba(0, 0, 0, 0.2);
     }
 }
 body #wrapwrap > header .navbar-expand-md {
-    background: transparent;
+    background: nth($f_color,27);
     box-shadow:none;
-}
-#wrapwrap > header .navbar-expand-md {
-    background: #FFFFFF;
 }
 header.o_header_affix.affix.affixed .container {
     @include media-breakpoint-up(md){
@@ -683,5 +649,14 @@ header.o_header_affix.affix.affixed .container {
     }
     header.o_header_affix.affix.affixed span#menu_label_tx_span {
         display: inline-block;
+    }
+}
+/* apply extra color*/
+.te_price_lang_right .dropdown-menu.show a.dropdown-item{
+    color: $theme-extra-color;
+    opacity:0.5;
+    &:hover{
+        color: nth($f_color,19);
+        opacity:1;
     }
 }

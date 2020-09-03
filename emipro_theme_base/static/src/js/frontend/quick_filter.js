@@ -29,13 +29,7 @@ odoo.define('emipro_theme_base.quick_filter', function(require) {
             }
             $(".te_quick_filter_main_div").toggleClass("active");
             $(".te_quick_filter_dropdown_menu").slideToggle(500);
-            $(".te_quick_filter_dropdown_menu li").each(function() {
-                var ul_H = $(this).find("ul").height();
-                if (ul_H >= 190) {
-                    $(this).find('.te_view_more_attr').addClass('active');
-                    $(this).find('.te_view_more_attr').css("display", "inline-block");
-                }
-            });
+
             $(this).data('clicked', true);
         },
         isEmpty: function(element){
@@ -59,13 +53,7 @@ odoo.define('emipro_theme_base.quick_filter', function(require) {
                 $(".te_quick_filter_dropdown_menu").show();
                 $("#products_grid_before").scrollTop(0);
                 $("#wsale_products_attributes_collapse").addClass("show");
-                $(".te_quick_filter_dropdown_menu li").each(function() {
-                    var ul_H = $(this).find("ul").height();
-                    if (ul_H >= 190) {
-                        $(this).find('.te_view_more_attr').addClass('active');
-                        $(this).find('.te_view_more_attr').css("display", "inline-block");
-                    }
-                });
+
             }
         }
     });

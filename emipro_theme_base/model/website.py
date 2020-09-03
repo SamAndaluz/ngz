@@ -4,12 +4,16 @@ import json
 
 import werkzeug.urls
 import werkzeug.utils
+from datetime import timedelta, date
 from odoo.http import request
 from odoo.tools import image_process
+from werkzeug.exceptions import NotFound
+from odoo.tools.safe_eval import safe_eval
 
 import odoo
 from odoo import fields, models, http
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin
+from odoo.addons.website_sale_wishlist.controllers.main import WebsiteSale
 from odoo.addons.website_sale_wishlist.controllers.main import WebsiteSaleWishlist
 
 
@@ -755,19 +759,19 @@ class Website(models.Model):
         ('button', 'Button- on click button')
     ], string="Loading type for products",
         required=True, default='automatic', readonly=False)
-    prev_button_label = fields.Char(string='Label for the Prev Button', required=True, readonly=False,
+    prev_button_label = fields.Char(string='Label for the Prev Button', readonly=False,
                                     default="Load prev", translate=True)
-    next_button_label = fields.Char(string='Label for the Next Button', required=True, readonly=False,
+    next_button_label = fields.Char(string='Label for the Next Button', readonly=False,
                                     default="Load next", translate=True)
     is_lazy_load = fields.Boolean(string='Lazyload', help="Lazy load will be enabled", readonly=False)
     lazy_load_image = fields.Binary('Lazyload Image', help="Display this image while lazy load applies.",
                                     readonly=False)
-    banner_video_url = fields.Char(string='Video URL', help='URL of a video for banner.', readonly=False)
+    banner_video_url = fields.Many2one('ir.attachment', "Video URL", help='URL of a video for banner.', readonly=False)
     number_of_product_line = fields.Selection([
-        ('1', 1),
-        ('2', 2),
-        ('3', 3)
-    ], string="Number of lines for product name", required=True, default='1', readonly=False, help="Number of lines to show in product name for shop.")
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3')
+    ], string="Number of lines for product name", default='1', readonly=False, help="Number of lines to show in product name for shop.")
     website_company_info = fields.Text(string="Company Information", translate=True,
                                        default="We are a team of passionate people whose goal is to improve "
                                                "everyone's life through disruptive products. We build great products to solve your business problems.")
@@ -791,6 +795,15 @@ class Website(models.Model):
                                            default=_get_default_header_extra_links)
     website_vertical_menu_ept = fields.Html(string="Vertical Menu Content", translate=True, sanitize=False,
                                            default=_get_default_vertical_menu)
+    is_auto_play = fields.Boolean(string='Slider Auto Play', default=True, readonly=False)
+
+    is_pwa = fields.Boolean(string='PWA', readonly=False, help="Pwa will be enabled.")
+    pwa_name = fields.Char(string='Name', readonly=False)
+    pwa_short_name = fields.Char(string='Short Name', readonly=False)
+    pwa_theme_color = fields.Char(string='Theme Color', readonly=False)
+    pwa_bg_color = fields.Char(string='Background Color', readonly=False)
+    pwa_start_url = fields.Char(string='Start URL', readonly=False)
+    app_image_512 = fields.Binary(string='Application Image(512x512)', readonly=False, store=True)
 
     # @api.depends('banner_video_url')
     # def _compute_embed_code(self):
@@ -914,13 +927,13 @@ class Website(models.Model):
         if not prices_list: return False
 
         if not cust_min_val and not cust_max_val:
-            range_list.append(min(prices_list))
-            range_list.append(max(prices_list))
+            range_list.append(round(min(prices_list),2))
+            range_list.append(round(max(prices_list),2))
             range_list.append(round(min(prices_list),2))
             range_list.append(round(max(prices_list),2))
         else:
-            range_list.append(cust_min_val)
-            range_list.append(cust_max_val)
+            range_list.append(round(float(cust_min_val),2))
+            range_list.append(round(float(cust_max_val),2))
             range_list.append(round(min(prices_list), 2))
             range_list.append(round(max(prices_list), 2))
         return range_list
@@ -987,3 +1000,137 @@ class Website(models.Model):
                 state=json.dumps(state),
             )
         return werkzeug.url_encode(params)
+
+    def get_product_count(self, attr, search=False, category=False, attributes=False):
+        """
+        Get the product count based on attribute value and current search domain.
+        """
+        domain = WebsiteSale._get_search_domain(self, search, category, attributes)
+        if attributes:
+            ids = []
+            for value in attributes:
+                if value[0] == 0:
+                    ids.append(value[1])
+                    domain += [('product_brand_ept_id.id', 'in', ids)]
+        cust_min_val = request.httprequest.values.get('min_price', False)
+        cust_max_val = request.httprequest.values.get('max_price', False)
+        if cust_max_val and cust_min_val:
+            try:
+                cust_max_val = float(cust_max_val)
+                cust_min_val = float(cust_min_val)
+            except ValueError:
+                raise NotFound()
+            # if not cust_max_val.isnumeric() and cust_min_val.isnumeric():
+            #     raise NotFound()
+            price_products = request.env['product.template'].sudo().search(domain)
+            new_prod_ids = []
+            pricelist = request.website.pricelist_id
+            if price_products:
+                for prod in price_products:
+                    context = dict(request.context, quantity=1, pricelist=pricelist.id if pricelist else False)
+                    product_template = prod.with_context(context)
+
+                    list_price = product_template.price_compute('list_price')[product_template.id]
+                    price = product_template.price if pricelist else list_price
+                    if price and price >= float(cust_min_val) and price <= float(cust_max_val):
+                        new_prod_ids.append(prod.id)
+                domain += [('id', 'in', new_prod_ids)]
+            else:
+                domain = [('id', '=', False)]
+
+        Product = request.env['product.template']
+        search_product = Product.search(domain)
+        products = attr.pav_attribute_line_ids
+        matched_products = products.filtered(lambda pro: pro.product_tmpl_id.id in search_product.ids)
+        return len(matched_products)
+
+    def get_current_priclist_items_ids_for_associated_ids(self):
+        request.env.cr.execute("""select id from product_pricelist_item where pricelist_id = %s AND (date_start IS NULL OR date_start <= %s AND date_end IS NULL OR date_end >= %s)
+                """, (request.website.get_current_pricelist().id, date.today(), date.today()))
+        item_ids = [x[0] for x in request.env.cr.fetchall()]
+        pricelist_items = request.env['product.pricelist.item'].browse(item_ids)
+        return pricelist_items
+
+    def get_associated_value_ids(self, attr=False, search=False, category=False, attrib_values=False):
+        """
+        Get the associated product attribute values IDS.
+        """
+        domain = WebsiteSale._get_search_domain(self,search=search, category=category, attrib_values=attrib_values)
+        filter_id = request.httprequest.values.get('filter_id', False)
+        if filter_id:
+            curr_filter = request.env['slider.filter'].sudo().search([('id', '=', int(filter_id))])
+            if curr_filter and curr_filter.filter_id and curr_filter.filter_id.domain:
+                domain = safe_eval(curr_filter.filter_id.domain)
+                slider_products = request.env['product.template'].sudo().search(domain)
+                if slider_products:
+                    request.env['product.template'].sudo().search([('id', 'in', slider_products.ids)])
+                    domain += [('id', 'in', slider_products.ids)]
+                    all_products = self.env['product.template'].sudo().search(domain)
+                    allowed_value_ids = all_products.attribute_line_ids.value_ids.ids
+                    return allowed_value_ids
+
+        product_offers = request.httprequest.values.get('product_offers', False)
+        if product_offers:
+            ids = []
+            pricelist_items = self.get_current_priclist_items_ids_for_associated_ids()
+            if pricelist_items:
+                for item in pricelist_items:
+                    if item.applied_on == '1_product':
+                        ids.append(item.product_tmpl_id.id)
+                domain += [('id', 'in', ids)]
+                all_products = self.env['product.template'].sudo().search(domain)
+                allowed_value_ids = all_products.attribute_line_ids.value_ids.ids
+                return allowed_value_ids
+
+        category_offers = request.httprequest.values.get('category_offers', False)
+        if category_offers:
+            pricelist_items = self.get_current_priclist_items_ids_for_associated_ids()
+            if pricelist_items:
+                ids = []
+                products = []
+                for item in pricelist_items:
+                    if item.applied_on == '2_product_category':
+                        products += request.env['product.template'].sudo().search(
+                            [('categ_id', '=', int(item.categ_id))])
+
+                for product in products:
+                    ids.append(product.id)
+                domain = [('id', 'in', ids)]
+                all_products = self.env['product.template'].sudo().search(domain)
+                allowed_value_ids = all_products.attribute_line_ids.value_ids.ids
+                return allowed_value_ids
+
+        if attrib_values:
+            ids = []
+            for value in attrib_values:
+                if value[0] == 0:
+                    ids.append(value[1])
+                    domain += [('product_brand_ept_id.id', 'in', ids)]
+
+        cust_min_val = request.httprequest.values.get('min_price', False)
+        cust_max_val = request.httprequest.values.get('max_price', False)
+        if cust_max_val and cust_min_val:
+            try:
+                cust_max_val = float(cust_max_val)
+                cust_min_val = float(cust_min_val)
+            except ValueError:
+                raise NotFound()
+
+            products = request.env['product.template'].sudo().search(domain)
+            new_prod_ids = []
+            pricelist = request.website.pricelist_id
+            if products:
+                for prod in products:
+                    context = dict(request.context, quantity=1, pricelist=pricelist.id if pricelist else False)
+                    product_template = prod.with_context(context)
+
+                    list_price = product_template.price_compute('list_price')[product_template.id]
+                    price = product_template.price if pricelist else list_price
+                    if price and price >= float(cust_min_val) and price <= float(cust_max_val):
+                        new_prod_ids.append(prod.id)
+                domain += [('id', 'in', new_prod_ids)]
+            else:
+                domain = [('id', '=', False)]
+        all_products = self.env['product.template'].sudo().search(domain)
+        allowed_value_ids = all_products.attribute_line_ids.value_ids.ids
+        return allowed_value_ids

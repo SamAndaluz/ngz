@@ -4,7 +4,7 @@
     'name': 'Emipro Theme Base',
     'category': 'Base',
     'summary': 'Base module containing common libraries for all Emipro eCommerce themes.',
-    'version': '2.0.4',
+    'version': '2.2.1',
     'license': 'OPL-1',
     'depends': [
         'website_theme_install',
@@ -15,8 +15,10 @@
 
     'data': [
         'templates/template.xml',
+        'templates/pwa.xml',
 	    'security/ir.model.access.csv',
         'views/social_sharing.xml',
+        'views/product_template.xml'
     ],
 
     #Odoo Store Specific
@@ -32,6 +34,6 @@
     # Technical
     'installable': True,
     'auto_install': False,
-    'price': 19.00,
+    'price': 9.00,
     'currency': 'EUR',
 }

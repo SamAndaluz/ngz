@@ -45,6 +45,7 @@ h5.footer-sub-title {
     margin-bottom: 20px;
     font-weight: 500;
     letter-spacing: 2px;
+    color: $footer_text_color;
 }
 span.te_footer_add_tel_email_text_ept {
     display: inline-block;
@@ -61,9 +62,9 @@ ul.te_footer_info_ept li a{
     @include transition(all,0.5s,ease-in-out);
     display: inline-block;
     word-break: break-word;
-}
-ul.te_footer_info_ept li a:hover{
-    padding-left: 10px;
+    &:hover{
+        padding-left: 10px;
+    }
 }
 ul.te_footer_info_text.te_footer_info_ept li a:hover{
     padding-left: 0px;
@@ -129,7 +130,8 @@ ul.te_footer_info_text{
         list-style: none;
         margin-bottom: 10px;
         & a, span{
-            @include style(3,22)
+            font-size:nth($f_sizes,3);
+            color: $footer_text_color;
         }
     }
 
@@ -159,6 +161,7 @@ ul.te_footer_info_text{
 /*---------- Copyright And Payment Image ----------*/
 .te_copyright_add_language
 {
+    color: $footer_text_color;
 	@include media-breakpoint-down(md) {
 		//text-align:right;
 		font-size:nth($f_sizes,3);

@@ -55,7 +55,6 @@
 					@include style(1,3);
 					padding-top: 2rem;
 					padding-bottom: 2rem;
-					text-transform: capitalize;
 					@include media-breakpoint-down(md)
 					{
 						padding: 0.5rem;
@@ -86,7 +85,8 @@
             padding: 0 8px;
             a
             {
-                @include style(7,3);
+                font-size:nth($f_sizes,7);
+                color:$theme-extra-color;
                 outline:none;
                 &:hover
                 {
@@ -97,6 +97,9 @@
                     font-size: nth($f_sizes,2);
                 }
             }
+        }
+        .te_searchform__popup.open .te_btn-close{
+            color:nth($f_color,3);
         }
         > div.te_cart_icon_head,
         > div.te_wish_icon_head {
@@ -166,8 +169,7 @@
                 border:0;
                 @include media-breakpoint-down(xs)
                 {
-                    position:relative;
-                    top:1px;
+                    @include position(relative,1px);
                 }
             }
 
@@ -187,10 +189,7 @@
     .te_header_account
     {
         .dropdown-menu{
-            &:before{
-                right: 13px;
-            }
-            &:after{
+            &:before, &:after{
                 right: 13px;
             }
         }
@@ -228,8 +227,7 @@
 			    visibility: visible;
 			    opacity: 1;
 			    transform: scale(1);
-			    top: -15%;
-                position: relative;
+			    @include position(relative,-15%);
                 @include media-breakpoint-down(sm)
                 {
                     top: -4%;
@@ -381,6 +379,7 @@
 		@include style(12,3);
 		@include position(absolute,50%,0);
 		transform: translateY(-50%);
+		z-index:9;
 		@include media-breakpoint-down(md)
 		{
 			font-size:nth($f_sizes,4);
@@ -396,8 +395,7 @@
     .te_text
     {
         margin-bottom: 1.5rem;
-        font-size: nth($f_sizes,4);;
-        color: nth($f_color,3);
+        @include style(4,3);
         letter-spacing: 1px;
         @include media-breakpoint-down(md)
 		{
@@ -463,12 +461,8 @@
 			{
 				display: block;
 				padding: 13px 5px;
-				@include style(3,6,inherit,unset,capitalize);
-
-				&:hover
-				{
-					color:nth($f_color,19);
-				}
+				font-size:nth($f_sizes,3);
+			    color: $theme-extra-color;
 			}
 			.te_currency_symbol
 			{
@@ -542,14 +536,10 @@
                 border-bottom: 0;
             }
             button.btn.btn-sm.btn-secondary.dropdown-toggle{
-                color: nth($f_color,6);
+                color: $theme-extra-color;
                 @include media-breakpoint-down(md)
                 {
                     vertical-align: text-bottom;
-                }
-                &:hover
-                {
-                    color:nth($f_color,19);
                 }
             }
             .dropdown-menu,
@@ -590,21 +580,17 @@
     .navbar-collapse span.te_custom_menu_label:before {
         width: 4px;
         height: 4px;
-        border: 4px solid transparent;
+        @include border(4px,27,solid);
         left: -8px;
         top: auto;
         bottom: 6px;
     }
     header.o_header_affix.affix.affixed span#menu_label_tx_span,
     #top_menu_collapse #top_menu > li > a.nav-link span#menu_label_tx_span {
-        top: auto;
-        left: auto;
-        right: auto;
+        @include position(absolute,auto,auto,auto,auto);
         margin-left: 25px;
         display: inline-block;
         width: 100px;
-        bottom: auto;
-        position: absolute;
     }
     span.te_custom_menu_label{
         right:auto;

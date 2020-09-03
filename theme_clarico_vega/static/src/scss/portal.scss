@@ -27,7 +27,6 @@
         }
 		&:hover{
 	    	@include transition(null,.3s,null)
-
  		   	@include box-shadow(0px 0px 10px nth($f_color,17))
 		}
 	}
@@ -61,7 +60,6 @@
 	    margin: 1%;
 	    padding: 14px 18px;
 		border: 1px solid rgba(0, 0, 0, 0.125);
-
 		i {
 			@include position(absolute)
 		    line-height: 1.5;
@@ -76,9 +74,7 @@
 		margin-top: 16px;
 	}
 }
-
 /*========================= 02. Portal Table ==========================*/
-
 /*------ To add '>' sign in bredcrumb ------*/
 .o_portal_submenu {
 	li {
@@ -89,7 +85,6 @@
 	}
 }
 .breadcrumb-item {
-	font-size : nth($f_sizes,2) !important;
 	line-height :1.5 !important;
 	&+.breadcrumb-item {
 		padding-left: 0.5rem;
@@ -117,7 +112,7 @@
 		  	}
 		}
 	 }
-	 @media (max-width:800px){
+	@media (max-width:800px){
 	 	thead{
 			display: none;
 		}
@@ -166,18 +161,14 @@
 		font-family : inherit;
 		font-size :nth($f_sizes,2);
 	}
-	button {
-		text-transform: none !important;
-	}
 	.btn-group {
 		button {
 			padding: 0.2625rem 0.6125rem !important;
+			text-transform: none !important;
 		}
 	}
 }
-
 /*===================== 03. Portal Main Page =======================*/
-
 .o_portal_my_details {
 	address {
 	    span[itemprop="name"] {
@@ -190,16 +181,13 @@
 		}
 	    div[itemprop="address"] > div {
 	        position: relative;
-
 	        span[itemprop="streetAddress"] {
 	            line-height: 1.2;
 	            margin-bottom: 0.3em;
 	        }
-
 	        .fa {
 	            @include o-position-absolute(0, $left: 0);
 	            line-height: $line-height-base;
-
 	            + span {
 	                display: block;
 	                padding-left: 1.28571429em + 0.5em;
@@ -243,8 +231,8 @@
 	@include media-breakpoint-down(xs)
 	{
         .te_theme_button{
-                width:100%;
-            }
+            width:100%;
+        }
     }
 }
 #sale_order_communication
@@ -296,30 +284,13 @@
 }
 
 .o_portal_wrap {
-	.card {
-		/*border: 0 !important;*/
-	}
 	#sidebar_content
 	{
 		z-index: 9;
 		top: 105px;
-		@include media-breakpoint-down(sm)
-		{
-
-		}
 	}
 	h5,h6 {
 		font-family:inherit;
-	}
-}
-.o_portal_sale_sidebar {
-	ul {
-		.o_portal_contact_block {
-			a
-			{
-				font-family:inherit;
-			}
-		}
 	}
 }
 .panel_div
@@ -329,20 +300,6 @@
 			border-bottom: 1px solid nth($f_color,8);
 		}
 	}
-}
-.o_portal_sidebar
-{
-	/*@include media-breakpoint-down(sm)
-	{
-		#sidebar_content.card > div.card-body
-		{
-			border-left:0;
-		}
-		#sidebar_content.card > ul > li
-		{
-			border-left:0;
-		}
-	}*/
 }
 #introduction
 {
@@ -410,7 +367,6 @@
 		}
 	}
 }
-
 /*================== 04. Quotation Page ====================*/
 .o_portal_my_doc_table{
     @media (max-width:800px){

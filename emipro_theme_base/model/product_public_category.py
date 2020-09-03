@@ -16,10 +16,9 @@ class ProductPublicCategory(models.Model):
     category_page = fields.Many2one("website.page", string="Select Page",
                                  help="Select the page which you want to set for this category.")
 
-    @api.onchange('allow_in_category_carousel')
+    @api.constrains('allow_in_category_carousel')
     def validate_category_carousel(self):
-        if not self.image_1920:
+        if not self.image_1920 and self.allow_in_category_carousel:
             raise ValidationError(
                 _("Please set the category image before set this in carousel"))
-
 

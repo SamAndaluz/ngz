@@ -1,3 +1,51 @@
+Version 13.0.2.2.1 - 14 Aug 20
+===================================
+Note:First upgrade emipro_theme_base and pwa_ept.
+
+Improvement
+
+ - Added PWA code.
+
+
+Version 13.0.2.2.0 - 15 Jul 20
+===================================
+Features
+
+ - show Associated Attribute Values
+
+Improvement
+
+ - Improved Brand page filter in shop page.
+
+
+Version 13.0.2.1.0 - 20 Jun 20
+===================================
+Features
+
+ - Product Count In Shop Filter
+ - Exclude Unnecessary Attributes From Shop Filters 
+ - Documentation Tab On Product Page
+
+Version 13.0.2.0.7 - 09 June 20
+===================================
+Improvement
+
+ - Made some changes in slider in backend.
+ - Quick View functionality related changes.
+ - Translation related issue is fixed in Product Page offer box Days, Hours etc. text as per multiple language.
+
+Version 13.0.2.0.6 - 11 April 20
+===================================
+Improvement
+
+ - Made some changes in eCommerce Categories related thing.
+
+Version 13.0.2.0.5 - 12 March 20
+===================================
+Features
+
+ - Added Ajax Shopping Cart.
+
 Version 13.0.2.0.4 - 13 February 20
 ===================================
 Improvement

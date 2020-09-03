@@ -52,15 +52,14 @@
     {
         >li > a.nav-link
         {
-            text-transform: capitalize;
             &:hover
             {
-                color:nth($f_color,19);
+                color:$header_text_hover_color;
             }
         }
         >li > a.nav-link.active
         {
-            color:nth($f_color,19);
+            color:$header_text_hover_color;
         }
         .o_extra_menu_items a
         {
@@ -110,7 +109,7 @@
 	}
 }
 .te_header_navbar #top_menu_collapse #top_menu > li > a.nav-link.active {
-    color: nth($f_color, 19);
+    color:$header_text_hover_color;
 }
 .o_header_affix .te_header_navbar .navbar-brand.logo img
 {
@@ -127,10 +126,10 @@
 	    {
             background: nth($f_color,27);
 		    border: 0;
-		    border-bottom: 1px solid nth($f_color,5);
+		    border-bottom: 1px solid $theme-extra-color;
 		    padding: 0.1rem 1rem;
 		    height: auto;
-		    color:nth($f_color,5);
+		    color:$theme-extra-color;
 		    order: 2;
 		    box-shadow: none;
 		    @media (max-width:365px){ /*custom specific media query*/
@@ -138,12 +137,12 @@
 		    }
 		 }
 		 & ::placeholder{
-		    color:nth($f_color,5);
+		    color:$theme-extra-color;
 		 }
     }
     button.btn.btn-primary.oe_search_button
     {
-        color:nth($f_color,5);
+        color:$theme-extra-color;
         padding: 0.1rem 1rem;
         background-color: transparent;
         border-color: transparent;
@@ -160,8 +159,7 @@
 		& .te_header_before_right{
 			width: auto;
 			padding-right:04px;
-			position: absolute;
-            right: 0px;
+			@include position(absolute,null,0px);
 		}
 	}
 	@include media-breakpoint-down(sm)
@@ -172,8 +170,7 @@
 			display: inline-block;
 			margin: 0;
 			padding: 0.5rem 0 !important;
-			top: 4px;
-            position: relative;
+			@include position(relative,4px);
 		}
 		.te_header_before_left {
 		    width: auto;
@@ -252,13 +249,12 @@
         }
 		a,.btn-link
 		{
-			font-size: nth($f_sizes,6);
-			color: nth($f_color,5);
+		    font-size:nth($f_sizes,6);
+            color:$theme-extra-color;
 			margin-left: 0;
 		}
 		.dropdown-toggle
 		{
-			text-transform:capitalize;
 			padding: 0 0.375rem;
 			@include media-breakpoint-down(sm)
 			{
@@ -318,10 +314,7 @@
 		& .btn.btn-link.te_currency_name,
 		& .btn.btn-link.te_currency_symbol{
 		    padding:0px;
-		    color:nth($f_color,5);
-		    &:hover{
-		        color:nth($f_color,19);
-		    }
+		    color: $theme-extra-color;
 		}
 	}
 	.h8_pricelist, .te_header_lang{
@@ -403,7 +396,7 @@
 		a{
 			@include position(relative);
 			display:inline-block !important;
-			color:nth($f_color,5);
+			color:$theme-extra-color;
 			sup
 			{
 				@include border-radius(12px);
@@ -426,10 +419,7 @@
 	        display:inline-block;
 	    }
 	    .dropdown-menu{
-            &:before{
-                right: 12px;
-            }
-            &:after{
+            &:before, &:after{
                 right: 12px;
             }
         }
@@ -455,7 +445,7 @@
         color:nth($f_color,5);
     }
     > div.te_header_account a.btn-link{
-        color:nth($f_color,5);
+        color:$theme-extra-color;
     }
 }
 .navbar-light .navbar-nav .show > .nav-link,
@@ -501,10 +491,7 @@
                 }
             }
             button.btn.btn-sm.btn-secondary.dropdown-toggle{
-                color: nth($f_color,5);
-                &:hover{
-                    color:nth($f_color,19);
-                }
+                color: $theme-extra-color;
             }
         }
         .te_header_before_right{
@@ -574,8 +561,7 @@
         > ul {
             > li {
                 > a.nav-link {
-                    font-size:nth($f_sizes,1);
-                    color:nth($f_color,5);
+                    @include style(1,5)
 					margin: 0 4px;
 					padding-top: 1.5rem;
 					padding-bottom: 1.5rem;
@@ -603,7 +589,7 @@ body.fixed-header{
     .te_header_before_left {
         > div a,
         > div .btn-link{
-            color: nth($f_color,5);
+            color:$theme-extra-color;
         }
     }
     .row.align-items-center
@@ -612,12 +598,16 @@ body.fixed-header{
         {
             input.search-query.form-control.oe_search_box
             {
-                border-bottom: 1px solid nth($f_color,5);
-                color: nth($f_color,5);
+                border-bottom: 1px solid $theme-extra-color;
+                color:$theme-extra-color;
             }
             button.btn.btn-primary.oe_search_button
             {
-                color:nth($f_color,5);
+                color:$theme-extra-color;
+            }
+            .form-control::placeholder{
+                color:$theme-extra-color;
+                opacity:0.5;
             }
         }
     }
@@ -625,7 +615,7 @@ body.fixed-header{
     {
         > div a.dropdown-toggle,
         .js_language_selector button.btn.btn-sm.btn-secondary.dropdown-toggle{
-            color:nth($f_color,5) !important;
+            color:$theme-extra-color !important;
         }
     }
     .te_header_social a,
@@ -638,14 +628,14 @@ body.fixed-header{
     .te_header_right_icon > div > a,
     .te_header_right_icon > div.te_header_account a.btn-link,
     .te_header_navbar .navbar-collapse > ul > li > a.nav-link{
-        color:$link-color;
+        color:$theme-extra-color;
     }
 }
 #wrapwrap.homepage > header:not(.o_header_affix) > .navbar,
 #wrapwrap.homepage > header:not(.o_header_affix) > .te_header_before_overlay{
     background-color: transparent !important;
     padding-top: 0px !important;
-    transition: ease all 0.55s;
+    @include transition(all,0.55s,ease);
     border-bottom-color: rgba(255, 255, 255, 0.3);
 }
 #wrapwrap:not(.header_top_overlay) > header:not(.o_header_affix) .te_header_before_overlay {
@@ -675,11 +665,7 @@ div#wrapwrap.header_top_overlay .te_header_navbar {
 }
 #wrapwrap.header_top_overlay > header:not(.o_header_affix),
 #wrapwrap.homepage > header:not(.o_header_affix){
-    position: absolute;
-    top: auto;
-    left: 0;
-    bottom: auto;
-    right: 0;
+    @include position(absolute,auto,0,auto,0);
     z-index: 1000;
 }
 #wrapwrap.header_top_overlay nav[class*=".o_main_navbar"] header:not(.o_header_affix){
@@ -701,7 +687,7 @@ body.fixed-header #wrapwrap.header_top_overlay header > .te_header_navbar .navba
 }
 body #wrapwrap:not(.header_top_overlay) header .te_header_right_icon > div > a,
 body #wrapwrap:not(.header_top_overlay) header .te_header_right_icon > div.te_header_account a.btn-link{
-    color:$link-color;
+    color:$theme-extra-color;
 }
 body.fixed-header .te_header_before_left > div a:first-child {
     border-left: 0px;
@@ -745,9 +731,7 @@ header.o_affix_enabled {
     left: 0;
     right: 0;
     z-index: 25;
-    -webkit-transition: ease all 0.55s;
-    -moz-transition: ease all 0.55s;
-    transition: ease all 0.55s;
+    @include transition(all,0.55s,ease);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     height:auto;
 }
@@ -805,9 +789,7 @@ body.fixed-header header .navbar {
         position:absolute;
     }
     & span.te_custom_menu_label {
-        position: relative;
-        right: 4px;
-        left: auto;
+        @include position(relative,null,4px,null,auto);
     }
 }
 .fixed-header-bar span#menu_label_tx_span {
@@ -820,4 +802,13 @@ body.editor_enable.editor_has_snippets .te_header_navbar .container{
     max-width: 1400px;
     width: 90%;
     margin: 0 auto;
+}
+/* apply extra color*/
+.te_header_before_right .dropdown-menu.show a.dropdown-item{
+    color: $theme-extra-color;
+    opacity:0.5;
+    &:hover{
+        color: nth($f_color,19);
+        opacity:1;
+    }
 }

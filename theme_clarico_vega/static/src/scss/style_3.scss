@@ -18,9 +18,7 @@
 			----------------
 			09. Brand Slider
 
-
 ************************************************/
-
 /*================= 01. Shop ======================*/
 body.editor_enable
 {
@@ -46,8 +44,6 @@ body.editor_enable
 	    {
             @include media-breakpoint-up(lg)
             {
-                /*flex: 0 0 23%;
-                max-width: 23%;*/
                 float: left;
             }
 	    }
@@ -69,7 +65,6 @@ body.editor_enable
 	#products_grid_before
 	{
 		@include position(initial);
-
 		@include media-breakpoint-down(md)
 		{
 			@include position(fixed,0,auto,auto,0)
@@ -77,7 +72,6 @@ body.editor_enable
 			overflow-x: hidden;
 			z-index: 9999 ;
 			background-color: nth($f_color,5);
-			/*@include transition(null,0.5s)*/
 			width: 0;
 			padding:0;
 			@include box-shadow(0px 0px 10px 0 rgba(50, 50, 93, 0.1))
@@ -92,9 +86,11 @@ body.editor_enable
 			}
 		}
 		.mCS-dark-thin.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
-            background-color: nth($f_color,19);
+            background-color: #b5b2b2;
+            width:4px;
         }
-        .mCSB_draggerRail{
+        .mCSB_scrollTools .mCSB_draggerRail{
+            height:auto;
             background-color: rgba(nth($f_color,19),0.15);
         }
 	}
@@ -110,7 +106,6 @@ body.editor_enable
     display: none;
     &.sticky-filter {
         display: block;
-        text-transform: capitalize;
         border: 1px solid #ddd;
         height: 40px;
         width: 40px;
@@ -126,7 +121,6 @@ body.editor_enable
 	.te_shop_filter_resp
 	{
 		display:block;
-		text-transform: capitalize;
 	}
 	.te_filter_slide
 	{
@@ -140,9 +134,7 @@ body.editor_enable
 		display: block;
 		color: nth($f_color,15);
 		font-weight: 600;
-		text-transform: capitalize;
-		i
-		{
+		i{
 			padding-left: 5px;
 		}
 	}
@@ -151,32 +143,15 @@ body.editor_enable
 		margin-bottom: 10px;
 	}
 }
-
 .wrapwrap_trans
 {
 	margin-left:300px !important;
 	@include transition(null,0.5s)
 }
 
-/*---- Shop Banner -----*/
-/*.te_shop_before_h_section
-{
-	background-color:nth($f_color,18);
-	padding-top:32px;
-	padding-bottom:32px;
-	text-align: center;
-	background-position: center;
-	min-height: 110px;
-	h2
-	{
-		margin: 0;
-		text-transform: uppercase;
-	}
-}*/
 .te_shop_breadcrumb
 {
 	text-align:center;
-
 	.breadcrumb
 	{
 		padding: 1rem 0;
@@ -187,7 +162,6 @@ body.editor_enable
 		li
 		{
 			display: inline;
-
 			a
 			{
 				@include style(2,9,inherit);
@@ -217,13 +191,14 @@ body.editor_enable
 	{
 		background-color: nth($f_color,27);
 		border-color: nth($f_color,27);
+		color: rgba(($body-color),0.3);
 	}
 	.page-link
 	{
 		border: none;
 		background-color: nth($f_color,27);
 		padding: 0rem 0.75rem;
-		@include style(6,9,inherit);
+		font-size:nth($f_sizes,6);
 		@include media-breakpoint-down(md)
 		{
 			padding: 0rem 0.55rem;
@@ -242,6 +217,13 @@ body.editor_enable
 	}
 	li.page-item:last-child{
 		border:none;
+	}
+}
+.te_shop_pager_top, #product_detail
+{
+	.o_wsale_products_searchbar_form
+	{
+		display:none !important;
 	}
 }
 .te_shop_pager.te_shop_pager_top
@@ -264,8 +246,7 @@ body.editor_enable
     }
     > ul , > .dropdown_sorty_by
     {
-    		float: right;
-
+        float: right;
     }
     .te_view_all_filter_div
     {
@@ -305,18 +286,7 @@ body.editor_enable
 		}
 	}
 }
-.te_sort_div
-{
-	justify-content: flex-end;
-	width: 50%;
-	display: inline-block;
-	float: right;
-	text-align: right;
-}
 .te_view_all_filter_div{
-	width:100%;
-	display:none;
-	padding: 0 10px 15px 10px;
 	& .te_view_filter_span{
 		display:inline-block;
 		@include style(2,19,inherit);
@@ -324,15 +294,13 @@ body.editor_enable
 }
 .te_view_all_filter_inner{
 	margin-top:10px;
-
 	& .attribute{
 		display: inline-block;
 		padding: 3px 6px;
-		@include style(3,3,inherit,null,capitalize);
+		@include style(3,3);
 		@include position(relative)
 		background-color: nth($f_color,17);
 		margin: 0 10px 10px 0;
-
 		& .te_clear_attr_a{
 			padding: 5px 0px 5px 7px;
 			cursor: pointer;
@@ -349,7 +317,6 @@ body.editor_enable
 	}
 	li i.fa
 	{
-		color:nth($f_color,9) !important;
 		font-size:nth($f_sizes,18);
 	}
 }
@@ -358,7 +325,7 @@ body.editor_enable
 		padding:4px 0;
 		width: 100%;
 		& a{
-			@include style(1,25,inherit);
+		    font-size:nth($f_sizes,1);
 			padding-left:3px;
 			width:90% !important;
 			display: block;
@@ -367,11 +334,11 @@ body.editor_enable
 		& a.active{
 			background-color: nth($f_color,27);
 			@include style(2,19,inherit);
-			//font-weight: 600;
 		}
 		& i{
 			float: right;
 			padding-top: 2px;
+			color: $body-color !important;
 		}
 		& ul.nav-hierarchy{
 			margin-top: 0.3rem;
@@ -382,16 +349,9 @@ body.editor_enable
 .te_shop_attr_ul > li {
 	padding: 0px 12px 12px;
 	border-bottom : 1px solid nth($f_color,8);
-	&:first-child > div {
-	    padding: 0;
-	    .te_clear_all_variant {
-	        padding: 0 0.25rem;
-            margin: 0;
-	    }
-	}
 }
 .te_attr_title{
-	@include style(1,3);
+    font-size:nth($f_sizes,1);
 	padding: 14px 1px 0;
 	cursor: pointer;
 	@include position(relative)
@@ -402,7 +362,7 @@ body.editor_enable
 		width: 0.8rem;
     	display: block;
 		float: right;
-		@include style(3,22);
+		font-size:nth($f_sizes,3);
 		position: absolute;
         right: 0px;
         top: 50%;
@@ -429,7 +389,6 @@ body.editor_enable
 	display:none;
 	cursor: pointer;
 	font-size:nth($f_sizes,3);
-	text-transform:capitalize;
 	margin-left: 10px;
 	color:nth($f_color,9) !important; /* Not used mixin to add important*/
 	&:hover
@@ -448,7 +407,6 @@ body.editor_enable
 		width: 12px;
 		height:12px;
 		@include position(relative)
-
 		[type="checkbox"]:not(:checked),
 		[type="checkbox"]:checked {
 	  		left : 0;
@@ -457,15 +415,13 @@ body.editor_enable
 	.color-with-name-divmaxW{
 		width:100%;
 		display:inline-block;
-		padding: 0.3rem 0rem 0.3rem 0.2rem;
+		padding: 0.5rem 0rem 0.5rem 0.2rem;
 	}
 	> li.nav-item > ul{
-		max-height: 190px;
-		/*overflow: auto;*/
+		max-height: 142px;
 		display: none;
 		margin-top: 8px;
 		width: 100% !important;
-
 		& li{
 			width:100%;
 			display:inline-block;
@@ -486,18 +442,6 @@ body.editor_enable
 		margin-top: 15px;
 		width: 100% !important;
 	}
-	.te_view_more_attr, .te_view_less_attr{
-		@include style(3,12,inherit,null,capitalize);
-		cursor: pointer;
-		display:none;
-		padding: 0.2rem 0.6rem;
-		border: 1px solid $border-color;
-
-		i
-		{
-			font-size:0.65rem; /*This font size is not used in variables*/
-		}
-	}
 	@include media-breakpoint-down(md)
 	{
 		li.nav-item:first-child
@@ -512,22 +456,19 @@ body.editor_enable
 }
 .te_color-name{
 	display:inline-block;
-	@include style(3,25,inherit,inherit,capitalize);
+	font-size:nth($f_sizes,3);
 	cursor: pointer;
 	&:after, &:before
 	{
 		content:unset !important;
 	}
 }
-.css_attribute_color.active{
-	//border: 2px solid nth($f_color,19) !important;
-}
 .css_attribute_color input{
 	margin:0px !important;
 	cursor:pointer;
 }
 .te_sort_btn{
-	@include style(3,15,inherit,null,capitalize);
+    font-size:nth($f_sizes,3);
 	border:1px solid $border-color;
 	&:hover
 	{
@@ -540,16 +481,9 @@ body.editor_enable
 		vertical-align: 0.255em;
 		content: "";
 		border-top: 0.3em solid;
-		border-right: 0.3em solid
-		transparent;
+		border-right: 0.3em solid transparent;
 		border-bottom: 0;
-		border-left: 0.3em solid
-		transparent;
-	}
-}
-.sortby_dd_list{
-	> a{
-		padding: 0.45rem 0.8rem;
+		border-left: 0.3em solid transparent;
 	}
 }
 .js_attributes{
@@ -558,16 +492,21 @@ body.editor_enable
 			margin-left:0;
 			& label.nav-link{
 				margin: 0 !important;
-				padding: 0.3rem 0rem;
+				padding: 0.5rem 0rem;
 				@include position(relative,0,0,0,0);
 				max-width: 250px;
 				& span{
-					@include style(3,25,inherit,null,capitalize);
-					display: block;
+				    font-size:nth($f_sizes,3);
+					display:inline-block;
+				}
+				.te_prod_num{
+				    display:inline-block;
+				    padding-left: 2px;
 				}
 			}
 			& label.active{
 				background-color:nth($f_color,27);
+				color: nth($f_color,19);
 			}
 		}
 		& ul.nav.nav-pills.open_ul{
@@ -624,7 +563,7 @@ body.editor_enable
 }
 #products_grid{
 	& .css_editable_display{
-		@include style(12,3,inherit,null,capitalize);
+		@include style(12,3);
 		@include media-breakpoint-down(md)
 		{
 			font-size:nth($f_sizes,19);
@@ -640,7 +579,6 @@ body.editor_enable
 		.card.oe_product_cart
 		{
 			@include position(initial,unset,unset,unset,unset);
-			/*border:0;*/
 			.oe_product_image
 			{
 				height: auto;
@@ -670,18 +608,17 @@ body.editor_enable
 }
 .te_ctg_h4
 {
-	@include style(1,3,inherit,null,capitalize);
+    font-size:nth($f_sizes,1);
 	cursor: pointer;
 	padding: 0px;
 	margin: 0;
-
 	&:after {
 		content: "\f068";
 		font-family: "FontAwesome";
 		width: 0.8rem;
 		display: block;
 		float: right;
-		@include style(3,22);
+		font-size:nth($f_sizes,3);
 	}
 	&.te_fa-plus
 	{
@@ -695,7 +632,6 @@ body.editor_enable
 {
 	padding: 0px 12px 12px;
 	border-bottom : 1px solid nth($f_color,8);
-    margin-bottom: 14px;
     width:95%;
 }
 #wsale_products_attributes_collapse
@@ -733,12 +669,8 @@ body.editor_enable
 			margin-bottom: 0;
 			.product_name
 			{
-				@include style(1,6);
-				overflow: hidden;
-				display: -webkit-box;
-				-webkit-line-clamp: 1;
-				-webkit-box-orient: vertical;
-				height: 23px;
+				font-size:nth($f_sizes,1);
+				@include line-clamp(1,23px);
 				margin-bottom: 3px;
 			}
 			.te_2_line
@@ -766,7 +698,6 @@ body.editor_enable
 			{
 				@include position(absolute,12px,12px,unset,unset);
 				padding: 0;
-				
 				.btn
 				{
 					display: block;
@@ -840,7 +771,7 @@ body.editor_enable
 			@include media-breakpoint-down(md)
 			{
 				position: relative;
-				.o_wsale_product_information_text
+				.o_wsale_product_information_text.te_shop_icon
 				{
 					padding-top: 55px !important;
 				}
@@ -862,17 +793,13 @@ body.editor_enable
 		}
 		.oe_product_cart .oe_subdescription
 		{
-			max-height: 52px;
-			overflow: hidden;
+		    @include line-clamp(3,52px);
 			transform: none;
 			transition: none;
-			display: -webkit-box;
-			-webkit-line-clamp: 3;
-			-webkit-box-orient: vertical;
 			margin-top: 3px;
 			@include media-breakpoint-up(md)
 			{
-				min-height: 50px;
+				min-height: 52px;
 			}
 		}
 	}
@@ -893,9 +820,7 @@ body.editor_enable
 			}
 		}
 	}
-
 }
-
 /*------ Grid/list view button ------*/
 .o_wsale_apply_layout
 {
@@ -903,7 +828,6 @@ body.editor_enable
 	{
 		@include style(3,15,inherit,null,null);
 		border:1px solid $border-color;
-
 	}
 	.active
 	{
@@ -1009,8 +933,7 @@ body.editor_enable
 	}
 	h6.o_wsale_products_item_title .product_name
 	{
-		height:22px;
-		-webkit-line-clamp: 1;
+	    @include line-clamp(1,22px);
 	}
 }
 .o_wsale_layout_list tr:last-child
@@ -1045,73 +968,70 @@ body.editor_enable
 /* Add changes by ept_1 for shop price slider */
 .ui-slider {
 	@include position(relative);
-  text-align: left;
-  .ui-slider-handle {
-  	@include position(absolute);
-    z-index: 2;
-    width: 1.2em;
-    height: 1.2em;
-    cursor: pointer;
-    -ms-touch-action: none;
-    touch-action: none;
-    @include border-radius(50%);
-    background-color: nth($f_color,19);
-    @include border(3px,5,solid);
-	box-shadow: 0px 1px 2px 1px rgba(3, 3, 3, 0.3);
-  }
-  .ui-slider-range {
-    @include position(absolute);
-    z-index: 1;
-    font-size: .7em;
-    display: block;
-    @include border(2px,19,solid);
-    background-position: 0 0;
-  }
-  &.ui-state-disabled {
-    .ui-slider-handle, .ui-slider-range {
-      filter: inherit;
+    text-align: left;
+    .ui-slider-handle {
+        @include position(absolute);
+        z-index: 2;
+        width: 1.2em;
+        height: 1.2em;
+        cursor: pointer;
+        -ms-touch-action: none;
+        touch-action: none;
+        @include border-radius(50%);
+        background-color: nth($f_color,19);
+        @include border(3px,5,solid);
+        box-shadow: 0px 1px 2px 1px rgba(3, 3, 3, 0.3);
     }
-  }
+    .ui-slider-range {
+        @include position(absolute);
+        z-index: 1;
+        font-size: .7em;
+        display: block;
+        @include border(2px,19,solid);
+        background-position: 0 0;
+    }
+    &.ui-state-disabled {
+        .ui-slider-handle, .ui-slider-range {
+            filter: inherit;
+        }
+    }
 }
-
 /* support: IE8 - See #6727 */
-
 .ui-slider-horizontal {
-  border:2px solid nth($f_color,11) !important;
-  .ui-slider-handle {
-    top: -.6em;
-    margin-left: -.1em;
-  }
-  .ui-slider-range {
-    top: -1px;
-    height: 100%;
-  }
-  .ui-slider-range-min {
-    left: 0;
-  }
-  .ui-slider-range-max {
-    right: 0;
-  }
+    border:2px solid nth($f_color,11) !important;
+     .ui-slider-handle {
+        top: -.6em;
+        margin-left: -.1em;
+    }
+    .ui-slider-range {
+        top: -1px;
+        height: 100%;
+    }
+    .ui-slider-range-min {
+        left: 0;
+    }
+    .ui-slider-range-max {
+        right: 0;
+    }
 }
-
 .ui-slider-vertical {
-  width: .8em;
-  height: 100px;
-  .ui-slider-handle {
-    left: -.3em;
-    margin-left: 0;
-    margin-bottom: -.6em;
-  }
-  .ui-slider-range {
-    left: 0;
-    width: 100%;
-  }
-  .ui-slider-range-min {
-    bottom: 0;
-  }
-  .ui-slider-range-max {
-    top: 0;
-  }
+    width: .8em;
+    height: 100px;
+    .ui-slider-handle {
+        left: -.3em;
+        margin-left: 0;
+        margin-bottom: -.6em;
+    }
+    .ui-slider-range {
+        left: 0;
+        width: 100%;
+    }
+    .ui-slider-range-min {
+        bottom: 0;
+    }
+    .ui-slider-range-max {
+        top: 0;
+    }
 }
 /* end css by ept_1 */
 .ept_price_slider_block
@@ -1120,7 +1040,7 @@ body.editor_enable
 	border-bottom : 1px solid nth($f_color,8);
 	.price_filter_head
 	{
-		@include style(1,3,inherit,null,capitalize);
+	    font-size:nth($f_sizes,1);
 		padding: 14px 0px 0px;
 		cursor:pointer;
 		&:after
@@ -1129,7 +1049,7 @@ body.editor_enable
 			width: 0.8rem;
 			display: block;
 			float: right;
-			@include style(3,22);
+			font-size:nth($f_sizes,3);
 		}
 	}
 	.te_fa-plus::after
@@ -1158,7 +1078,7 @@ body.editor_enable
 	padding: 0.3rem 0rem;
 	div
 	{
-		@include style(3,6);
+	    font-size:nth($f_sizes,3);
 	}
 }
 .te_pricerange_content
@@ -1166,7 +1086,6 @@ body.editor_enable
 	display: none;
 	clear: both;
 	width: 100% !important;
-
 	#ept_price_slider
 	{
 		width: 95%;
@@ -1179,7 +1098,9 @@ body.editor_enable
 	margin: 15px 0 0 0;
 	.ept_price_min,.ept_price_max
 	{
-		@include style(2,3,inherit,1.2em)
+		font-size:nth($f_sizes,2);
+		color:$body-color;
+        line-height:1.2em;
 		width: auto;
 		max-width: 70px;
 		text-align: center;
@@ -1251,7 +1172,6 @@ body.editor_enable
             {
                 width:165px;
             }
-
 			span
 			{
 				font-weight:normal;
@@ -1292,7 +1212,7 @@ body.editor_enable
                 margin-bottom: 0;
                 border-radius: 50%;
                 vertical-align: bottom;
-                  input {
+                input {
                     height:0;
                 }
                 &.active input {
@@ -1364,11 +1284,9 @@ body.editor_enable
 			padding: 0.675rem 1.2rem;
 		}
 	}
-
 	.css_not_available.js_product > :nth-child(4) > * {
     	display: block;
 	}
-
 	@include media-breakpoint-down(md)
 	{
 		margin-top:32px;
@@ -1385,13 +1303,12 @@ body.editor_enable
 	.te_label_tag
 	{
 		&:before {
-                content: "\f02b";
-                font-family: FontAwesome;
-                margin-right: 5px;
-                font-size: nth($f_sizes,9);
-            }
+            content: "\f02b";
+            font-family: FontAwesome;
+            margin-right: 5px;
+            font-size: nth($f_sizes,9);
+        }
 	}
-
 	&:before {
     	content: "";
         @include position(absolute,0px, auto, 0px, -9px);
@@ -1443,14 +1360,6 @@ h1.te_product_name
 	font-size: nth($f_sizes,15);
 	cursor:pointer;
 }
-#o-carousel-product .carousel-indicators
-{
-	height: auto !important;
-}
-#o-carousel-product .carousel-indicators li
-{
-	margin: 0 4px !important;
-}
 .te_a2c_divider
 {
 	width: 100%;
@@ -1460,8 +1369,8 @@ h1.te_product_name
 {
 	&:before
 	{
-	 content: ' ';
-	  display: block;
+	    content: ' ';
+	    display: block;
 	}
 }
 .discount .oe_default_price {
@@ -1472,7 +1381,6 @@ h1.te_product_name
 .te_product_breadcrumb
 {
 	text-align:center;
-
 	.breadcrumb
 	{
 		padding:1rem 0;
@@ -1482,7 +1390,6 @@ h1.te_product_name
 		li.breadcrumb-item
 		{
 			display:inline;
-
 			> a
 			{
 				@include style(2,9,inherit);
@@ -1503,22 +1410,6 @@ h1.te_product_name
 	@include media-breakpoint-down(md)
 	{
 		text-align: left;
-	}
-}
-#carousel-pager
-{
-	@include media-breakpoint-down(sm)
-	{
-		width: 100%;
-
-		.vertical.carousel-indicators .carousel-item
-		{
-			min-height: auto !important;
-		}
-		.carousel-control-up,.carousel-control-down
-		{
-			display:none;
-		}
 	}
 }
 .row .te_brand_img
@@ -1554,256 +1445,11 @@ h1.te_product_name
 		font-size:nth($f_sizes,3);
 	}
 }
-#carousel-pager
-{
-	.carousel-item img
-	{
-		@include border(1px,17,solid);
-	}
-}
-@include media-breakpoint-up(lg)
-{
-	#product_detail
-	{
-		#o-carousel-product{
-
-			display: inline-block;
-			width: 100%;
-
-			.carousel-item{
-				min-height: auto !important;
-			}
-
-			> .carousel-outer
-			{
-				width: 85%;
-				display: block;
-				@include position(relative)
-				float:right;
-				padding-left:15px;
-				padding-right:15px;
-				height: unset;
-				max-height: unset;
-			}
-		}
-	}
-}
-@include media-breakpoint-up(md)
-{
-	//Vertical slider of thumbnail images
-	.carousel-inner.vertical
-	{
-	  height: 100%; /*Note: set specific height here if not, there will be some issues with IE browser*/
-
-	 	> .carousel-item {
-		   @include transition(top,.6s,ease-in-out);
-		}
-		> .active
-		{
-		 	top: 0;
-		}
-		>  .carousel-item-next {
-		  left: 0;
-		  top: 20%;
-		  right:0;
-		}
-		> .carousel-item-prev {
-		  left: 0;
-		  top: -20%;
-		  right:0;
-		}
-		> .carousel-item-next.carousel-item-left,.carousel-item-prev.carousel-item-right {
-	  	  top: 0;
-		}
-		> .active.carousel-item-left {
-		  left: 0;
-		  top: -20%;
-		  right:0;
-		}
-		> .active.carousel-item-right {
-		  left: 0;
-		  top: 20%;
-		  right:0;
-		}
-	}
-	@media all and (transform-3d),
-	(-webkit-transform-3d) {
-	  .carousel-inner.vertical
-	  {
-		  > .carousel-item {
-		    @include transition(transform,.6s,ease-in-out)
-		    -webkit-backface-visibility: hidden;
-		    backface-visibility: hidden;
-		    -webkit-perspective: 1000;
-		    perspective: 1000;
-		  }
-		  > .carousel-item.carousel-item-next,.carousel-item.active.carousel-item-right
-		  {
-	    	  @include transform(translate3d(0, 20%, 0));
-	  		  top: 0;
-		  }
-		  >  .carousel-item.carousel-item-prev,.carousel-item.active.carousel-item-left
-		  {
-			  @include transform(translate3d(0, -20%, 0));
-		      top: 0;
-		  }
-		  > .carousel-item.carousel-item-next.carousel-item-left, .carousel-item.carousel-item-prev.carousel-item-right, .carousel-item.active {
-
-	   		 @include transform(translate3d(0, 0, 0));
-	   		 top: 0;
-	      }
-	   }
-	}
-	#carousel-pager
-	{
-		width:15%;
-
-		.carousel-control-up,.carousel-control-down
-		{
-			text-align: center;
-			width: 100%;
-			@include position(absolute,null,null,null,0)
-			font-size:nth($f_sizes,4);
-		}
-		.carousel-control-up
-		{
-			top: -29px;
-		}
-		.carousel-control-down
-		{
-			bottom: -25px;
-		}
-		.carousel-item img
-		{
-			margin-bottom:6px;
-			cursor: pointer;
-		}
-		.carousel-control.carousel-item-left {
-		    bottom: initial;
-		    width: 100%;
-		}
-		.carousel-control.carousel-item-right {
-	  		top: initial;
-	    	width: 100%;
-		}
-		.carousel-item.active
-		{
-			div:first-child img
-			{
-				@include border(1px,19,solid);
-			}
-			.img_border
-			{
-				border: 1px solid nth($f_color,19) !important;
-			}
-		}
-	}
-}
-@media (max-width:991.98px) and (min-width: 767.98px)
-{
-	#product_detail .row
-	{
-	#o-carousel-product
-	{
-		display: inline-block;
-		width: 100%;
-
-		.carousel-item{
-			min-height: auto !important;
-		}
-
-		> ol.carousel-indicators
-		{
-			height: auto !important;
-			max-height:490px;
-			overflow-x: hidden;
-			width: 14% !important;
-			display: block;
-			float: left;
-			overflow-y: auto;
-			@include position(relative)
-
-			> li
-			{
-				display: block;
-				width: 80px !important;
-				height: 80px !important;
-				margin-bottom:6px !important;
-			}
-			>li:last-child
-			{
-				margin-bottom:0 !important;
-			}
-		}
-		> .carousel-outer
-		{
-			width: 85%;
-			display: block;
-			@include position(relative);
-			float:right;
-			height: unset;
-			max-height: unset;
-			.product_detail_img
-			{
-				max-height: 500px !important;
-			}
-		}
-		#carousel-pager
-		{
-			.carousel-item img
-			{
-				max-height: 100px;
-			}
-		}
-	}
-	}
-}
-@include media-breakpoint-down(sm)
-{
-	#o-carousel-product
-	{
-		.carousel-indicators
-		{
-			margin: 10px 0 0 0;
-			position: static;
-			.carousel-item
-			{
-				display: block;
-				border: 0;
-			}
-			.active
-			{
-				border: 0 !important;
-			}
-		}
-	}
-}
-@media (max-width:1300px)
-{
-	#product_detail #o-carousel-product > ol.carousel-indicators > li {
-	    width: 65px !important;
-	}
-}
-@include media-breakpoint-down(lg)
-{
-	#product_detail #o-carousel-product > ol.carousel-indicators > li
-	{
-    	width: 54px !important;
-	}
-}
-#o-carousel-product
-{
-	.carousel-control-next > span,.carousel-control-prev > span
-	{
-		background-color: unset;
-	}
-}
 #product_option_block
 {
     display: inline-block;
 	.o_add_compare_dyn,.o_add_wishlist_dyn
 	{
-		text-transform: capitalize;
 		font-weight: 600;
 		color: nth($f_color,05);
 		margin-right: 0.3rem;
@@ -1862,7 +1508,7 @@ h1.te_product_name
 				padding:0.6rem 1rem;
 				display: inline-block;
 				position: relative;
-				@include style(7,3,inherit,null,capitalize);
+				@include style(7,3);
 				border:0;
 				border-bottom: 3px solid nth($f_color,27);
 				margin-bottom: -1px;
@@ -1870,7 +1516,6 @@ h1.te_product_name
 				{
 					padding: 0.6rem;
 					font-size:nth($f_sizes,3);
-					text-transform: capitalize;
 				}
 				@media (max-width:380px)
 				{
@@ -1898,16 +1543,11 @@ h1.te_product_name
 			}
 		}
 	}
-	.specification_li, .rating_review_li{
-		/*display:none !important;*/
-	}
 	.specification_li.active, .rating_review_li.active{
 		display:inline-block !important;
 	}
 }
 #product_full_spec {
-	/*@include border(1px,17,solid);*/
-
     #product_specifications {
         tr {
             @include transition(all, 0.3s, ease-out);
@@ -1981,9 +1621,9 @@ h1.te_product_name
 {
 	.o_website_rating_card_container table.o_website_rating_progress_table
 	{
-			overflow: auto;
-			display: block;
-			padding-bottom: 16px;
+        overflow: auto;
+        display: block;
+        padding-bottom: 16px;
 	}
 }
 #product_full_description{
@@ -1994,15 +1634,10 @@ h1.te_product_name
 {
 	.te_rect_name
 	{
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
-		height: 23px;
+	    @include line-clamp(1,23px);
 		text-overflow: unset;
 		white-space: unset;
 		margin-bottom:3px;
-
 		&.te_2_line
 		{
 			-webkit-line-clamp: 2;
@@ -2024,8 +1659,7 @@ h1.te_product_name
     .o_carousel_product_card_body {
         padding: 10px 15px 0;
         a {
-            font-size: 0.9375rem;
-            color: #575757;
+            @include style(1,6);
         }
     }
     .o_carousel_product_card_footer {
@@ -2148,11 +1782,22 @@ section.s_wsale_products_recently_viewed{
 		}
 	}
 	.owl-nav button.owl-next {
-		@include position(absolute,50%,0);
-		transform: translateY(-50%);
-		i
-		{
-			font-size:nth($f_sizes,12);
-		}
+	    @extend button.owl-prev;
+	    left:unset;
+	    right:0;
 	}
+}
+#product_documents{
+    li{
+        position:relative;
+        a i{
+            margin-left: 10px;
+            position: relative;
+            top: 10px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 30px;
+            height: 30px;
+        }
+    }
 }

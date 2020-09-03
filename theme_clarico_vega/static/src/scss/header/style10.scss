@@ -2,7 +2,7 @@
 /*---------- Header container/sticky position styles  ----------------*/
 #wrapwrap.homepage > header:not(.o_header_affix) > .navbar{
     padding-top: 0px !important;
-    transition: ease all 0.55s;
+    @include transition(all,0.55s,ease);
     border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 div#wrapwrap.header_top_overlay .te_header_navbar_10 {
@@ -54,16 +54,11 @@ header.o_header_affix {
     pointer-events: none;
 }
 nav.navbar.navbar-expand-md.te_header_navbar.te_header_navbar_10 {
-    transition: all .3s;
-    -webkit-transition: all .3s;
-    -moz-transition: all .3s;
-    -o-transition: all .3s;
-}
-nav.navbar.navbar-expand-md.te_header_navbar.te_header_navbar_10 {
     position: fixed !important;
     right: 0 !important;
     left: 0 !important;
     padding: 0px !important;
+    @include transition(all,0.3s,ease);
     @include media-breakpoint-down(md){
         position: relative !important;
         box-shadow: 0 0 3px #757575;
@@ -98,11 +93,8 @@ header .navbar-brand, header .te_header_navbar_10 .navbar-brand.logo {
     padding: 15px 0;
     margin: 0;
     max-height: 98px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
+    @include display(flex);
+    @include align-items(center);
     @include media-breakpoint-down(md){
         min-height:auto;
         float: left;
@@ -112,9 +104,7 @@ header .navbar-brand, header .te_header_navbar_10 .navbar-brand.logo {
         padding: 10px;
         text-align: center;
         display: inline-block;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
+        @include align-items(center);
     }
     .img{
         @include media-breakpoint-down(md){
@@ -128,10 +118,7 @@ header .navbar-brand, header .te_header_navbar_10 .navbar-brand.logo {
         min-height: 60px;
     }
     header .navbar-brand, header .te_header_navbar_10 .navbar-brand.logo{
-        transition: all .3s;
-        -webkit-transition: all .3s;
-        -moz-transition: all .3s;
-        -o-transition: all .3s;
+        @include transition(all,0.3s,ease);
     }
 }
 
@@ -145,14 +132,13 @@ a.dropdown-item.js_change_lang,
     height: 40px;
     border: none;
     box-shadow: none;
-    color: #000;
-    border-radius: 20px;
+    color: nth($f_color,3);
+    @include border-radius(20px);
     padding: 0 20px 0 20px;
-    border: 1px solid #ededeb;
+    border: 1px solid $border-color;
     min-width: 210px;
-    position: static;
+    @include position(static,null,null,null,0);
     margin: 0;
-    left: 0;
     @media (min-width:1400px){ /* custom media query for big screen */
         min-width: 225px;
         opacity:0.8;
@@ -169,28 +155,32 @@ a.dropdown-item.js_change_lang,
     }
 }
 .te_header_10_search.te_header_search .o_wsale_products_searchbar_form .input-group-append {
-    position: absolute;
-    right: 0;
+    @include position(absolute,0,0,0);
     @include media-breakpoint-down(md){
         right:5;
     }
+    button.btn.btn-primary.oe_search_button{
+        background-color:nth($f_color,27);
+        color:$theme-extra-color;
+        box-shadow: none;
+        font-size: nth($f_sizes,7);
+        padding: 0rem 1rem;
+        @include media-breakpoint-down(md){
+            right:8px;
+        }
+        i.fa.fa-search{
+            vertical-align: middle;
+        }
+    }
+}
+.te_sub_search .form-control::placeholder{
+    color:$theme-extra-color;
+    opacity:0.5;
 }
 .te_header_10_search.te_header_search form.o_wsale_products_searchbar_form .dropdown-menu.show{
     @include media-breakpoint-down(md){
         padding: 0 10px 10px;
     }
-}
-.te_header_10_search.te_header_search .o_wsale_products_searchbar_form .input-group-append button.btn.btn-primary.oe_search_button {
-    background-color:nth($f_color,27);
-    color: theme-color('secondary');
-    box-shadow: none;
-    font-size: nth($f_sizes,7);
-    @include media-breakpoint-down(md){
-        right:8px;
-    }
-}
-.te_header_10_search.te_header_search .o_wsale_products_searchbar_form .input-group-append button.btn.btn-primary.oe_search_button i.fa.fa-search {
-    vertical-align: super;
 }
 .te_header_icon_left {
     display: inline-block;
@@ -216,6 +206,11 @@ a.dropdown-item.js_change_lang,
         position: relative;
         display: block;
     }
+}
+.te_cart_icon_head a,.te_wish_icon_head a,
+.te_bar_icon a,.te_header_account a,
+.h10_pricelist a{
+    color:$theme-extra-color;
 }
 .h10_pricelist .te_currency_name {
     display: none;
@@ -256,9 +251,8 @@ a.dropdown-item.js_change_lang,
             display: none !important;
         }
         button.btn.btn-sm.btn-secondary.dropdown-toggle {
-            text-transform: capitalize;
             font-size: nth($f_sizes,7);
-            color:theme-color('secondary');
+            color:$theme-extra-color;
             padding: 0 4px;
             background-color: transparent;
             box-shadow: none;
@@ -287,32 +281,22 @@ a.dropdown-item.js_change_lang,
     font-size: nth($f_sizes,7);
 }
 .te_header_right_icon .te_cart_icon_head a sup, .te_header_right_icon .te_wish_icon_head a sup {
-    border-radius: 12px;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    -ms-border-radius: 12px;
-    -o-border-radius: 12px;
-    border-radius: 12px;
+    @include border-radius(12px);
     width: auto;
     padding: 4px 6px;
     vertical-align: top;
-    font-size: 0.625rem;
+    font-size: nth($f_sizes,9);
     display: inline-block !important;
     top: -10px;
     right: 10px;
 }
 @include media-breakpoint-down(md){
     .te_header_right_icon .te_header_icon_right {
-        position: fixed;
+        @include position(fixed,null,0,0,0);
         z-index: 999;
-        bottom: 0;
-        left: 0;
-        right: 0;
         background-color: #fff;
         box-shadow: 2px 0 2px #ababab;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
+        @include display(flex);
         padding: 0;
     }
     button.navbar-toggler.te_navbar-toggler {
@@ -336,7 +320,7 @@ a.dropdown-item.js_change_lang,
     }
 }
 .te_header_navbar #top_menu_collapse #top_menu > li > a.nav-link.active {
-    color: nth($f_color, 19);
+    color:$header_text_hover_color;
 }
 @include media-breakpoint-down(sm){
     .te_header_icon_right .te_cart_icon_head {
@@ -402,9 +386,7 @@ header .js_language_selector .dropdown-menu.show {
     padding: 0;
     width: auto;
     float: none;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    @include display(flex);
     -ms-flex-align: center;
     align-items: center;
     @include media-breakpoint-down(md){
@@ -424,20 +406,40 @@ header .js_language_selector .dropdown-menu.show {
         display: inline-block;
         font-size: 17px;
     }
-    .te_header_10_search {
-        display: none;
+    .te_header_10_search.te_header_search
+    {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(0, -20px);
+        outline: 0;
+        position: absolute;
+        top: 30px;
+        right: 0px;
+        bottom: auto;
+        width: 100%;
+        padding: 4px 10px;
+        .te_sub_search{
+            display: none;
+            .input-group{
+                background: #ffffff;
+            }
+        }
+        &.active{
+            opacity: 1;
+            visibility: visible;
+            top:28px;
+            right:10px;
+            .te_sub_search{
+                display: block;
+            }
+        }
     }
     i.fa.fa-times.te_srch_close {
         display: none;
-        position: relative;
-        left: -4px;
-        top: -2px;
+        @include position(relative,-2px,null,null,-4px);
     }
     form.o_wsale_products_searchbar_form .dropdown-menu.show {
-        position: fixed;
-        left: 0;
-        right: auto;
-        top: 10%;
+        @include position(fixed,10%,auto,null,0);
         @include media-breakpoint-down(md){
             top: auto;
             margin-top: 25px !important;
@@ -450,6 +452,19 @@ header .js_language_selector .dropdown-menu.show {
         bottom: 0px;
         @include media-breakpoint-down(sm){
             transform: translate3d(0px, -40px, 0px) !important;
+        }
+    }
+}
+@include media-breakpoint-down(xs){
+    .te_header_10_search.te_header_search
+    {
+        top: 37px;
+        right: 6px;
+        &.active{
+            top:30px;
+            .te_srch_close{
+                left: 3px;
+            }
         }
     }
 }
@@ -497,10 +512,7 @@ header .js_language_selector .dropdown-menu.show {
         padding:10px 8px 0px 0px;
     }
     .dropdown-menu{
-        &:before{
-            right: 15px;
-        }
-        &:after{
+        &:before, &:after{
             right: 15px;
         }
         @include media-breakpoint-down(md)
@@ -520,10 +532,7 @@ header .js_language_selector .dropdown-menu.show {
             }
         }
         @include media-breakpoint-down(xs){
-            &:before{
-                right: 30px;
-            }
-            &:after{
+            &:before, &:after{
                 right: 30px;
             }
         }
@@ -587,9 +596,16 @@ header .js_language_selector .dropdown-menu.show {
         display: none;
     }
 }
-.te_srch_icon_mobile_header .te_srch_close {
+.te_srch_icon_mobile_header i.fa.fa-times.te_srch_close {
     @include media-breakpoint-down(lg){
         display: none;
+    }
+    @include media-breakpoint-down(md){
+        top: 1px;
+        left: 4px;
+    }
+    @include media-breakpoint-down(sm){
+        top: -6px;
     }
 }
 .te_header_10_search.te_header_search {
@@ -607,6 +623,7 @@ header .js_language_selector .dropdown-menu.show {
 .te_srch_icon_mobile_header .te_srch_close{
     @include media-breakpoint-down(lg){
         font-size:nth($f_sizes,26);
+        color:$theme-extra-color;
     }
 }
 .te_header_right_icon {
@@ -638,24 +655,7 @@ header .js_language_selector .dropdown-menu.show {
         @include transition(all, 0.3s);
         transform-origin: top right;
         margin-left: 10px;
-        position: fixed;
-        left: 0;
-        right: auto;
-        top: 50px;
-    }
-}
-.te_header_10_search.te_header_search .input-group.te_search_group {
-    @include media-breakpoint-down(md){
-        background: nth($f_color,5);;
-        padding: 5px;
-        transform: scaleX(0);
-        @include transition(all, 0.3s);
-        transform-origin: top right;
-        margin-left: 10px;
-        position: fixed;
-        left: 0;
-        right: auto;
-        top: 50px;
+        @include position(fixed,50px,auto,null,0);
     }
 }
  .te_srch_icon_mobile_header .te_srch_icon,
@@ -665,8 +665,12 @@ header .js_language_selector .dropdown-menu.show {
     }
     @include media-breakpoint-down(sm){
         position: relative;
-        left: -4px;
-        top: -2px;
+        left: -10px;
+        top: 6px;
+    }
+    @include media-breakpoint-down(xs){
+        left: 0px;
+        top: -1px;
     }
  }
 .te_header_right_icon {
@@ -676,6 +680,7 @@ header .js_language_selector .dropdown-menu.show {
         text-align: right;
         flex: 0 0 7%;
         max-width: 7%;
+        position: initial;
     }
 }
 /*--------- Menu label text styles --------*/
@@ -715,7 +720,7 @@ header .js_language_selector .dropdown-menu.show {
     }
 }
 .te_header_navbar #top_menu_collapse #top_menu > li > a.nav-link{
-    color:nth($f_color,3);
+    color: $theme-extra-color;
 }
 .te_header_navbar_10 #top_menu_collapse #top_menu > li.active_item > a.nav-link:before {
     opacity: 1;
@@ -728,20 +733,13 @@ header .js_language_selector .dropdown-menu.show {
 .te_header_navbar_10 #top_menu_collapse #top_menu > li > a.nav-link:before {
     content: "";
     display: block;
-    left: 0;
-    right: 0;
     min-width: 100%;
-    background-color: nth($f_color,3);
-    position: absolute;
-    top: auto;
-    bottom: -5px;
+    background-color: $header_text_hover_color;
+    @include position(absolute,auto,0,-5px,0);
     height: 2px;
     opacity: 0;
     visibility: visible;
-    transition: all .3s;
-    -moz-transition: all .3s;
-    -webkit-transition: all .3s;
-    -ms-transition: all .3s;
+    @include transition(all,0.3s,ease);
     transform: scaleX(0);
     -moz-transform: scaleX(0);
     -ms-transform: scaleX(0);
@@ -804,9 +802,7 @@ button.navbar-toggler:not(.te_navbar-toggler) {
 }
 @include media-breakpoint-down(md){
     ul.nav.navbar-nav {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
+        @include display(flex);
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
         -webkit-flex-direction: column;
@@ -853,8 +849,7 @@ button.navbar-toggler:not(.te_navbar-toggler) {
     .te_header_navbar_10 .nav .nav-item {
         margin: 0;
         position: static;
-        display: -ms-flexbox;
-        display: flex;
+        @include display(flex);
         -ms-flex-align: center;
         align-items: center;
         min-height:98px;
@@ -877,21 +872,16 @@ button.navbar-toggler:not(.te_navbar-toggler) {
     box-shadow: none;
     border-top: 1px solid #e9ecef;
     span#menu_label_tx_span{
-        top: auto;
         margin-left: 25px;
-        position: relative;
-        left: auto;
-        right: 0px;
+        @include position(relative,auto,0,null,auto);
         display: inline-block;
         width: 100px;
         span.te_custom_menu_label{
-            position: absolute;
-            right: 4px;
-            left: auto;
+            @include position(absolute,null,4px,null,auto);
             &:before{
                 width: 4px;
                 height: 4px;
-                border: 4px solid transparent;
+                @include border(4px,27,solid);
                 left: -8px;
                 top: auto;
                 bottom: 6px;
@@ -918,21 +908,17 @@ button.navbar-toggler:not(.te_navbar-toggler) {
     .navbar-collapse span.te_custom_menu_label:before {
         width: 4px;
         height: 4px;
-        border: 4px solid transparent;
+        @include border(4px,27,solid);
         left: -8px;
         top: auto;
         bottom: 6px;
     }
     header.o_header_affix.affix.affixed span#menu_label_tx_span,
     #top_menu_collapse #top_menu > li > a.nav-link span#menu_label_tx_span {
-        top: auto;
-        left: auto;
-        right: auto;
+        @include position(absolute,auto,auto,auto,auto);
         margin-left: 25px;
         display: inline-block;
         width: 100px;
-        bottom: auto;
-        position: absolute;
     }
     span.te_custom_menu_label{
         right:auto;
@@ -964,4 +950,11 @@ body.editor_enable.editor_has_snippets .te_header_navbar_10 .container {
 body.editor_enable.editor_has_snippets .te_header_navbar_10 .te_header_right_icon {
     flex: 0 0 47%;
     max-width: 47%;
+}
+/* apply extra color*/
+.te_header_icon_right .dropdown-menu.show a.dropdown-item{
+    color: $theme-extra-color;
+    &:hover{
+        color: nth($f_color,19);
+    }
 }

@@ -38,6 +38,22 @@
         }
     }
 }
+.te_header_navbar
+{
+    & #top_menu
+    {
+        >li > a.nav-link
+        {
+            color:$theme-extra-color;
+            &:hover{
+                color:$header_text_hover_color;
+            }
+        }
+        >li > a.nav-link.active{
+            color:$header_text_hover_color;
+        }
+    }
+}
 .te_cart_prod_attr_lines{
 
     label {
@@ -129,6 +145,10 @@ td.text-center.text-xl-right.border-0
     }
     .d-flex.justify-content-between.mt-4{
         margin-top:0px !important;
+        @include media-breakpoint-down(sm){
+             margin-top: 0px !important;
+            margin-bottom: 35px;
+        }
     }
 }
 /*================== 2. Price Filter ===================*/
@@ -160,7 +180,6 @@ td.text-center.text-xl-right.border-0
 	.price_filter_amount
 	{
 		padding: 0.3rem 0rem;
-
 		span
 		{
 			@include style(3,6)
@@ -196,7 +215,6 @@ td.text-center.text-xl-right.border-0
 		display: inline-block;
 		@include spacing(0,0);
 		@include style(2,3,inherit)
-
 		strong
 		{
 			font-weight: normal;
@@ -206,7 +224,6 @@ td.text-center.text-xl-right.border-0
 	{
 		@include style(2,6,inherit);
 		text-align: right !important;
-
 		del
 		{
 			font-family:inherit;
@@ -241,7 +258,6 @@ td.text-center.text-xl-right.border-0
 .table thead th
 {
 	font-weight: normal;
-	text-transform:uppercase;
 }
 .te_cart_del
 {
@@ -249,7 +265,6 @@ td.text-center.text-xl-right.border-0
 }
 .js_cart_summary > .card-body > h4
 {
-	text-transform:uppercase;
 	text-align: right;
 }
 .card.js_cart_summary,.te_cart_summary_card
@@ -272,10 +287,9 @@ td.text-center.text-xl-right.border-0
 .te_cart_prod_attr_lines
 {
 	width:100%;
-
 	& .te_attr_span
 	{
-		@include style(3,2,inherit,null,capitalize);
+		@include style(3,2);
 	}
 }
 .te_rmv_cart_product a
@@ -283,27 +297,6 @@ td.text-center.text-xl-right.border-0
 	@include style(18,4,inherit);
 	border-bottom:1px solid;
 	padding-bottom:3px;
-}
-body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-primary {
-    background-color: nth($f_color,19);
-    border-color: nth($f_color,19);
-    &:hover
-    {
-    	 background-color: nth($f_color,19);
-   		 border-color: nth($f_color,19);
-    }
-}
-body .modal.o_technical_modal .btn:not(.o_btn_preview)
-{
-	padding: 0.375rem 0.55rem;
-}
-body .modal.o_technical_modal a:not(.o_btn_preview)
-{
-	color: nth($f_color,19);
-}
-body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
-{
-	color: nth($f_color,19);
 }
 .js_cart_lines.te_empty_cart
 {
@@ -322,7 +315,6 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 		> tbody
 		{
 			width: 100%;
-
 			& > tr
 			{
 				border-top:1px solid $border-color;
@@ -372,7 +364,6 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 	.progress-wizard .progress-wizard-step.active .progress-wizard-steplabel
 	{
 		font-size:nth($f_sizes,7);
-		text-transform: capitalize;
 	}
 	.te_page_header
 	{
@@ -410,12 +401,12 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
             margin-bottom: 0;
         }
 	}
+	#o_cart_summary .d-xl-none.mt8 a {
+        margin-top: 25px;
+        margin-bottom: 70px !important;
+    }
 }
 /*----------------- Suggested Products --------------------*/
-.te_cart_sugg_h5
-{
-	text-transform:uppercase;
-}
 #suggested_products
 {
 	.td-product_name a
@@ -436,7 +427,7 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 	}
 	.js_add_suggested_products
 	{
-		@include style(2,19,inherit,null,capitalize);
+		@include style(2,19);
 		border-bottom: $input-border-width solid $input-border-color;
 		padding-left:0;
 		padding-right:0;
@@ -727,7 +718,6 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 			@include border(20px,27,solid)
 			border-right: 0;
 			border-left: 10px solid nth($f_color,5);
-
 			&:before
 			{
 				@include position(absolute,-20px,1px,auto,auto)
@@ -741,7 +731,7 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 		> .progress-wizard-steplabel
 		{
 			margin: 10px 0 10px 5px;
-			@include style(2,5,inherit,null,capitalize);
+			@include style(2,5);
 			font-weight: bold;
 		}
 		> span.progress-wizard-dot
@@ -752,7 +742,6 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 	.progress-wizard .progress-wizard-step.active
 	{
 		background:nth($f_color,5);
-
 		> .progress-wizard-steplabel
 		{
 			color:nth($f_color,19);
@@ -789,9 +778,7 @@ body .modal.o_technical_modal .btn:not(.o_btn_preview).btn-secondary
 }
 }
 /*======================== 6. Checkout Form and Address =====================*/
-
 /*------------------- Checkout Form-------------------*/
-
 .form-group > .form-control
 {
 	&:focus
@@ -812,17 +799,15 @@ form.checkout_autoformat
 	& label.col-form-label
 	{
 		font-weight: normal;
-		@include style(3,1,inherit,null,capitalize);
+		@include style(3,1);
 	}
 	.checkbox
 	{
 		margin: 16px 0;
-
 		& label
 		{
 			font-weight: normal;
 			font-family: inherit;
-
 			#shipping_use_same
 			{
 				vertical-align: sub;
@@ -836,12 +821,15 @@ form.checkout_autoformat
 			content:'*';
 		}
 	}
+	.d-flex.justify-content-between{
+        margin-bottom: 50px;
+        margin-top: 25px !important;
+	}
 }
-
 /*----------------------- Checkout Address -------------------*/
 .all_shipping .te_add_address
 {
-	@include style(2,19,inherit,null,capitalize);
+	@include style(2,19);
 	border: 0;
 	background: 0;
 	text-align: right;
@@ -849,7 +837,6 @@ form.checkout_autoformat
 .te_alert_info
 {
 	background-color: nth($f_color,18);
-
 	& .te_alert_signup_text
 	{
 		@include style(3,19,inherit,null,uppercase);
@@ -876,7 +863,6 @@ form.checkout_autoformat
 	{
 		width: 100%;
 		@include position(relative)
-
 		td
 		{
 			vertical-align: top !important;
@@ -903,7 +889,6 @@ form.checkout_autoformat
 	}
 	thead th
 	{
-		text-transform:capitalize !important;
 		color: nth($f_color,3);
 	}
 }
@@ -915,10 +900,9 @@ form.checkout_autoformat
 {
 	display:inline-block;
 	width:100%;
-
 	& .te_attr_span
 	{
-		@include style(3,6,inherit,null,capitalize);
+		@include style(3,6);
 	}
 }
 @include media-breakpoint-down(md)
@@ -926,7 +910,6 @@ form.checkout_autoformat
 	.oe_website_sale .te_confirm_products
 	{
 		margin-top: 32px;
-
 		thead
 		{
 			display:none;
@@ -967,7 +950,6 @@ form.checkout_autoformat
 	    	display: inherit;
 	    	width: 100%;
 	    	margin-bottom: 8px;
-
 	    	label
 	    	{
 	    		margin-bottom: 0.2rem;
@@ -989,9 +971,7 @@ form.checkout_autoformat
 .oe_cart h3
 {
 	font-family:inherit;
-	text-transform: capitalize;
 	@include spacing(0,0);
-
 	>strong
 	{
 		font-weight:normal;
@@ -1000,6 +980,11 @@ form.checkout_autoformat
 #payment_method form.o_payment_form .card
 {
 	margin-bottom:16px;
+}
+#payment_method{
+    @include media-breakpoint-down(xs){
+        margin-bottom: 55px;
+    }
 }
 .oe_accept_cgv_button > label
 {
@@ -1015,7 +1000,6 @@ form.checkout_autoformat
 	> div
 	{
 		margin-bottom:8px;
-
 		> b
 		{
 			font-weight: normal;
@@ -1027,7 +1011,6 @@ form.checkout_autoformat
 .te_page_header
 {
 	font-family:inherit;
-
 	small
 	{
 		font-family:inherit;
@@ -1119,7 +1102,6 @@ form.o_wsale_products_searchbar_form.dropdown.show button.dropdown-item.text-cen
             }
         }
     }
-
 }
 #wrapwrap .dropdown-menu{
     background-clip: initial;
@@ -1127,7 +1109,7 @@ form.o_wsale_products_searchbar_form.dropdown.show button.dropdown-item.text-cen
 }
 
 .te_bar_icon i{
-    color:nth($f_color,19) !important;
+    color:$theme-extra-color !important;
 }
 /*----------- Hide dynamic menu on mega menu dialog ----------*/
 .modal-content
@@ -1139,6 +1121,12 @@ form.o_wsale_products_searchbar_form.dropdown.show button.dropdown-item.text-cen
         }
         .form-group.row.o_url_input.d-none + .form-group.row{
 			display:none !important;
+		}
+		.form-group.row.o_url_input.d-none{
+		    display:block !important;
+		    .col-md-9{
+		        float:right;
+		    }
 		}
 	}
 	.o_link_dialog.modal-body.dialog_dynamic_menu
@@ -1174,11 +1162,8 @@ li.nav-item.dropdown.o_extra_menu_items.show > ul.dropdown-menu.dropdown-menu-ri
        position: relative;
     }
     span#menu_label_tx_span{
-        top: auto;
         margin-left: 25px;
-        position: relative;
-        left: auto;
-        right: 0px;
+        @include position(relative,auto,0px,null,auto);
         display: inline-block;
         width: 100px;
         @include media-breakpoint-down(md){
@@ -1187,9 +1172,7 @@ li.nav-item.dropdown.o_extra_menu_items.show > ul.dropdown-menu.dropdown-menu-ri
             top: 0;
         }
         span.te_custom_menu_label{
-            position: absolute;
-            right: 4px;
-            left: auto;
+            @include position(absolute,null,4px,null,auto);
             &:before{
                 width: 4px;
                 height: 4px;
@@ -1197,8 +1180,6 @@ li.nav-item.dropdown.o_extra_menu_items.show > ul.dropdown-menu.dropdown-menu-ri
                 left: -8px;
                 top: auto;
                 bottom: 6px;
-            }
-            &:before{
                 border-top-color: inherit;
                 border-right-color: transparent;
                 margin-top: -1px;
@@ -1219,86 +1200,46 @@ li.nav-item.dropdown.o_extra_menu_items.show > ul.dropdown-menu.dropdown-menu-ri
         }
     }
 }
-
 /*================== 2. Dynamic Category Menu ===================*/
-/*--------------- 1. Variables of Dynamic Category Menu --------------*/
-
-/* 1 */
-$menu-bg: black;
-$menu-bg-hover: #07c;
-
-/* 2 */
-$menu-co: #ddd;
-$menu-co-hover: #fff;
-
-/* 3 */
-$menu-bo: rgba(white, .1);
-
-/* 4 */
-$sub-menu-bg: #eee;
-$sub-menu-bg-hover: white;
-
-/* 5 */
-$sub-menu-co: #222;
-$sub-menu-co-hover: black;
-
-/* 6 */
-$sub-menu-bo: rgba(black, .1);
-
-/* 7 */
-$menu-link-padding: 1em;
-
-
-/*--------------- 2. Main Styling of Dynamic Category Menu --------------*/
+/*--------------- Main Styling of Dynamic Category Menu --------------*/
 .menu,
 .sub-menu {
   margin: 0;
   padding: 0;
 }
-
 // Quick border settings
 .menu-item,
 .sub-menu,
 .dropdown-icon {
   border: 0 solid;
 }
-
 .menu {
-
   .menu-item {
-
     &.has-children {
       &, .menu-item {
         position: relative;
       }
     }
-
     &:not(:last-child) {
       border-width: 0 0 1px;
     }
-
     a {
       padding: $menu-link-padding;
       display: flex;
       justify-content: space-between;
     }
   }
-
   .sub-menu {
     border-width: 1px 0 0;
-
     visibility: hidden;
     opacity: 0;
     height: 0;
     width: 0;
-
     transition: visibility .25s, opacity .25s ease-in-out;
-
     .menu-item {
       visibility: hidden;
     }
   }
-
   .menu-item {
     &:hover,
     &:active,
@@ -1329,7 +1270,6 @@ $menu-link-padding: 1em;
 .nav--rtl {
   direction: rtl;
   unicode-bidi: bidi-override;
-
   .menu {
     .dropdown-icon {
       margin: -1em .5em -1em -1em;
@@ -1337,9 +1277,7 @@ $menu-link-padding: 1em;
     }
   }
 }
-
 /*--------------- 3. Breakpoints of Dynamic Category Menu --------------*/
-
 .nav {
     .nav-item.dropdown {
         .sub-menu {
@@ -1371,7 +1309,6 @@ $menu-link-padding: 1em;
         &:hover,
         &:active,
         &:focus {
-
           > .sub-menu {
             width: 100%;
           }
@@ -1392,7 +1329,6 @@ $menu-link-padding: 1em;
   .nav--rtl {
     .menu {
       > .menu-item {
-
         > a {
           .dropdown-icon {
             padding-left: $menu-link-padding;
@@ -1402,11 +1338,9 @@ $menu-link-padding: 1em;
       }
 
       .sub-menu {
-
         top: 100%;
         left: auto;
         right: 0;
-
         .sub-menu {
           left: auto;
           right: 100%;
@@ -1414,14 +1348,12 @@ $menu-link-padding: 1em;
       }
     }
   }
-
 	.nav--cen {
     	.menu {
       	justify-content: center;
     	}
   	}
 }
-
 /*--------------- 4. Themeing of Dynamic Category Menu --------------*/
 
 .nav {
@@ -1462,7 +1394,6 @@ $menu-link-padding: 1em;
             transform: rotate(45deg);
           }
         }
-
         }
     }
   }
@@ -1473,7 +1404,6 @@ $menu-link-padding: 1em;
   }
   .sub-menu {
     background-color: $sub-menu-bg-hover;
-
     &,
     .menu-item {
       &,
@@ -1481,13 +1411,11 @@ $menu-link-padding: 1em;
         border-color: $sub-menu-bo;
       }
     }
-
     .menu-item {
       &,
       a {
         color: $sub-menu-co;
       }
-
       a {
         &:hover,
         &:active,
@@ -1507,9 +1435,8 @@ $menu-link-padding: 1em;
     .js_language_selector
     {
         button.btn.btn-sm.btn-secondary.dropdown-toggle {
-            text-transform: capitalize;
             font-size: nth($f_sizes,3);
-            color: nth($f_color,4);
+            color: $theme-extra-color;
             padding: 0 4px;
             background-color: transparent;
         }
@@ -1532,7 +1459,6 @@ $menu-link-padding: 1em;
         li.list-inline-item {
             margin-right: 0px;
         }
-
         @include media-breakpoint-down(sm)
         {
             span.lang_btn_code {
@@ -1544,6 +1470,7 @@ $menu-link-padding: 1em;
         }
     }
 }
+/*offer timer inner snippet*/
 form#editor_new_product_slider_template span.show-format-span {
     padding: 10px 0px 0px;
     display: block;
@@ -1561,8 +1488,7 @@ div#date_publish_container_new{
         position: absolute;
     }
     .input-group-append{
-       position: absolute;
-       right:0px;
+        @include position(absolute,null,0px);
        z-index:9;
     }
 }
@@ -1587,7 +1513,7 @@ div#date_publish_container_new{
 .mapouter {
     position: relative;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: nth($f_color,5);
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.09);
     border: 1px solid #d8d8d8;
     margin:0 auto;
@@ -1597,17 +1523,15 @@ div#date_publish_container_new{
     display:inline-block;
     .map_input_ele{
         padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.5;
+        @include style(2,22,inherit,1.5);
         border: 1px solid #d4d5d7;
-        color: #555;
-        background-color: #fff;
+        background-color: nth($f_color,5);
         border-radius: 0;
         height: 34px;
     }
     & :focus{
         color: #495057;
-        background-color: #FFFFFF;
+        background-color: nth($f_color,5);
         border-color: #d6c5bc;
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(165, 128, 109, 0.25);
@@ -1626,11 +1550,9 @@ div#date_publish_container_new{
         height: 0;
     }
     iframe#gmap_canvas {
-        left: 0;
-        top: 0;
+        @include position(absolute,0,null,null,0);
         height: 100%;
         width: 100%;
-        position: absolute;
     }
 }
 form#google_map_editor_template .choose_an_option{
@@ -1652,10 +1574,8 @@ form#google_map_editor_template .choose_an_option{
 input.static_location{
     padding:6px 12px;
     height:34px;
-    line-height:1.5;
-    font-size:14px;
+    @include style(2,22,inherit,1.5);
     border:1px solid #d4d5d7;
-    color:#555;
     background-color:#FFF;
     border-radius:0px;
     width:100%;
@@ -1686,20 +1606,16 @@ form#google_map_editor_template input[type='radio']{
     display: none !important;
 }
 span.te_custom_menu_label {
-    color: #ffffff;
+    @include style(9,5,inherit,1.6);
     font-weight: 600;
-    font-size: 10px;
     padding: 3px 6px 2px;
     border-radius: 3px;
-    line-height: 1.6;
     margin-left: 0;
-    position: absolute;
+    @include position(absolute,auto,null,-5px);
     white-space: normal;
     text-align: center;
     display: block;
     word-break: break-word;
-    top: auto;
-    bottom: -5px;
     @include media-breakpoint-down(sm){
         top: 0px;
         word-break: unset;
@@ -1737,14 +1653,11 @@ span.te_custom_menu_label {
 .navbar-collapse span.te_custom_menu_label:before {
     content: '';
     display: block;
-    width: 5px;
-    height: 5px;
-    border: 3px solid transparent;
-    position: absolute;
-    bottom: -3px;
-    top: 100%;
+    width: 4px;
+    height: 4px;
+    border: 4px solid transparent;
+    @include position(absolute,100%,null,-3px,10px);
     margin-top: 0px;
-    left: 10px;
     @include media-breakpoint-down(sm){
        width: 4px;
        height: 4px;
@@ -1754,56 +1667,37 @@ span.te_custom_menu_label {
        bottom: 6px;
     }
 }
-.navbar-collapse span.te_custom_menu_label:before {
-    content: "";
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border: 4px solid transparent;
-}
 #top_menu_collapse #top_menu > li > a.nav-link{
     position:relative;
     span#menu_label_tx_span {
-         position: absolute;
+        @include position(absolute,null,0,100%,0);
          display: block;
          width: auto;
-         left: 0;
-         right: 0;
          max-width: 70px;
          margin: 0 auto;
          text-align: center;
-         bottom: 100%;
         @include media-breakpoint-down(sm){
-            top: auto;
-            left: auto;
-            right: auto;
+            @include position(absolute,auto,auto,auto,auto);
             margin-left: 25px;
             display: inline-block;
             width: 100px;
-            bottom: auto;
-            position: absolute;
         }
     }
 }
 #top_menu > li > ul.dropdown-menu > li > a.dropdown-item {
     span#menu_label_tx_span{
+       @include position(relative,auto,0,null,auto);
        margin-left: 25px;
-       position: relative;
        width: 100px;
        display: inline-block;
-       left: auto;
-       right: 0px;
-       top: auto;
        @include media-breakpoint-down(md){
           display: inline-block;
           width: 100px;
        }
     }
     span.te_custom_menu_label {
-        right: 4px;
-        position: relative;
+        @include position(relative,-3px,4px)
         display: inline-block;
-        top: -3px;
         word-break: unset;
         @include media-breakpoint-down(md){
             display: inline-block;
@@ -1822,18 +1716,12 @@ span.te_custom_menu_label {
 }
 #top_menu > li.o_extra_menu_items > ul.dropdown-menu > li > a.dropdown-item {
     span.te_custom_menu_label{
-        position: absolute;
-        right: 4px;
-        left: auto;
-        top: auto;
-        bottom: auto;
+        @include position(absolute,auto,4px,auto,auto);
     }
 }
 #top_menu > li.o_extra_menu_items.show > ul li.dropdown .dropdown-item ul.dropdown-menu {
     > li span.te_custom_menu_label{
-        position: absolute;
-        left: auto;
-        right: 0px;
+        @include position(absolute,null,0,null,auto);
     }
 }
 header.o_header_affix.affix.affixed{
@@ -1850,6 +1738,9 @@ header.o_header_affix.affix.affixed{
     {
         position:relative;
     }
+}
+#top_menu > li > ul.dropdown-menu > li > a.active.dropdown-item{
+    color: nth($f_color,19);
 }
 @include media-breakpoint-up(md){
     header.o_header_affix.affix.affixed span#menu_label_tx_span {
@@ -1872,10 +1763,7 @@ header.o_header_affix.affix.affixed{
     display: none;
 }
 .product_details_sticky {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0px;
+    @include position(fixed,null,0,0,0);
     background: transparent;
     z-index: 9;
 }
@@ -2033,8 +1921,18 @@ header#top > .product_details_sticky {
         }
     }
 }
-.js_product.js_main_product .te_theme_button {
+.product_details_sticky .js_product.js_main_product .te_theme_button {
     margin: 0px !important;
+}
+/*Lazyload on snippets*/
+img[data-src] {
+    max-width:100%;
+}
+.img.img-fluid.lazyload {
+    @include media-breakpoint-down(md){
+        width: auto !important;
+        /*height: auto !important;*/
+    }
 }
 /* Hide demo request popup in frontend */
 body:not(.o_web_client) .bottom_request_demo {
@@ -2059,7 +1957,9 @@ div#loginRegisterPopup {
         }
     }
 }
-
-/*
-***********************************************
-*/
+.oe_website_sale_tx_status{
+.card.alert-success{
+background-color:theme-color('success') !important;
+border-color:theme-color('success') !important;
+}
+}

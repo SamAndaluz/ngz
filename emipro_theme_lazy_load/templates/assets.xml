@@ -10,6 +10,7 @@
     <template id="lazyload_activate" inherit_id="website.layout">
         <xpath expr="//div[@id='wrapwrap']" position="inside">
             <input id="id_lazyload" type="hidden" name="is_lazyload" value="true"/>
+            <input type="hidden" class="current_website_id" t-att-value="request.env['website'].sudo().get_current_website().id"/>
         </xpath>
     </template>
 </odoo>
