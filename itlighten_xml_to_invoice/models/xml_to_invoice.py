@@ -82,7 +82,7 @@ class XmlImportWizard(models.TransientModel):
             [('code', '=', '105.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
     cuenta_ingreso_cliente_id = fields.Many2one('account.account',
                                                 string='Cuenta de Ingresos Clientes',
-                                                required=True, default=lambda self: self.env['account.account'].search(
+                                                required=False, default=lambda self: self.env['account.account'].search(
             [('code', '=', '401.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
     line_analytic_account_customer_id = fields.Many2one('account.analytic.account',
                                                         string='Cuenta analitica de linea',
@@ -101,7 +101,7 @@ class XmlImportWizard(models.TransientModel):
                                             help='Necesario para crear el mov. de almacén')
     journal_customer_id = fields.Many2one('account.journal',
                                           string='Diario Clientes',
-                                          required=True, default=lambda self: self.env['account.journal'].search(
+                                          required=False, default=lambda self: self.env['account.journal'].search(
             [('name', '=', 'Customer Invoices'), ('company_id', '=', self.env.user.company_id.id)]))
     payment_journal_customer_id = fields.Many2one('account.journal',
                                                   string='Banco de pago', domain="[('type','=','bank')]")
@@ -604,15 +604,15 @@ class XmlImportWizard(models.TransientModel):
                             bill['filename'], product.get('sat_uom'))
                         return mensaje
         ###### Valida productos
-        new_products = self.get_product_or_create_validation(root['cfdi:Conceptos']['cfdi:Concepto'], invoice_type)
-        if new_products and invoice_type == 'out_invoice':
-            mensaje = '{} - Algunos productos en la factura de cliente no coinciden con el producto Pocari Sweat, favor de verificar.'.format(
-                bill['filename'])
-            return mensaje
-        elif new_products and invoice_type != 'out_invoice':
-            mensaje = '{} - No se ha configurado el producto "Legacy invoice product" para las facturas de proveedor'.format(
-                bill['filename'])
-            return mensaje
+        #new_products = self.get_product_or_create_validation(root['cfdi:Conceptos']['cfdi:Concepto'], invoice_type)
+        #if new_products and invoice_type == 'out_invoice':
+        #    mensaje = '{} - Algunos productos en la factura de cliente no coinciden con el producto Pocari Sweat, favor de verificar.'.format(
+        #        bill['filename'])
+        #    return mensaje
+        #elif new_products and invoice_type != 'out_invoice':
+        #    mensaje = '{} - No se ha configurado el producto "Legacy invoice product" para las facturas de proveedor'.format(
+        #        bill['filename'])
+        #    return mensaje
 
         return False
 
@@ -709,8 +709,7 @@ class XmlImportWizard(models.TransientModel):
 
     def get_product_or_create_validation(self, products, invoice_type):
         """
-        Valida que exista el producto Pocari Sweat para facturas de Cliente y
-        Legacy invoice product para facturas de Proveedor
+        Valida que exista el producto 
         """
         # raise ValidationError('ok')
         if not isinstance(products, list):
@@ -719,13 +718,6 @@ class XmlImportWizard(models.TransientModel):
         products_ok = []
         products_new = []
         
-        if invoice_type != 'out_invoice':
-            legacy_invoice_product = self.env['product.product'].search(['|',
-                                    ('name', 'ilike','Legacy Invoice Product'),
-                                    ('default_code','=','legacy_invoice_product')])
-            
-            if not legacy_invoice_product:
-                return True
         
         for product in products:
             invoice_line = {}
@@ -733,21 +725,15 @@ class XmlImportWizard(models.TransientModel):
             extra_line = {}
 
             invoice_line['name'] = product.get('@Descripcion') or product.get('@descripcion')
+            
+            p = self.env['product.product'].search([
+                ('name', '=', invoice_line['name'])
+            ])
+            p = p[0] if p else False
                 
-            if invoice_type == 'out_invoice':
-
-                if 'Pocari Sweat' in invoice_line['name']:
-                    p = self.env['product.product'].search([
-                            ('name', 'ilike', 'Pocari Sweat')
-                        ])
-                    p = p[0] if p else False
-
-                    if p:
-                        continue
-                    else:
-                        products_new.append(1)
-                else:
-                    products_new.append(1)
+            if p:
+                continue
+            
             else:
                 cantidad = float(product.get('@Cantidad') or product.get('@cantidad'))
                 importe = float(product.get('@Importe') or product.get('@importe'))
@@ -776,12 +762,13 @@ class XmlImportWizard(models.TransientModel):
                 if uom:
                     product_vals["uom_id"] = uom[0].id
                     product_vals["uom_po_id"] = uom[0].id
+                p = self.env['product.product'].create(product_vals)
                 #raise ValidationError(str(product_vals))
-                temporal_product = self.env['legacy.invoice.product'].search([('name','=',product_vals['name'])])
+                #temporal_product = self.env['legacy.invoice.product'].search([('name','=',product_vals['name'])])
                 #raise ValidationError(str(temporal_product))
-                if len(temporal_product) > 0:
-                    continue
-                p = self.env['legacy.invoice.product'].create(product_vals)
+                #if len(temporal_product) > 0:
+                #    continue
+                #p = self.env['legacy.invoice.product'].create(product_vals)
         
         if len(products_new) > 0:
             return True
@@ -1065,15 +1052,42 @@ class XmlImportWizard(models.TransientModel):
         return ProductUom.search([("l10n_mx_edi_code_sat_id.code", "=", sat_code)])
     
     def get_product_or_create(self, product):
-        """
-        Busca el producto Pocari Sweat y lo usa si son facturas de cliente
-        """
-        
-        p = self.env['product.product'].search([('active','=',True),('type','=','product'),('name', 'ilike', 'Pocari Sweat')])
-            
-        if p:
-            return p[0]
+        '''Obtener ID de un producto. Si no existe, lo crea.'''
+        #_logger.info('get_product_or_create')
+        p = self.env['product.product'].search([
+            ('name', '=', product['name'])
+        ])
+        p = p[0] if p else False
+        #_logger.info('p: ',p)
+        if not p:
+            # crear producto si no existe
+            EdiCode = self.env["l10n_mx_edi.product.sat.code"]
 
+            product_vals = {
+                'name': product['name'],
+                'price': product['price_unit'],
+                'default_code': product['product_ref'],
+                'type': 'product',
+            }
+
+            sat_code = EdiCode.search([("code","=",product['sat_product_ref'])])
+            #_logger.info("sat_code = ",sat_code)
+            if sat_code:
+                product_vals["l10n_mx_edi_code_sat_id"] = sat_code[0].id
+
+            uom = self.get_uom(product['sat_uom'])
+            #_logger.info(product['sat_uom'])
+            #_logger.info("uom = ",uom)
+            if uom:
+                product_vals["uom_id"] = uom[0].id
+                product_vals["uom_po_id"] = uom[0].id
+
+            p = self.env['product.product'].create(product_vals)
+        # if not p:
+        #     raise UserError("No se encontro el un producto con nombre '{}'".format(product['name']))
+        if not p:
+            return False
+        return p
         
     """
     def get_legacy_invoice_product(self, product):
@@ -1169,7 +1183,7 @@ class XmlImportWizard(models.TransientModel):
             lines.append((0,0,{
                 'product_id': product.get('product_id'),
                 #'move_id': draft.id,
-                'name_legacy': product['name'],
+                #'name_legacy': product['name'],
                 'quantity': float(product['quantity']),
                 'price_unit': float(product['price_unit']),
                 'account_id': product['account_id'],
@@ -1279,7 +1293,7 @@ class XmlImportWizard(models.TransientModel):
             
             lines.append((0,0,{
                     'product_id': related_product.id,
-                    'name_legacy': product_name_org,
+                   # 'name_legacy': product_name_org,
                     'quantity': float(product['quantity']),
                     'price_unit': float(product['price_unit']),
                     'account_id': related_product.categ_id.property_account_expense_categ_id.id,

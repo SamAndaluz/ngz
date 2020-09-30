@@ -171,6 +171,9 @@ class ItlRequests(models.Model):
 
             headers = {'Content-type': 'application/json'}
             try:
+                _logger.info("url_solicitud: " + str(url_solicitud))
+                _logger.info("data: " + str(json.dumps(params)))
+                _logger.info("headers: " + str(headers))
                 r = requests.post(url_solicitud, data=json.dumps(params),  headers=headers, verify=False)
                 data = r.json() 
                 #raise ValidationError(str(data))
