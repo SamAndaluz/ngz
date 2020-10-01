@@ -9,27 +9,40 @@ class DescargMasivaSettings(models.TransientModel):
     
     url_solicitud = fields.Char(string="URL solicitud", help="URL para generar una solicitud de descarga masiva")
     url_estatus = fields.Char(string="URL estatus", help="URL para consultar el estado de la solicitud")
+    pfx_file = fields.Binary(string="Archivo PFX", help="Archivo generado con la FIEL del contribuyente")
+    filename = fields.Char(string='Nombre archivo')
+    password_pfx = fields.Char(string="Contraseña del archivo .pfx")
+    contrato = fields.Char(string="Contrato", help="Indica el código de contrato del usuario con el que se realizará la solicitud")
     
-    pfx_file = fields.Binary(related="company_id.pfx_file", string="Archivo PFX", help="Archivo generado con la FIEL del contribuyente", readonly=False)
-    filename = fields.Char(related="company_id.filename", string='Nombre archivo', readonly=False)
-    password_pfx = fields.Char(related="company_id.password_pfx", string="Contraseña del archivo .pfx", readonly=False)
-    contrato = fields.Char(related="company_id.contrato", string="Contrato", help="Indica el código de contrato del usuario con el que se realizará la solicitud", readonly=False)
-    
-    active_cliente = fields.Boolean(related="company_id.active_cliente", string="Descargar facturas cliente", default=False, readonly=False)
-    active_proveedor = fields.Boolean(related="company_id.active_proveedor", string="Descargar facturas proveedor", default=False, readonly=False)
+    active_cliente = fields.Boolean(string="Descargar facturas cliente", default=False)
+    active_proveedor = fields.Boolean(string="Descargar facturas proveedor", default=False)
     
     # Configuración facturas cliente
-    cuenta_cobrar_cliente_id = fields.Many2one('account.account', related="company_id.cuenta_cobrar_cliente_id", string='Cuenta por Cobrar Clientes', readonly=False)
-    invoice_status_customer = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')], related="company_id.invoice_status_customer", string='Subir en estatus', readonly=False)
-    user_customer_id = fields.Many2one('res.users', related="company_id.user_customer_id", string='Representante Comercial', readonly=False)
-    team_customer_id = fields.Many2one('crm.team', related="company_id.team_customer_id", string='Equipo de ventas', readonly=False)
+    cuenta_cobrar_cliente_id = fields.Many2one('account.account',
+                                               string='Cuenta por Cobrar Clientes',
+                                               required=True, default=lambda self: self.env['account.account'].search(
+            [('code', '=', '105.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
+    invoice_status_customer = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')],
+                                               string='Subir en estatus')
+    user_customer_id = fields.Many2one('res.users',
+                                       string='Representante Comercial')
+    team_customer_id = fields.Many2one('crm.team',
+                                       string='Equipo de ventas')
     
     # Configuración facturas proveedor
-    cuenta_pagar_proveedor_id = fields.Many2one('account.account', related="company_id.cuenta_pagar_proveedor_id", string='Cuenta por Pagar Proveedores', readonly=False)
-    invoice_status_provider = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')], related="company_id.invoice_status_provider", string='Subir en estatus', required=False, readonly=False)
-    warehouse_provider_id = fields.Many2one('stock.warehouse', related="company_id.warehouse_provider_id", string='Almacén', help='Necesario para crear el mov. de almacén', readonly=False)
-    journal_provider_id = fields.Many2one('account.journal', related="company_id.journal_provider_id", string='Diario Proveedores', readonly=False)
-    user_provider_id = fields.Many2one('res.users', related="company_id.user_provider_id", string='Comprador', readonly=False)
+    cuenta_pagar_proveedor_id = fields.Many2one('account.account',
+                                                string='Cuenta por Pagar Proveedores',
+                                                default=lambda self: self.env['account.account'].search(
+            [('code', '=', '201.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
+    invoice_status_provider = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')],
+                                               string='Subir en estatus', required=False)
+    warehouse_provider_id = fields.Many2one('stock.warehouse', string='Almacén',
+                                            help='Necesario para crear el mov. de almacén', required=False)
+    journal_provider_id = fields.Many2one('account.journal',
+                                          string='Diario Proveedores',
+                                          default=lambda self: self.env['account.journal'].search(
+            [('name', '=', 'Vendor Bills'), ('company_id', '=', self.env.user.company_id.id)]))
+    user_provider_id = fields.Many2one('res.users', string='Comprador')
 
     def set_values(self):
         res = super(DescargMasivaSettings, self).set_values()
