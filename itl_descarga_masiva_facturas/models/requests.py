@@ -52,6 +52,7 @@ class ItlRequests(models.Model):
         if contrato:
             return contrato
     
+    company_id = fields.Many2one('res.company', string='Company',  default=lambda self: self.env.company)
     # Request inicial
     tipoFactura = fields.Selection([('cliente','Cliente'),('proveedor','Proveedor')], string="Tipo de factura", required=True)
     rfcEmisor = fields.Char(string="RFC Emisor")
@@ -387,3 +388,5 @@ class ItlResponse(models.Model):
     mensaje = fields.Char(string="Mensaje")
     respuestaSAT = fields.Char(string="Respuesta SAT")
     paquetes = fields.Char(string="Paquetes")
+    
+    company_id = fields.Many2one('res.company', string='Company',  default=lambda self: self.env.company)

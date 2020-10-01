@@ -28,6 +28,7 @@
         'views/requests.xml',
         'views/settings.xml',
         'views/templates.xml',
+        'views/company.xml',
         'data/cron_jobs.xml'
     ],
     # only loaded in demonstration mode
