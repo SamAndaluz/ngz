@@ -25,7 +25,7 @@ class XmlImportWizard(models.TransientModel):
     
     # Originals fields
     company_id = fields.Many2one('res.company', 'Company',
-        default=lambda self: self.env.user.company_id,
+        default=lambda self: self.env.company.id,
         required=True)
     filename = fields.Char(string='Nombre archivo')
     uploaded_file = fields.Binary(string='Facturas',
@@ -79,11 +79,11 @@ class XmlImportWizard(models.TransientModel):
     cuenta_cobrar_cliente_id = fields.Many2one('account.account',
                                                string='Cuenta por Cobrar Clientes',
                                                required=True, default=lambda self: self.env['account.account'].search(
-            [('code', '=', '105.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('code', '=', '105.01.001'), ('company_id', '=', self.env.company.id)]))
     cuenta_ingreso_cliente_id = fields.Many2one('account.account',
                                                 string='Cuenta de Ingresos Clientes',
                                                 required=False, default=lambda self: self.env['account.account'].search(
-            [('code', '=', '401.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('code', '=', '401.01.001'), ('company_id', '=', self.env.company.id)]))
     line_analytic_account_customer_id = fields.Many2one('account.analytic.account',
                                                         string='Cuenta analitica de linea',
                                                         required=False)
@@ -102,7 +102,7 @@ class XmlImportWizard(models.TransientModel):
     journal_customer_id = fields.Many2one('account.journal',
                                           string='Diario Clientes',
                                           required=False, default=lambda self: self.env['account.journal'].search(
-            [('name', '=', 'Customer Invoices'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('name', '=', 'Customer Invoices'), ('company_id', '=', self.env.company.id)]))
     payment_journal_customer_id = fields.Many2one('account.journal',
                                                   string='Banco de pago', domain="[('type','=','bank')]")
     line_analytic_tag_customer_ids = fields.Many2many('account.analytic.tag','line_analytic_customer',
@@ -148,11 +148,11 @@ class XmlImportWizard(models.TransientModel):
     cuenta_pagar_proveedor_id = fields.Many2one('account.account',
                                                 string='Cuenta por Pagar Proveedores',
                                                 default=lambda self: self.env['account.account'].search(
-            [('code', '=', '201.01.001'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('code', '=', '201.01.001'), ('company_id', '=', self.env.company.id)]))
     cuenta_gasto_proveedor_id = fields.Many2one('account.account',
                                                 string='Cuenta de Gastos de Proveedor',
                                                 default=lambda self: self.env['account.account'].search(
-            [('code', '=', '601.84.001'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('code', '=', '601.84.001'), ('company_id', '=', self.env.company.id)]))
     line_analytic_account_provider_id = fields.Many2one('account.analytic.account',
                                                         string='Etiquetas analíticas', required=False)
     payment_term_provider_id = fields.Many2one(
@@ -168,7 +168,7 @@ class XmlImportWizard(models.TransientModel):
     journal_provider_id = fields.Many2one('account.journal',
                                           string='Diario Proveedores',
                                           default=lambda self: self.env['account.journal'].search(
-            [('name', '=', 'Vendor Bills'), ('company_id', '=', self.env.user.company_id.id)]))
+            [('name', '=', 'Vendor Bills'), ('company_id', '=', self.env.company.id)]))
     payment_journal_provider_id = fields.Many2one('account.journal',
                                                   string='Banco de pago', domain="[('type','=','bank')]")
     line_analytic_tag_provider_ids = fields.Many2many('account.analytic.tag','line_analytic_provider',
@@ -216,23 +216,29 @@ class XmlImportWizard(models.TransientModel):
 
     def validate_invoice_type(self, rfc_emisor, rfc_receptor):
         #raise ValidationError(rfc_emisor)
+        #_logger.info("rfc_emisor: " + str(rfc_emisor))
+        #_logger.info("rfc_receptor: " + str(rfc_receptor))
         emisor_company_id = self.env['res.company'].search([('vat', '=', rfc_emisor)])
         flag = True
         invoice_type = ''
+        #_logger.info("if self.company_id == emisor_company_id: " + str(self.company_id) + " = " + str(emisor_company_id))
         if self.company_id == emisor_company_id:
             invoice_type = 'out_invoice'
             self.invoice_type = 'out_invoice'
             flag = False
             # return 'cliente'
         receptor_company_id = self.env['res.company'].search([('vat', '=', rfc_receptor)])
+        #_logger.info("if self.company_id == receptor_company_id: " + str(self.company_id) + " = " + str(receptor_company_id))
         if self.company_id == receptor_company_id:
             invoice_type = 'in_invoice'
             self.invoice_type = 'in_invoice'
             flag = False
             # return 'proveedor'
+        #_logger.info("if emisor_company_id == receptor_company_id: " + str(emisor_company_id) + " = " + str(receptor_company_id))
         if emisor_company_id == receptor_company_id:
             invoice_type = 'invalid_invoice'
             return invoice_type
+        #_logger.info("flag: " + str(flag))
         if flag:
             invoice_type = 'invalid_invoice'
             return invoice_type
@@ -793,11 +799,11 @@ class XmlImportWizard(models.TransientModel):
         #]
         #if self.invoice_type == 'out_invoice' or self.invoice_type == 'out_refund':
             # FACTURA CLIENTE
-        domain = [('l10n_mx_edi_cfdi_name', '=', filename),('state','!=','cancel')]
+        domain = [('l10n_mx_edi_cfdi_name', '=', filename),('state','!=','cancel'),('company_id','=',self.company_id.id)]
         #_logger.info("filename: " + str(filename) + ' - ' + str(ref))
         if ref:
             
-            domain = [('state','!=','cancel'),('l10n_mx_edi_cfdi_name', '=', filename),('ref','=',ref)]
+            domain = [('state','!=','cancel'),('l10n_mx_edi_cfdi_name', '=', filename),('ref','=',ref),('company_id','=',self.company_id.id)]
             
         #else:
             # FACTURA PROVEEDOR
@@ -825,6 +831,7 @@ class XmlImportWizard(models.TransientModel):
                 payment_method = self.env.ref('account.account_payment_method_manual_out')
 
             vals = {
+                'company_id': self.company_id.id,
                 'amount': invoice.amount_total or 0.0,
                 'currency_id': invoice.currency_id.id,
                 'journal_id': bank_id,
@@ -837,6 +844,7 @@ class XmlImportWizard(models.TransientModel):
             }
         if invoice.type == 'in_invoice':
             vals = {
+                'company_id': self.company_id.id,
                 'amount': invoice.amount_total or 0.0,
                 'currency_id': invoice.currency_id.id,
                 'journal_id': bank_id,
@@ -1133,6 +1141,7 @@ class XmlImportWizard(models.TransientModel):
         #raise ValidationError(str(invoice))
         vals = {
             # 'name': name,
+            'company_id': self.company_id.id,
             'l10n_mx_edi_cfdi_name': invoice['l10n_mx_edi_cfdi_name'],
             'l10n_mx_edi_cfdi_name2': invoice['l10n_mx_edi_cfdi_name'],
             'l10n_mx_edi_cfdi_uuid': invoice['uuid'],
@@ -1163,7 +1172,6 @@ class XmlImportWizard(models.TransientModel):
 
         # How to create and validate Vendor Bills in code?
         # https://www.odoo.com/forum/ayuda-1/question/131324
-        #_logger.info("draft: " + str(vals))
         draft = self.env['account.move'].create(vals)
         #raise ValidationError(str(self.env['account.move'].search_read([('id','=',draft.id)], [])))
         lines = []
@@ -1193,6 +1201,7 @@ class XmlImportWizard(models.TransientModel):
                 'product_uom_id': uom,
                 'analytic_tag_ids': product['analytic_tag_ids'],
                 'analytic_account_id': product['account_analytic_id'],
+                'company_id': self.company_id.id
             }))
             #self.env['account.move.line'].create()
         draft.invoice_line_ids = lines
@@ -1209,6 +1218,7 @@ class XmlImportWizard(models.TransientModel):
             # 'name': name,
             #'l10n_mx_edi_cfdi_name': invoice['l10n_mx_edi_cfdi_name'],
             #'l10n_mx_edi_cfdi_name2': invoice['l10n_mx_edi_cfdi_name'],
+            'company_id': self.company_id.id,
             'journal_id': invoice['journal_id'],
             'team_id': invoice['team_id'],
             'user_id': invoice['user_id'],
@@ -1303,6 +1313,7 @@ class XmlImportWizard(models.TransientModel):
                     'product_uom_id': uom,
                     'analytic_tag_ids': product['analytic_tag_ids'],
                     'analytic_account_id': product['account_analytic_id'],
+                    'company_id': self.company_id.id
                 }))
         #raise ValidationError(str("debug"))
         draft.invoice_line_ids = lines
@@ -1731,7 +1742,7 @@ class XmlImportWizard(models.TransientModel):
                     break
                 x += 1
             # Customer invoice
-            journal_id = 1
+            journal_id = self.company_id.journal_customer_id.id
         else:
             journal_id = self.journal_provider_id.id
             analytic_account_id = self.line_analytic_account_provider_id.id

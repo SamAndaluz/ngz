@@ -18,6 +18,7 @@ class ResCompany(models.Model):
     invoice_status_customer = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')],string='Subir en estatus')
     user_customer_id = fields.Many2one('res.users', string='Representante Comercial')
     team_customer_id = fields.Many2one('crm.team', string='Equipo de ventas')
+    journal_customer_id = fields.Many2one('account.journal', string='Diario Clientes')
     
     # Configuración facturas proveedor
     cuenta_pagar_proveedor_id = fields.Many2one('account.account', string='Cuenta por Pagar Proveedores')

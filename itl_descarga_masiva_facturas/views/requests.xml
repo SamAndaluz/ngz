@@ -22,8 +22,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <!--<field name="status" widget="statusbar" options="{'clickable': '1'}"/>-->
-                        <field name="status" widget="statusbar"/>
+                        <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                        <!--<field name="status" widget="statusbar"/>-->
                         <button name="generar_solicitud" type="object" string="Generar solicitud" class="oe_highlight" attrs="{'invisible': [('status','in',['generada','terminada'])]}"/>
                         <button name="estado_solicitud" type="object" string="Ver estado de la solicitud" class="oe_highlight" attrs="{'invisible': [('status','in',['nueva'])]}"/>
                         <button name="obtener_paquetes" type="object" string="Descargar paquete" class="oe_highlight" attrs="{'invisible': [('status','in',['nueva','generada','terminada'])]}"/>
