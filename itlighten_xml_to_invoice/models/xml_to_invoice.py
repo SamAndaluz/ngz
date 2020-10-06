@@ -1309,8 +1309,13 @@ class XmlImportWizard(models.TransientModel):
                         _logger.info("related_product: " + str(related_product))
                         break
             _logger.info("final related_product: " + str(related_product))
+            product_id = False
             if not related_product:
-                related_product = legacy_invoice_product
+                if not legacy_invoice_product:
+                    pd_id = self.env['product.product'].browse(product.get('product_id'))
+                    related_product = pd_id
+                else:
+                    related_product = legacy_invoice_product.id
             
             lines.append((0,0,{
                     'product_id': related_product.id,
