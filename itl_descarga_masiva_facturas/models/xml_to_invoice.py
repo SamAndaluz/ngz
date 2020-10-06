@@ -3,10 +3,118 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 
 
-class XmlImportWizard(models.TransientModel):
+class XmlToInvoice(models.TransientModel):
     _inherit = 'xml.import.wizard'
     
-    
+    """
+    ### Cliente ##########################################
+    cuenta_cobrar_cliente_id = fields.Many2one('account.account',
+                                               string='Cuenta por Cobrar Clientes',
+                                               required=True, default=lambda self: self.env['account.account'].search(
+            [('code', '=', '105.01.001'), ('company_id', '=', self.env.company.id)]))
+    #cuenta_ingreso_cliente_id = fields.Many2one('account.account',
+    #                                            string='Cuenta de Ingresos Clientes',
+    #                                            required=False, default=lambda self: self.env['account.account'].search(
+    #        [('code', '=', '401.01.001'), ('company_id', '=', self.env.company.id)]))
+    #line_analytic_account_customer_id = fields.Many2one('account.analytic.account',
+    #                                                    string='Cuenta analitica de linea',
+    #                                                    required=False)
+    payment_term_customer_id = fields.Many2one(
+        'account.payment.term',
+        string='Plazo de pago',
+        help='Se utilizara este plazo de pago para las empresas creadas automaticamente, ' + \
+             '\n si no se especifica, se usara el de 15 dias'
+    )
+    user_customer_id = fields.Many2one('res.users',
+                                       string='Representante Comercial')
+    team_customer_id = fields.Many2one('crm.team',
+                                       string='Equipo de ventas')
+    warehouse_customer_id = fields.Many2one('stock.warehouse', string='Almacén',
+                                            help='Necesario para crear el mov. de almacén')
+    journal_customer_id = fields.Many2one('account.journal',
+                                          string='Diario Clientes',
+                                          required=False, default=lambda self: self.env['account.journal'].search(
+            [('name', '=', 'Customer Invoices'), ('company_id', '=', self.env.company.id)]))
+    payment_journal_customer_id = fields.Many2one('account.journal',
+                                                  string='Banco de pago', domain="[('type','=','bank')]")
+    line_analytic_tag_customer_ids = fields.Many2many('account.analytic.tag','line_analytic_customer',
+                                                      string='Etiquetas analíticas',
+                                                      required=False)
+    invoice_status_customer = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')],
+                                               string='Subir en estatus')
+    invoice_payment_type_customer = fields.Selection(
+        [('fecha_factura', 'Con  la misma fecha de la factura'), ('fecha_fin_mes', 'Con la fecha de final del mes'),
+         ('fecha_especifica', 'Con alguna fecha específica')], string='Fecha de pago')
+    invoice_date_customer = fields.Date(string='Fecha')
+    payment_method_customer = fields.Many2one('l10n_mx_edi.payment.method', string='Forma de pago')
+    usage_customer = fields.Selection([
+        ('G01', 'Adquisición de mercancías'),
+        ('G02', 'Devoluciones, descuentos o bonificaciones'),
+        ('G03', 'Gastos en general'),
+        ('I01', 'Construcciones'),
+        ('I02', 'Mobilario y equipo de oficina por inversiones'),
+        ('I03', 'Equipo de transporte'),
+        ('I04', 'Equipo de cómputo y accesorios'),
+        ('I05', 'Dados, troqueles, moldes, matrices y herramental'),
+        ('I06', 'Comunicaciones telefónicas'),
+        ('I07', 'Comunicaciones satelitales'),
+        ('I08', 'Otra maquinaria y equipo'),
+        ('D01', 'Honorarios médicos, dentales y gastos hospitalarios'),
+        ('D02', 'Gastos médicos por incapacidad o discapacidad'),
+        ('D03', 'Gastos funerales'),
+        ('D04', 'Donativos'),
+        ('D05', 'Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación)'),
+        ('D06', 'Aportaciones voluntarias al SAR'),
+        ('D07', 'Primas por seguros de gastos médicos'),
+        ('D08', 'Gastos de transportación escolar obligatoria'),
+        ('D09', 'Depósitos en cuentas para el ahorro, primas que tengan como base planes de pensiones'),
+        ('D10', 'Pagos por servicios educativos (colegiaturas)'),
+        ('P01', 'Por definir'),
+    ], 'Uso', default='P01',
+        help='Used in CFDI 3.3 to express the key to the usage that will '
+             'gives the receiver to this invoice. This value is defined by the '
+             'customer. \nNote: It is not cause for cancellation if the key set is '
+             'not the usage that will give the receiver of the document.')
+
+    ### Proveedor #############################
+    cuenta_pagar_proveedor_id = fields.Many2one('account.account',
+                                                string='Cuenta por Pagar Proveedores',
+                                                default=lambda self: self.env['account.account'].search(
+            [('code', '=', '201.01.001'), ('company_id', '=', self.env.company.id)]))
+    cuenta_gasto_proveedor_id = fields.Many2one('account.account',
+                                                string='Cuenta de Gastos de Proveedor',
+                                                default=lambda self: self.env['account.account'].search(
+            [('code', '=', '601.84.001'), ('company_id', '=', self.env.company.id)]))
+    line_analytic_account_provider_id = fields.Many2one('account.analytic.account',
+                                                        string='Etiquetas analíticas', required=False)
+    payment_term_provider_id = fields.Many2one(
+        'account.payment.term',
+        string='Plazo de pago',
+        help='Se utilizara este plazo de pago para las empresas creadas automaticamente, ' + \
+             '\n si no se especifica, se usara el de 15 dias'
+    )
+    user_provider_id = fields.Many2one('res.users',
+                                       string='Comprador', )
+    warehouse_provider_id = fields.Many2one('stock.warehouse', string='Almacén',
+                                            help='Necesario para crear el mov. de almacén', required=False)
+    journal_provider_id = fields.Many2one('account.journal',
+                                          string='Diario Proveedores',
+                                          default=lambda self: self.env['account.journal'].search(
+            [('name', '=', 'Vendor Bills'), ('company_id', '=', self.env.company.id)]))
+    payment_journal_provider_id = fields.Many2one('account.journal',
+                                                  string='Banco de pago', domain="[('type','=','bank')]")
+    line_analytic_tag_provider_ids = fields.Many2many('account.analytic.tag','line_analytic_provider',
+                                                      string='Etiquetas analíticas',
+                                                      required=False)
+    invoice_status_provider = fields.Selection([('draft', 'Borrador'), ('abierta', 'Abierta'), ('pagada', 'Pagada')],
+                                               string='Subir en estatus', required=False)
+    invoice_payment_type_provider = fields.Selection(
+        [('fecha_factura', 'Con  la misma fecha de la factura'), ('fecha_fin_mes', 'Con la fecha de final del mes'),
+         ('fecha_especifica', 'Con alguna fecha específica')], string='Fecha de pago')
+    invoice_date_provider = fields.Date(string='Fecha')
+
+    ##############################
+    """
     def validate_bills_downloaded(self):
         '''
             Función principal. Controla todo el flujo de
@@ -114,7 +222,7 @@ class XmlImportWizard(models.TransientModel):
 
                     if self.is_immediate_term(draft.payment_term_id):
                         # Pago inmediato
-                        draft.payment_term_id = 13
+                        #draft.payment_term_id = 13
                         # SE CREA PAGO DE FACTURA
                         payment = self.create_payment(draft, bill['bank_id'])
                         payment.post()
@@ -183,4 +291,4 @@ class XmlImportWizard(models.TransientModel):
             'context': context
         }
         """
-        
+    

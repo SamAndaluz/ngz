@@ -318,6 +318,7 @@ class ItlRequests(models.Model):
         invoice_status_customer = self.env.company.invoice_status_customer or False
         user_customer_id = self.env.company.user_customer_id
         team_customer_id = self.env.company.team_customer_id
+        journal_customer_id = self.env.company.journal_customer_id
         
         #Config for provider
         cuenta_pagar_proveedor_id = self.env.company.cuenta_pagar_proveedor_id
@@ -331,6 +332,7 @@ class ItlRequests(models.Model):
             'invoice_status_customer': invoice_status_customer,
             'user_customer_id': user_customer_id.id,
             'team_customer_id': team_customer_id.id,
+            'journal_customer_id': journal_customer_id.id,
             'cuenta_pagar_proveedor_id': cuenta_pagar_proveedor_id.id,
             'invoice_status_provider': invoice_status_provider,
             'warehouse_provider_id': warehouse_provider_id.id,

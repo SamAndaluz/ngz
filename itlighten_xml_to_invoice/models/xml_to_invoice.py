@@ -921,14 +921,14 @@ class XmlImportWizard(models.TransientModel):
                 invoice_line['discount'] = 0.0
             
             #raise ValidationError(str('invoice_line: ')+str(invoice_line))
-            if invoice_type == 'out_invoice':
+            #if invoice_type == 'out_invoice':
                 # obtener id del producto
                 # crear producto si este no existe
-                producto = self.get_product_or_create(invoice_line)
-                invoice_line['product_id'] = producto.id
-                invoice_line['account_id'] = producto.categ_id.property_account_expense_categ_id.id
-            else:
-                invoice_line['product_id'] = invoice_line
+            producto = self.get_product_or_create(invoice_line)
+            invoice_line['product_id'] = producto.id
+            invoice_line['account_id'] = producto.categ_id.property_account_expense_categ_id.id
+            #else:
+            #    invoice_line['product_id'] = invoice_line
             # si el producto tiene impuestos, obtener datos
             # y asignarselos al concepto
             tax_group = ''
@@ -1053,11 +1053,22 @@ class XmlImportWizard(models.TransientModel):
     
     def get_uom(self, sat_code):
         """
-        obtiene record de unidad de medida
+        obtiene record de unidad de medida o lo crea
         sat_code: string con el codigo del sat de la unidad de medida
         """
         ProductUom = self.env["uom.uom"]
-        return ProductUom.search([("l10n_mx_edi_code_sat_id.code", "=", sat_code)])
+        result = ProductUom.search([("l10n_mx_edi_code_sat_id.code", "=", sat_code)])
+        if not result:
+            sat_code_result = self.env['l10n_mx_edi.product.sat.code'].search([('code','=',sat_code)])
+            if sat_code_result:
+                category_uom_id = self.env['uom.category'].search([('measure_type','=','unit')])[0]
+                result = ProductUom.create({'name': sat_code,
+                                        'l10n_mx_edi_code_sat_id': sat_code_result.id,
+                                        'category_id': category_uom_id.id,
+                                        'uom_type': 'smaller'})
+            else:
+                result = False
+        return result
     
     def get_product_or_create(self, product):
         '''Obtener ID de un producto. Si no existe, lo crea.'''
@@ -1742,7 +1753,7 @@ class XmlImportWizard(models.TransientModel):
                     break
                 x += 1
             # Customer invoice
-            journal_id = self.company_id.journal_customer_id.id
+            journal_id = self.journal_customer_id.id
         else:
             journal_id = self.journal_provider_id.id
             analytic_account_id = self.line_analytic_account_provider_id.id
