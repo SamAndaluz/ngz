@@ -177,7 +177,7 @@ class ItlRequests(models.Model):
                 values = {
                     'id_request': self.id
                 }
-
+                _logger.info("data: " + str(data))
                 if 'numeroSolicitud' in data:
                     values.update(
                         {'numeroSolicitud': data['numeroSolicitud'],
