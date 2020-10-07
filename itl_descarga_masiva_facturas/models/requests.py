@@ -234,7 +234,7 @@ class ItlRequests(models.Model):
                 r = requests.post(url_estatus, data=json.dumps(params), headers=headers, verify=False)
 
                 data = r.json() 
-
+                _logger.info("data: " + str(data))
                 values = {
                     'id_request': self.id
                 }
