@@ -22,8 +22,7 @@ class ItlRequests(models.Model):
     _rec_name = "id"
     
     def _get_pfx_b64(self):
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        pfx_file = ICPSudo.get_param('itl_descarga_masiva.pfx_file') or False
+        pfx_file = self.env.company.pfx_file or False
         
         if pfx_file:
             return pfx_file
@@ -39,19 +38,18 @@ class ItlRequests(models.Model):
             return password
         
     def _get_password_pfx(self):
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        password_pfx = ICPSudo.get_param('itl_descarga_masiva.password_pfx') or False
+        password_pfx = self.env.company.password_pfx or False
         
         if password_pfx:
             return password_pfx
     
     def _get_contrato(self):
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        contrato = ICPSudo.get_param('itl_descarga_masiva.contrato') or False
+        contrato = self.env.company.contrato or False
         
         if contrato:
             return contrato
     
+    company_id = fields.Many2one('res.company', string='Company',  default=lambda self: self.env.company)
     # Request inicial
     tipoFactura = fields.Selection([('cliente','Cliente'),('proveedor','Proveedor')], string="Tipo de factura", required=True)
     rfcEmisor = fields.Char(string="RFC Emisor")
@@ -82,9 +80,8 @@ class ItlRequests(models.Model):
                 self.rfcEmisor = False
     
     def nueva_solicitud(self):
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        active_cliente = ICPSudo.get_param('itl_descarga_masiva.active_cliente')
-        active_proveedor = ICPSudo.get_param('itl_descarga_masiva.active_proveedor')
+        active_cliente = self.env.company.active_cliente
+        active_proveedor = self.env.company.active_proveedor
         
         if active_cliente:
             self.crear_solicitud('cliente')
@@ -315,33 +312,27 @@ class ItlRequests(models.Model):
                     
     def importar_facturas(self, paquetes):
         import_obj = self.env['xml.import.wizard']
-        ICPSudo = self.env['ir.config_parameter'].sudo()
         
         #Config for client
-        cuenta_cobrar_cliente_id = ICPSudo.get_param('itl_descarga_masiva.cuenta_cobrar_cliente_id') or False
-        cuenta_cobrar_cliente_id = self.env['account.account'].browse(int(cuenta_cobrar_cliente_id))
-        invoice_status_customer = ICPSudo.get_param('itl_descarga_masiva.invoice_status_customer') or False
-        user_customer_id = ICPSudo.get_param('itl_descarga_masiva.user_customer_id') or False
-        user_customer_id = self.env['res.users'].browse(int(user_customer_id))
-        team_customer_id = ICPSudo.get_param('itl_descarga_masiva.team_customer_id') or False
-        team_customer_id = self.env['crm.team'].browse(int(team_customer_id))
+        cuenta_cobrar_cliente_id = self.env.company.cuenta_cobrar_cliente_id
+        invoice_status_customer = self.env.company.invoice_status_customer or False
+        user_customer_id = self.env.company.user_customer_id
+        team_customer_id = self.env.company.team_customer_id
+        journal_customer_id = self.env.company.journal_customer_id
         
         #Config for provider
-        cuenta_pagar_proveedor_id = ICPSudo.get_param('itl_descarga_masiva.cuenta_pagar_proveedor_id') or False
-        cuenta_pagar_proveedor_id = self.env['account.account'].browse(int(cuenta_pagar_proveedor_id))
-        invoice_status_provider = ICPSudo.get_param('itl_descarga_masiva.invoice_status_provider') or False
-        warehouse_provider_id = ICPSudo.get_param('itl_descarga_masiva.warehouse_provider_id') or False
-        warehouse_provider_id = self.env['stock.warehouse'].browse(int(warehouse_provider_id))
-        journal_provider_id = ICPSudo.get_param('itl_descarga_masiva.journal_provider_id') or False
-        journal_provider_id = self.env['account.journal'].browse(int(journal_provider_id))
-        user_provider_id = ICPSudo.get_param('itl_descarga_masiva.user_provider_id') or False
-        user_provider_id = self.env['res.users'].browse(int(user_provider_id))
+        cuenta_pagar_proveedor_id = self.env.company.cuenta_pagar_proveedor_id
+        invoice_status_provider = self.env.company.invoice_status_provider or False
+        warehouse_provider_id = self.env.company.warehouse_provider_id
+        journal_provider_id = self.env.company.journal_provider_id
+        user_provider_id = self.env.company.user_provider_id
         
         vals = {
             'cuenta_cobrar_cliente_id': cuenta_cobrar_cliente_id.id,
             'invoice_status_customer': invoice_status_customer,
             'user_customer_id': user_customer_id.id,
             'team_customer_id': team_customer_id.id,
+            'journal_customer_id': journal_customer_id.id,
             'cuenta_pagar_proveedor_id': cuenta_pagar_proveedor_id.id,
             'invoice_status_provider': invoice_status_provider,
             'warehouse_provider_id': warehouse_provider_id.id,
@@ -387,3 +378,5 @@ class ItlResponse(models.Model):
     mensaje = fields.Char(string="Mensaje")
     respuestaSAT = fields.Char(string="Respuesta SAT")
     paquetes = fields.Char(string="Paquetes")
+    
+    company_id = fields.Many2one('res.company', string='Company',  default=lambda self: self.env.company)

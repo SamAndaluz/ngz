@@ -124,6 +124,18 @@
                             <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="o_setting_left_pane"/>
                                 <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Diario Clientes</span>
+                                    <div class="text-muted">
+                                        Diario Clientes.
+                                    </div>
+                                    <div class="text-muted">
+                                        <field name="journal_customer_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
                                     <span class="o_form_label">Subir en estatus</span>
                                     <div class="text-muted">
                                         Subir en estatus.
