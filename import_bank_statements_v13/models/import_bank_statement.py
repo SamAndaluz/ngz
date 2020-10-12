@@ -6,6 +6,7 @@ import binascii
 from bs4 import BeautifulSoup
 import tempfile
 import xlrd, re, csv
+import pandas as pd
 from tempfile import TemporaryFile
 from odoo.exceptions import UserError, ValidationError
 import logging
@@ -99,8 +100,11 @@ class import_bank_statements(models.TransientModel):
             lines = self.bancomer_netcash()
         if self.journal_id.import_bank_statement_method == 'santander':
             lines = self.santander()
-        if self.journal_id.import_bank_statement_method == 'mufg_xml':
-            lines = self.mufg_xml()
+        if self.journal_id.import_bank_statement_method == 'mufg_xml_xls':
+            if self.import_option == 'xml':
+                lines = self.mufg_xml()
+            if self.import_option in ('xls','xlsx','csv'):
+                lines = self.mufg_xls()
         context = self._context.copy()
         if context is None:
             context = {}
@@ -138,6 +142,16 @@ class import_bank_statements(models.TransientModel):
             bank_moves = self.get_xml_data_mufg()
             #raise ValidationError(str(bank_moves))
             lines = self.get_values_from_mufg_xml(bank_moves)
+            self.line_ids = lines
+            
+        return lines
+    
+    def mufg_xls(self):
+        lines = False
+        if self.import_option == 'xls':
+            bank_moves = self.get_xls_data_muf()
+            #raise ValidationError(str("OK"))
+            lines = self.get_values_from_mufg_xls(bank_moves)
             self.line_ids = lines
             
         return lines
@@ -251,6 +265,59 @@ class import_bank_statements(models.TransientModel):
  
         return lines
     
+    def get_values_from_mufg_xls(self, bank_moves):
+        lines = []
+        for i in range(len(bank_moves)):
+            val = {}
+            field = list(map(str, bank_moves[i]))
+
+            if field:
+                if i == 0:
+                    continue
+                else:
+                    #raise ValidationError(field[0])
+                    account = field[0]
+                    account_id = self.env['res.partner.bank'].search([('acc_number','=',account)])[0].id
+                    if account_id:
+                        val.update({'bank_account_id': account_id})
+                        
+                    ref = field[3]
+                    ref = ref.strip()
+                    #if len(account_file) > 0:
+                    #    account_file = str(int(field[0]))
+                    #if len(ref) > 0:
+                    #    ref = str(int(field[8]))
+                    
+                    account_number = str(self.journal_id.bank_acc_number).strip()
+                    
+                    if account != account_number:
+                        raise ValidationError('El número de cuenta en el archivo no coincide con el número de cuenta del banco seleccionado.')
+                    name = field[7]
+
+                    str_date = field[2]
+                    #raise ValidationError(str_date)
+                    #t_date= datetime.strptime(str_date, "%d/%m/%Y").strftime('%Y-%m-%d')
+                    
+                    value = field[4]
+                    if value != '':
+                        val.update({'amount': float(value) * -1})
+                    
+                    value = field[5]
+                    if value != '':
+                        val.update({'amount': float(value)})
+                    
+                    cum_bal = field[6]
+                        
+                    val.update({
+                            'name': name,
+                            'date': str_date,
+                            'ref': ref,
+                            'sequence': i,
+                            'cumulative_balance': cum_bal
+                        })
+                    lines.append((0, 0, val))
+        return lines
+    
     def banorte(self):
         lines = []
         if self.import_option == 'csv':
@@ -307,7 +374,18 @@ class import_bank_statements(models.TransientModel):
         csv_data = str(csv_data, "latin-1")
         file_reader = []
         csv_reader = csv.reader(csv_data.splitlines(), delimiter=',')
-        #raise ValidationError(csv_reader)
+        try:
+            file_reader.extend(csv_reader)
+            return file_reader
+        except Exception:
+            raise Warning(_("Invalid file!"))
+    
+    def get_xls_data_muf(self):
+        # This is a hack because the xls file has a problem
+        csv_data = base64.b64decode(self.file)
+        csv_data = str(csv_data, "latin-1")
+        file_reader = []
+        csv_reader = csv.reader(csv_data.splitlines(), delimiter='\t')
         try:
             file_reader.extend(csv_reader)
             return file_reader
@@ -315,10 +393,11 @@ class import_bank_statements(models.TransientModel):
             raise Warning(_("Invalid file!"))
             
     def get_xls_data(self):
-        fp = tempfile.NamedTemporaryFile(delete= False,suffix=".xlsx")
+        fp = tempfile.NamedTemporaryFile(delete= False,suffix=".xls")
         fp.write(binascii.a2b_base64(self.file))
         fp.seek(0)
         workbook = xlrd.open_workbook(fp.name)
+        raise ValidationError(workbook)
         sheet = workbook.sheet_by_index(0)
         return sheet
 
@@ -683,32 +762,57 @@ class import_bank_statements(models.TransientModel):
         else:
             lines_new = lines
         
-        if self.journal_id.import_bank_statement_method == 'mufg_xml':
-            new_lines = []
-            for l in lines_new:
-                l[2].pop('cumulative_balance')
-                new_lines.append(l)
-            #
-            acc_stmt_created = acc_stmt.with_context(journal_id=self.journal_id.id).create({
+        if self.journal_id.import_bank_statement_method == 'mufg_xml_xls':
+            
+            if self.import_option == 'xml':
+                new_lines = []
+                for l in lines_new:
+                    l[2].pop('cumulative_balance')
+                    new_lines.append(l)
+                acc_stmt_created = acc_stmt.with_context(journal_id=self.journal_id.id).create({
+                        'journal_id': self.journal_id.id,
+                        'name': name,
+                        'line_ids': new_lines,
+                        'balance_start': self.start_amount,
+                        'balance_end_real': self.end_amount
+                    })
+            if self.import_option == 'xls':
+                balance_start = 0
+                balance_end_real = lines_new[-1][2].get('cumulative_balance')
+                #raise ValidationError(str(balance_end_real))
+                if last_bnk_stmt:
+                    balance_start = last_bnk_stmt.balance_end
+                else:
+                    balance_start = float(balance_end_real) + (float(lines_new[0][2].get('amount')) * -1)
+                new_lines = []
+                for l in lines_new:
+                    l[2].pop('cumulative_balance')
+                    new_lines.append(l)
+                acc_stmt_created = acc_stmt.with_context(journal_id=self.journal_id.id).create({
                     'journal_id': self.journal_id.id,
                     'name': name,
                     'line_ids': new_lines,
-                    'balance_start': self.start_amount,
-                    'balance_end_real': self.end_amount
+                    'balance_start': balance_start,
+                    'balance_end_real': balance_end_real
                 })
             
         else:
             balance_start = 0
+            balance_end_real = lines_new[-1][2].get('cumulative_balance')
             if last_bnk_stmt:
                 balance_start = last_bnk_stmt.balance_end
             else:
-                balance_start = float(lines_new[0][2].get('cumulative_balance')) + (float(lines_new[0][2].get('amount')) * -1)
+                balance_start = float(balance_end_real) + (float(lines_new[0][2].get('amount')) * -1)
+            new_lines = []
+            for l in lines_new:
+                l[2].pop('cumulative_balance')
+                new_lines.append(l)
             acc_stmt_created = acc_stmt.with_context(journal_id=self.journal_id.id).create({
                 'journal_id': self.journal_id.id,
                 'name': name,
                 'line_ids': lines_new,
                 'balance_start': balance_start,
-                'balance_end_real': lines_new[-1][2].get('cumulative_balance')
+                'balance_end_real': balance_end_real
             })
         
         return {
