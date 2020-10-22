@@ -578,21 +578,22 @@ class XmlImportWizard(models.TransientModel):
         #amount_total = root.get('@Total') or root.get('@total')
         #date_invoice = root.get('@Fecha') or root.get('@fecha')
         folio = root.get('@Folio') or root.get('@folio') or False
+        uuid = root['cfdi:Complemento']['tfd:TimbreFiscalDigital'].get('@UUID')
         #invoice_name = folio
         #invoice_exists = False
         filename = bill['filename']
         ref = False
 
         if folio:
-            ref = folio + ' - ' + filename
+            ref = folio + ' - ' + uuid
         else:
-            ref = filename
+            ref = uuid
         if invoice_type == 'out_invoice':
-            invoice_exists = self.validate_duplicate_invoice(rfc_receptor, filename, ref)
+            invoice_exists = self.validate_duplicate_invoice(rfc_receptor, uuid, ref)
         else:
-            invoice_exists = self.validate_duplicate_invoice(rfc_emisor, filename, ref)
+            invoice_exists = self.validate_duplicate_invoice(rfc_emisor, uuid, ref)
         if invoice_exists:
-            mensaje = '{} - Esta factura ya existe en el sistema.'.format(bill['filename'])
+            mensaje = '{} - Esta factura ya existe en el sistema.'.format(uuid)
             return mensaje
         ####### Valida código SAT de producto
         if 'invoice_line_data' in bill:
@@ -781,7 +782,7 @@ class XmlImportWizard(models.TransientModel):
         else:
             return False
 
-    def validate_duplicate_invoice(self, vat, filename, ref):
+    def validate_duplicate_invoice(self, vat, uuid, ref):
         """
         REVISA SI YA EXISTE LA FACTURA EN SISTEMA
         DEVUELVE TRUE SI YA EXISTE
@@ -799,11 +800,11 @@ class XmlImportWizard(models.TransientModel):
         #]
         #if self.invoice_type == 'out_invoice' or self.invoice_type == 'out_refund':
             # FACTURA CLIENTE
-        domain = [('l10n_mx_edi_cfdi_name', '=', filename),('state','!=','cancel'),('company_id','=',self.company_id.id)]
+        domain = [('l10n_mx_edi_cfdi_name', '=', uuid),('company_id','=',self.company_id.id)]
         #_logger.info("filename: " + str(filename) + ' - ' + str(ref))
-        if ref:
+        #if ref:
             
-            domain = [('state','!=','cancel'),('l10n_mx_edi_cfdi_name', '=', filename),('ref','=',ref),('company_id','=',self.company_id.id)]
+        #    domain = [('state','!=','cancel'),('l10n_mx_edi_cfdi_name', '=', filename),('ref','=',ref),('company_id','=',self.company_id.id)]
             
         #else:
             # FACTURA PROVEEDOR

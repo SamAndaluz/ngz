@@ -89,6 +89,7 @@ class ItlRequests(models.Model):
             self.crear_solicitud('proveedor')
     
     def crear_solicitud(self, tipoFactura=None):
+        _logger.info("-> Creando solicitud...")
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
         date_tz = pytz.UTC.localize(datetime.strptime(str(fields.Datetime.now()), DEFAULT_SERVER_DATETIME_FORMAT)).astimezone(user_tz)
         fechaInicio = datetime.strftime(date_tz.now() - timedelta(1), '%Y-%m-%d')
@@ -106,7 +107,7 @@ class ItlRequests(models.Model):
             "contrato": self._get_contrato(),
             "status": 'nueva'
         }
-        _logger.info(str("tipoFactura: ") + str(tipoFactura))
+        _logger.info(str("-> tipoFactura: ") + str(tipoFactura))
         if tipoFactura:
             if tipoFactura == 'cliente':
                 if self.env.company.vat:
@@ -133,11 +134,12 @@ class ItlRequests(models.Model):
             #_logger.info(str("Cuerpo de la solicitud"))
             #_logger.info(str(params))
             record = self.create(params)
-            _logger.info(str("Registro creado"))
+            _logger.info(str("-> Solicitud creada"))
             record.generar_solicitud()
             
     
     def generar_solicitud(self):
+        _logger.info("-> Generando solicitud en prodigia...")
         if self.status == 'nueva':
             self.validations()
             ICPSudo = self.env['ir.config_parameter'].sudo()
@@ -312,7 +314,7 @@ class ItlRequests(models.Model):
                     
     def importar_facturas(self, paquetes):
         import_obj = self.env['xml.import.wizard']
-        
+        _logger.info("-> self.env.company: " + str(self.env.company))
         #Config for client
         cuenta_cobrar_cliente_id = self.env.company.cuenta_cobrar_cliente_id
         invoice_status_customer = self.env.company.invoice_status_customer or False
@@ -340,6 +342,7 @@ class ItlRequests(models.Model):
             'user_provider_id': user_provider_id.id,
             'uploaded_file': paquetes
         }
+        _logger.info("-> xml_import_wizard: " + str(vals))
         record = import_obj.create(vals)
         
         invoice_ids, mensaje2 = record.validate_bills_downloaded()
