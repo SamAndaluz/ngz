@@ -1,0 +1,10 @@
+<odoo>
+    <record model="ir.rule" id="record_shared_multi_company_rule">
+        <field name="name">Shared Records:itl.request</field>
+        <field name="model_id" ref="itl_descarga_masiva_facturas.model_itl_request"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+</odoo>
